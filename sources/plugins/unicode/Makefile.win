@@ -1,0 +1,36 @@
+# Project: plugin_unicode
+# Makefile created by Dev-C++ 4.9.9.0
+
+CPP  = g++.exe
+CC   = gcc.exe
+WINDRES = windres.exe
+RES  = 
+OBJ  = plugin_unicode.o CUnicodeDatabase.o $(RES)
+LINKOBJ  = plugin_unicode.o CUnicodeDatabase.o $(RES)
+LIBS =  -L"C:/DEV-CPP/lib" --no-export-all-symbols --add-stdcall-alias 
+INCS =  -I"C:/DEV-CPP/include"  -I"../../" 
+CXXINCS =  -I"C:/DEV-CPP/include/c++/3.3.1"  -I"C:/DEV-CPP/include/c++/3.3.1/mingw32"  -I"C:/DEV-CPP/include/c++/3.3.1/backward"  -I"C:/DEV-CPP/lib/gcc-lib/mingw32/3.3.1/include"  -I"C:/DEV-CPP/include"  -I"../../" 
+BIN  = plugin_unicode.dll
+CXXFLAGS = $(CXXINCS) -DBUILDING_DLL=1  
+CFLAGS = $(INCS) -DBUILDING_DLL=1 
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before plugin_unicode.dll all-after
+
+
+clean: clean-custom
+	rm -f $(OBJ) $(BIN)
+
+DLLWRAP=dllwrap.exe
+DEFFILE=libplugin_unicode.def
+STATICLIB=libplugin_unicode.a
+
+$(BIN): $(LINKOBJ)
+	$(DLLWRAP) --output-def $(DEFFILE) --driver-name c++ --implib $(STATICLIB) $(LINKOBJ) $(LIBS) -o $(BIN)
+
+plugin_unicode.o: plugin_unicode.cpp
+	$(CPP) -c plugin_unicode.cpp -o plugin_unicode.o $(CXXFLAGS)
+
+CUnicodeDatabase.o: CUnicodeDatabase.cpp
+	$(CPP) -c CUnicodeDatabase.cpp -o CUnicodeDatabase.o $(CXXFLAGS)

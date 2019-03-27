@@ -1,0 +1,36 @@
+# Project: plugin_md5
+# Makefile created by Dev-C++ 4.9.9.0
+
+CPP  = g++.exe
+CC   = gcc.exe
+WINDRES = windres.exe
+RES  = 
+OBJ  = md5.o plugin_md5.o $(RES)
+LINKOBJ  = md5.o plugin_md5.o $(RES)
+LIBS =  -L"C:/DEV-CPP/lib" --no-export-all-symbols --add-stdcall-alias  
+INCS =  -I"C:/DEV-CPP/include"  -I"../../" 
+CXXINCS =  -I"C:/DEV-CPP/include/c++/3.3.1"  -I"C:/DEV-CPP/include/c++/3.3.1/mingw32"  -I"C:/DEV-CPP/include/c++/3.3.1/backward"  -I"C:/DEV-CPP/lib/gcc-lib/mingw32/3.3.1/include"  -I"C:/DEV-CPP/include"  -I"../../" 
+BIN  = plugin_md5.dll
+CXXFLAGS = $(CXXINCS) -DBUILDING_DLL=1  
+CFLAGS = $(INCS) -DBUILDING_DLL=1  
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before plugin_md5.dll all-after
+
+
+clean: clean-custom
+	rm -f $(OBJ) $(BIN)
+
+DLLWRAP=dllwrap.exe
+DEFFILE=libplugin_md5.def
+STATICLIB=libplugin_md5.a
+
+$(BIN): $(LINKOBJ)
+	$(DLLWRAP) --output-def $(DEFFILE) --driver-name c++ --implib $(STATICLIB) $(LINKOBJ) $(LIBS) -o $(BIN)
+
+md5.o: md5.c
+	$(CC) -c md5.c -o md5.o $(CFLAGS)
+
+plugin_md5.o: plugin_md5.cpp
+	$(CPP) -c plugin_md5.cpp -o plugin_md5.o $(CXXFLAGS)

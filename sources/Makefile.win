@@ -1,0 +1,48 @@
+# Project: MarcMan
+# Makefile created by Dev-C++ 4.9.9.2
+
+CPP  = g++.exe
+CC   = gcc.exe
+WINDRES = windres.exe
+RES  = 
+OBJ  = AppMain.o CConvertor.o CMarcAnalyzer.o CMarcFileReader.o CRulesAnalyzer.o CUseScript.o CPluginManager.o $(RES)
+LINKOBJ  = AppMain.o CConvertor.o CMarcAnalyzer.o CMarcFileReader.o CRulesAnalyzer.o CUseScript.o CPluginManager.o $(RES)
+LIBS =  -L"C:/Dev-Cpp/lib" C:/Dev-Cpp/lib/libws2_32.a 
+INCS =  -I"C:/Dev-Cpp/include" 
+CXXINCS =  -I"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Dev-Cpp/include/c++/3.4.2"  -I"C:/Dev-Cpp/include" 
+BIN  = MarcMan.exe
+CXXFLAGS = $(CXXINCS)  
+CFLAGS = $(INCS)  
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before MarcMan.exe all-after
+
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o "MarcMan.exe" $(LIBS)
+
+AppMain.o: AppMain.cpp
+	$(CPP) -c AppMain.cpp -o AppMain.o $(CXXFLAGS)
+
+CConvertor.o: CConvertor.cpp
+	$(CPP) -c CConvertor.cpp -o CConvertor.o $(CXXFLAGS)
+
+CMarcAnalyzer.o: CMarcAnalyzer.cpp
+	$(CPP) -c CMarcAnalyzer.cpp -o CMarcAnalyzer.o $(CXXFLAGS)
+
+CMarcFileReader.o: CMarcFileReader.cpp
+	$(CPP) -c CMarcFileReader.cpp -o CMarcFileReader.o $(CXXFLAGS)
+
+CRulesAnalyzer.o: CRulesAnalyzer.cpp
+	$(CPP) -c CRulesAnalyzer.cpp -o CRulesAnalyzer.o $(CXXFLAGS)
+
+CUseScript.o: CUseScript.cpp
+	$(CPP) -c CUseScript.cpp -o CUseScript.o $(CXXFLAGS)
+
+CPluginManager.o: CPluginManager.cpp
+	$(CPP) -c CPluginManager.cpp -o CPluginManager.o $(CXXFLAGS)

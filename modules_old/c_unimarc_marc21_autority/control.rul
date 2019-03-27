@@ -1,0 +1,59 @@
+
+
+/*-----------------------------------------------------------------------------
+*
+*  KONTROLA UNIMARC AUTHORITY
+*
+*  Soubor pravidel pro kontrolu Unimarc Authority
+*  autori: Mgr. Jindrich Stejskal(Jindrich.Stejskal@seznam.cz)
+*         Mgr. Edita Lichtenbergova(Edita.Lichtenbergova@nkp.cz)
+*  datum: 8.6.2004
+*
+-----------------------------------------------------------------------------*/
+
+Before->Before
+{
+   InNoIDField="001,005"
+   InLinkingFields="410,411,421,422,423,430,431,432,433,434,435,436,437,440,441,442,443,444,445,446,447,448,451,452,453,454,455,456,461,462,463,464,470,481,482,488,604,240,440,540"    
+
+   WriteToLog("Detailed verification");
+   WriteToLog("=====================");
+}
+
+
+After->After
+{
+    Maxs = 0
+    FCount=MarcFieldsCount("O")
+    IsR = 0
+    For i=0 To FCount-1
+        IDF=MarcGetFieldInfo("O",i,"ID")
+        If Mid(IDF,1,1)=="2" Then
+           Maxs=Maxs+1
+           If Maxs>1 Then
+               If Language=="CZE" Then
+	          ContinueError("#DET_" + IDF + "# Pole 2XX mùže být v záznamu jenom jedno")
+	       Else
+	          ContinueError("#DET_" + IDF + "# Field 2XX only one in record" + S)
+	       Endif	
+           Endif	
+        Endif	
+        If Mid(IDF,1,1)=="R" Then
+        	IsR = 1
+        Endif
+    Next
+    If Maxs>0 | IsR==1 Then
+        	   If MaxI("001")==0 Then ContinueError("#DET_001# Pole 001 je povinne ")
+	   If MaxI("005")==0 Then ContinueError("#DET_005# Pole 005 je povinne ")
+	   If MaxI("100")==0 Then ContinueError("#DET_100# Pole 100 je povinne ")
+	   If MaxI("801")==0 Then ContinueError("#DET_801# Pole 801 je povinne ")
+    Endif
+}
+
+
+
+After->After
+{
+   WriteToLog("");
+}
+

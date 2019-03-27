@@ -1,0 +1,1 @@
+@BINARY@ run_@MODULE@.cfg

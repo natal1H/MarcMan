@@ -1,0 +1,58 @@
+
+
+/*-----------------------------------------------------------------------------
+*
+*  KONTROLA MARC 21 AUTHORITY
+*
+*  Soubor pravidel pro kontrolu Unimarc Authority
+*  autori: Mgr. Jindrich Stejskal(Jindrich.Stejskal@seznam.cz)
+*         Mgr. Edita Lichtenbergova(Edita.Lichtenbergova@nkp.cz)
+*  datum: 20.9.2004
+*
+-----------------------------------------------------------------------------*/
+
+Before->Before
+{
+   InNoIDField="001,003,004,005,006,007,008"
+
+   WriteToLog("Detailed verification");
+   WriteToLog("=====================");
+}
+
+
+After->After
+{
+    Maxs = 0
+    FCount=MarcFieldsCount("O")
+    IsR = 0
+    For i=0 To FCount-1
+        IDF=MarcGetFieldInfo("O",i,"ID")
+        If Mid(IDF,1,1)=="2" Then
+           Maxs=Maxs+1
+           If Maxs>1 Then
+               If Language=="CZE" Then
+	          ContinueError("#DET_" + IDF + "# Pole 1XX mùže být v záznamu jenom jedno")
+	       Else
+	          ContinueError("#DET_" + IDF + "# Field 2XX only one in record" + S)
+	       Endif	
+           Endif	
+        Endif	
+        If Mid(IDF,1,1)=="R" Then
+        	IsR = 1
+        Endif
+    Next
+    If Maxs>0 | IsR==1 Then
+        	   If MaxI("001")==0 Then ContinueError("#DET_001# Pole 001 je povinne ")
+	   If MaxI("005")==0 Then ContinueError("#DET_005# Pole 005 je povinne ")
+	   If MaxI("008")==0 Then ContinueError("#DET_008# Pole 008 je povinne ")
+	   If MaxI("040")==0 Then ContinueError("#DET_040# Pole 040 je povinne ")
+    Endif
+}
+
+
+
+After->After
+{
+   WriteToLog("");
+}
+

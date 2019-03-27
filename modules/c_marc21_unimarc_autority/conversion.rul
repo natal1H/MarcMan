@@ -1,0 +1,960 @@
+
+
+/*-----------------------------------------------------------------------------
+*
+*  KONVERZE MARC21->UNIMARC AUTORITY 
+*
+*  Soubor pravidel pro program MarcMan 1.0
+*  autori: Mgr. Jindrich Stejskal(Jindrich.Stejskal@seznam.cz)
+*          Mgr. Edita Lichtenbergova(Edita.Lichtenbergova@nkp.cz)
+*  datum: 21.6.2004
+*
+-----------------------------------------------------------------------------*/
+
+
+BeforeAll->BeforeAll
+{
+	OutNoIDField="001,005"
+	InNoIDField="001,003,004,005,006,007,008"
+	OutLinkingFields="410,411,421,422,423,430,431,432,433,434,435,436,437,440,441,442,443,444,445,446,447,448,451,452,453,454,455,456,461,462,463,464,470,481,482,488,604,240,440,540"
+	
+	F100_FIELDS_FR="100,400,500,700,MOR,COR"
+	F100_FIELDS_TO="200,400,500,700,MOR,COR"
+	F110_FIELDS_FR="110,111,410,411,510,511,MOR,COR"
+	F110_FIELDS_TO="210,210,410,410,510,510,MOR,COR"
+	
+	G_Space=" "
+	
+	WriteToLog("Marcman rules version @_VERSION_@");
+}
+
+
+Before->Before
+{
+    'POMLCKY
+    If GetMem("ReplaceSpace")=="Yes" Then
+            'LABEL
+            Value = GetLabel("I")
+            Value = Replace(Value,"-"," ")
+            Value = Replace(Value,"^"," ")
+            SetLabel("I",Value)
+
+            'POLE
+            FCount=MarcFieldsCount("I")
+            For i=0 To FCount-1
+            	     IDF=MarcGetFieldInfo("I",i,"ID")
+            	     If IDF=="008" Then
+	                 Num=MarcGetFieldInfo("I",i,"CountSub")
+	                 For j=0 To Num-1
+	                     Value = MarcGetSubFieldInfo("I",i,j,"Value")
+	                     Value = Replace(Value,"^"," ")
+	                     Value = Replace(Value,"-"," ")
+	                     MarcSetSubFieldInfo("I",i,j,"Value",Value)
+	                 Next
+	      Endif           
+            Next
+     Endif
+}
+
+/*
+  -------------------------------------------------------------------------------
+  LABEL
+  -------------------------------------------------------------------------------
+*/
+
+/*LABEL*/
+LAB/1-5/->LAB/1-5/   { S="-----" }
+LAB/6-6/->LAB/6-6/     {  }
+LAB/7-7/->LAB/7-7/     { S="x" }
+LAB/10-10/->LAB/8-8/ { S=" " }
+LAB/10-10/->LAB/9-9/ { S=" " }
+LAB/10-10/->LAB/10-10/ { S=" " }
+LAB/11-12/->LAB/11-12/ {  }
+LAB/13-17/->LAB/13-17/ { S="-----" }
+LAB/18-18/->LAB/18-18/
+{
+     If S=="n" Then S=" "
+     If S=="o" Then S="3"
+}
+LAB/19-19/->LAB/19-19/ { S=" " }
+LAB/20-20/->LAB/20-20/ { S=" " }
+LAB/21-22/->LAB/21-22/ { }
+LAB/23-23/->LAB/23-23/ { S=" " }
+LAB/24-24/->LAB/24-24/ { S=" " }
+
+/*001*/
+001$E->001$E { }
+
+
+/*003*/
+003$E->All { SET=0 }
+
+
+
+/*005*/
+005$E->005$E { If Len(S)==8 Then S=S+"000000.0" }
+
+/*008*/
+008$E/1-6/->100$a/1-8/    
+{ 
+    VS = GetInteger(Mid(S,1,1))
+    If VS==0 Then 
+        S="20" + S 
+    Else    
+        S="19" + S 
+    Endif    
+} 
+
+008$E/34-34/->100$a/9-9/ {  S=Table("008_33.tbl",S)  }
+008$E/8-8/->100$a/13-13/  {  S=Table("100_13.tbl",S) }
+008$E/9-9/->100$a/10-12/ { S="cze" }
+008$E/11-11/->152$a
+{ 
+   If S=="c" Then
+      S="AACR2"
+   Else
+     SET=0    
+   Endif
+} 
+008$E/12-12/->152$b
+{ 
+   If S=="z" Then
+      S="czenas"
+   Else
+     SET=0    
+   Endif
+}
+
+
+
+008$E/29-29/->150$a 
+{
+   If MaxI("110")>0 | MaxI("111")>0 Then
+     S=Table("008_29.tbl",S) 
+   Else
+     SET=0    
+   Endif
+}
+
+008$E/29-29/->100$a/14-17/ { S="0102" }
+
+008$E/29-29/->100$a/22-23/ { S="ba" }
+ 
+008$E/29-29/->100$a/22-23/ { S="ba" }
+
+
+/*040*/
+040$a->801$b
+{
+    NF=MaxO("801")+1
+    NS=1   
+    SetValue(Mid(TOC,1,3) + "$a","CZ",NF,0,0)
+    SetValue(Mid(TOC,1,3) + "I2","0",NF,0,0)
+}
+
+040$c->801$b
+{
+    NF=MaxO("801")+1
+    NS=1
+    SetValue(Mid(TOC,1,3) + "$a","CZ",NF,0,0)
+    SetValue(Mid(TOC,1,3) + "I2","1",NF,0,0)
+}
+
+040$d->801$b
+{
+    NF=MaxO("801")+1
+    NS=1
+    SetValue(Mid(TOC,1,3) + "$a","CZ",NF,0,0)
+    SetValue(Mid(TOC,1,3) + "I2","2",NF,0,0)
+}
+
+
+
+040$e->801$g 
+{    
+     NF=1  
+}
+
+
+
+/*043*/
+
+043$a->160$a
+{
+   If MaxI("043(1)$b")!=0 Then
+      SET=0   
+   Endif  
+}
+
+043$b->160$a { }
+
+/*072*/
+072$a->615$n { }
+072$x->615$a { }
+072$2->615$2 { }
+072$9->615$9 { }
+
+/*089*/
+089$a->675$a { }
+089$c->675$c { }
+089$d->675$d { }
+089$9->675$9 { }
+089$2->675$9 { }
+
+
+/*099*/
+099$a->945$a { }
+099$c->945$c { }
+099$d->945$d { }
+099$2->945$v { }
+
+
+/*110,111,410,411,510,511*/
+
+GROUP(F110_FIELDS_FR)I1->GROUP(F110_FIELDS_TO)
+{
+   SetMem("F" + FROM_IDF +  NF, TOC)
+   SetMem("IF" + FROM_IDF + NF, MaxO(TOC)+1)
+   
+   SetMem("XSET" + FROM_IDF + NF, 1)
+  
+   If FROM_IDF=="MOR" & S=="0" Then  
+      SetMem("XSET" + FROM_IDF + NF, 0)
+   Endif  
+   
+   If FROM_IDF=="COR" & S=="0" Then  
+      SetMem("XSET" + FROM_IDF + NF, 0)
+   Endif  
+  
+   TOC=GetMem("F" + FROM_IDF + NF)+"I2"
+   'Kdyz je v I1 nula nebo dva zavorka v $a -> $c
+   If S=="0" | S=="2" Then
+      SetMem("0or2" + FROM_IDF + NF,1)
+   Else
+      SetMem("0or2" + FROM_IDF + NF,0)
+   Endif
+   SET=GetMem("XSET" + FROM_IDF + NF)
+   NF=GetMem("IF" + FROM_IDF + NF)
+   If  FROM_IDF=="MOR" | FROM_IDF=="COR" Then SET=0
+}
+
+GROUP(F110_FIELDS_FR)I2->GROUP(F110_FIELDS_TO)I1
+{
+   TOC=GetMem("F" + FROM_IDF + NF) + "I1"  
+   If FROM_IDF=="110" | FROM_IDF=="410" | FROM_IDF=="510" Then
+      S="0"
+   Else
+      S="1"
+   Endif
+   SET=GetMem("XSET" + FROM_IDF + NF)
+   NF=GetMem("IF" + FROM_IDF + NF)
+   If  FROM_IDF=="MOR" | FROM_IDF=="COR" Then SET=0
+}
+
+GROUP(F110_FIELDS_FR)$a->GROUP(F110_FIELDS_TO)$a
+{
+   TOC_ID=GetMem("F" + FROM_IDF + NF)
+
+   If GetMem("0or2" + FROM_IDF + NF)==1 Then
+       Array("Separators" , "(")
+       SplitByChars(S,"Separators","Hodnoty","Znacky","BYALL")
+       If CountArray("Hodnoty")>1 Then
+          SetValue(TOC_ID+"$a",TrimChars(GetArray("Hodnoty",1),".,/;: ()"),GetMem("IF" + FROM_IDF + NF),0,0)
+          SetValue(TOC_ID+"$c",TrimChars(GetArray("Hodnoty",2),".,/;: ()"),GetMem("IF" + FROM_IDF + NF),0,0)
+          SET=0
+          Exit
+       Endif
+   Endif
+
+   SET=GetMem("XSET" + FROM_IDF + NF)
+   NF=GetMem("IF" + FROM_IDF + NF)
+   
+   S=TrimChars(S,".,/;: ")
+   TOC=TOC_ID+"$a"
+   
+}
+
+GROUP(F110_FIELDS_FR)$b->GROUP(F110_FIELDS_TO)$b
+{
+   TOC_ID=GetMem("F" + FROM_IDF + NF)
+
+   Array("Separators" , "(")
+   SplitByChars(S,"Separators","Hodnoty","Znacky","BYALL")
+   If CountArray("Hodnoty")>1 Then
+          SetValue(TOC_ID+"$b",TrimChars(GetArray("Hodnoty",1),".,/;: ()"),GetMem("IF" + FROM_IDF + NF),0,0)
+          SetValue(TOC_ID+"$c",TrimChars(GetArray("Hodnoty",2),".,/;: ()"),GetMem("IF" + FROM_IDF + NF),0,0)
+          SET=0
+          Exit
+   Endif
+
+   S=TrimChars(S,"().,/;: ")
+   TOC=TOC_ID+ "$b"
+   SET=GetMem("XSET" + FROM_IDF + NF)
+   NF=GetMem("IF" + FROM_IDF + NF)
+}
+
+GROUP(F110_FIELDS_FR)$c->GROUP(F110_FIELDS_TO)$e
+{
+   TOC=GetMem("F" + FROM_IDF + NF) +"$e"
+   S=TrimChars(S,"().,/;: ")
+   SET=GetMem("XSET" + FROM_IDF + NF)
+   NF=GetMem("IF" + FROM_IDF + NF)
+}
+
+GROUP(F110_FIELDS_FR)$d->GROUP(F110_FIELDS_TO)$f
+{
+   TOC=GetMem("F" + FROM_IDF + NF) +"$f"
+   S=TrimChars(S,"().,/;: ")
+   SET=GetMem("XSET" + FROM_IDF + NF)
+   NF=GetMem("IF" + FROM_IDF + NF)
+}
+
+GROUP(F110_FIELDS_FR)$n->GROUP(F110_FIELDS_TO)$d
+{
+   TOC=GetMem("F" + FROM_IDF + NF) +"$d"
+   S=TrimChars(S,"(),/;: ")
+   SET=GetMem("XSET" + FROM_IDF + NF)
+   NF=GetMem("IF" + FROM_IDF + NF)
+}
+
+GROUP(F110_FIELDS_FR)$u->GROUP(F110_FIELDS_TO)$p
+{
+   TOC=GetMem("F" + FROM_IDF + NF)+"$p"
+   S=TrimChars(S,"().,/;: ")
+   SET=GetMem("XSET" + FROM_IDF + NF)
+   NF=GetMem("IF" + FROM_IDF + NF)
+}
+
+
+GROUP(F110_FIELDS_FR)$w->GROUP(F110_FIELDS_TO)$5
+{
+    TOC=GetMem("F" + FROM_IDF + NF) +"$5"
+    SET=GetMem("XSET" + FROM_IDF + NF)
+    NF=GetMem("IF" + FROM_IDF + NF)
+    S=Table("200_5.tbl",S)   
+}
+
+GROUP(F110_FIELDS_FR)$7->GROUP(F110_FIELDS_TO)$3
+{
+    TOC=GetMem("F" + FROM_IDF + NF) +"$3"
+    SET=GetMem("XSET" + FROM_IDF + NF)
+    NF=GetMem("IF" + FROM_IDF + NF)
+}
+
+
+GROUP(F110_FIELDS_FR)$2->GROUP(F110_FIELDS_TO)$8
+{
+    TOC=GetMem("F" + FROM_IDF + NF) +"$8"
+    SET=GetMem("XSET" + FROM_IDF + NF)
+    NF=GetMem("IF" + FROM_IDF + NF)
+}
+
+GROUP(F110_FIELDS_FR)$0->GROUP(F110_FIELDS_TO)$t
+{
+    TOC=GetMem("F" + FROM_IDF + NF) +"$t"
+    SET=GetMem("XSET" + FROM_IDF + NF)
+    NF=GetMem("IF" + FROM_IDF + NF)    
+}
+
+/*100*/
+
+100I1->200I2
+{
+    If S=="0" |  S=="1" Then
+         SetMem("F" + FROM_IDF +  NF, "200")
+         SetMem("IF" + FROM_IDF + NF, MaxO("200")+1)
+         NF=GetMem("IF" + FROM_IDF + NF)
+    Endif
+    If S=="3" Then
+         SetMem("F" + FROM_IDF +  NF, "220")
+         SetMem("IF" + FROM_IDF + NF, MaxO("220")+1)
+         SET=0
+    Endif
+    SetMem("SET" + FROM_IDF + NF, 1)
+}
+
+400I1->400I2
+{
+    If S=="0" |  S=="1" Then
+         SetMem("F" + FROM_IDF +  NF, "400")
+         SetMem("IF" + FROM_IDF + NF, MaxO("400")+1)
+         NF=GetMem("IF" + FROM_IDF + NF)
+    Endif
+    If S=="3" Then
+         SetMem("F" + FROM_IDF +  NF, "420")
+         SetMem("IF" + FROM_IDF + NF, MaxO("420")+1)
+         SET=0
+    Endif
+    SetMem("SET" + FROM_IDF + NF, 1)
+}
+
+500I1->500I2
+{
+    If S=="0" |  S=="1" Then
+         SetMem("F" + FROM_IDF +  NF, "500")
+         SetMem("IF" + FROM_IDF + NF, MaxO("500")+1)
+         NF=GetMem("IF" + FROM_IDF + NF)
+    Endif
+    If S=="3" Then
+         SetMem("F" + FROM_IDF +  NF, "520")
+         SetMem("IF" + FROM_IDF + NF, MaxO("520")+1)
+         SET=0
+    Endif
+    SetMem("SET" + FROM_IDF + NF, 1)
+}
+
+700I1->700I2
+{
+    If S=="0" |  S=="1" Then
+         SetMem("F" + FROM_IDF +  NF, "700")
+         SetMem("IF" + FROM_IDF + NF, MaxO("700")+1)
+         NF=GetMem("IF" + FROM_IDF + NF)
+    Endif
+    If S=="3" Then
+         SetMem("F" + FROM_IDF +  NF, "720")
+         SetMem("IF" + FROM_IDF + NF, MaxO("720")+1)
+         SET=0
+    Endif
+    SetMem("SET" + FROM_IDF + NF, 1)
+}
+
+GROUP(F100_FIELDS_FR)$a->GROUP(F100_FIELDS_TO)$a  
+{
+    TOC_ID=GetMem("F" + FROM_IDF + NF)
+    NF=GetMem("IF" + FROM_IDF + NF)
+    SET=GetMem("SET" + FROM_IDF + NF)
+    If TOC_ID=="720" | TOC_ID=="220" | TOC_ID=="420" | TOC_ID=="520" Then
+        S=TrimChars(S,".")
+        TOC=TOC_ID+"$a"
+    Endif
+    If TOC_ID=="200" | TOC_ID=="400" | TOC_ID=="500" | TOC_ID=="700" | TOC_ID=="MOR" | TOC_ID=="COR" Then
+        Array("Separators" , "," )
+        SplitByChars(S,"Separators","Hodnoty","Znacky","BYORDER")
+        SetValue(TOC_ID+"$a",TrimChars(GetArray("Hodnoty",1),",()/;: ") ,NF,0,0)
+        If CountArray("Hodnoty")>1 Then
+                If Trim(GetArray("Hodnoty",2))!="" Then
+                  SetValue(TOC_ID+"$b",TrimChars(GetArray("Hodnoty",2),",()/;: "),NF,0,0)
+                Endif
+                SET=0
+        Endif
+    Endif  
+    SET=0
+}
+
+GROUP(F100_FIELDS_FR)$q->GROUP(F100_FIELDS_TO)$g
+{
+    TOC_ID=GetMem("F" + FROM_IDF + NF)
+    NF=GetMem("IF" + FROM_IDF + NF)
+    SET=GetMem("SET" + FROM_IDF + NF)
+    If TOC_ID=="200" | TOC_ID=="400" | TOC_ID=="500" | TOC_ID=="700"  | TOC_ID=="MOR" | TOC_ID=="COR" Then
+        S=TrimChars(S,",()/;: ")
+        TOC=TOC_ID+"$g"
+    Else
+        SET=0
+    Endif
+}
+
+GROUP(F100_FIELDS_FR)$c->GROUP(F100_FIELDS_TO)$c
+{
+    TOC_ID=GetMem("F" + FROM_IDF + NF)
+    NF=GetMem("IF" + FROM_IDF + NF)
+    SET=GetMem("SET" + FROM_IDF + NF)
+    If TOC_ID=="200" | TOC_ID=="400" | TOC_ID=="500" | TOC_ID=="700"  | TOC_ID=="MOR" | TOC_ID=="COR" Then
+        S=TrimChars(S,",()/;: ")
+        TOC=TOC_ID+"$c"
+    Else
+        SET=0
+    Endif
+}
+
+GROUP(F100_FIELDS_FR)$b->GROUP(F100_FIELDS_TO)$d
+{
+    TOC_ID=GetMem("F" + FROM_IDF + NF)
+    NF=GetMem("IF" + FROM_IDF + NF)
+    SET=GetMem("SET" + FROM_IDF + NF)
+    If TOC_ID=="200" | TOC_ID=="400" | TOC_ID=="500" | TOC_ID=="700"  | TOC_ID=="MOR" | TOC_ID=="COR" Then
+        S=TrimChars(S,",()/;: ")
+        TOC=TOC_ID+"$d"
+    Else
+        SET=0
+    Endif
+}
+GROUP(F100_FIELDS_FR)$d->GROUP(F100_FIELDS_TO)$f  
+{
+    TOC_ID=GetMem("F" + FROM_IDF + NF)
+    NF=GetMem("IF" + FROM_IDF + NF)
+    SET=GetMem("SET" + FROM_IDF + NF)
+    TOC=TOC_ID+"$f"
+}
+
+GROUP(F100_FIELDS_FR)$u->GROUP(F100_FIELDS_TO)$p
+{
+    TOC_ID=GetMem("F" + FROM_IDF + NF)
+    NF=GetMem("IF" + FROM_IDF + NF)
+    SET=GetMem("SET" + FROM_IDF + NF)
+    If TOC_ID=="200" | TOC_ID=="400" | TOC_ID=="500" | TOC_ID=="700"  | TOC_ID=="MOR" | TOC_ID=="COR" Then        
+        S=TrimChars(S,".,()/;: ")
+        TOC=TOC_ID+"$p"
+    Else
+        SET=0
+    Endif
+}
+
+GROUP(F100_FIELDS_FR)$s->GROUP(F100_FIELDS_TO)$s
+{
+    TOC_ID=GetMem("F" + FROM_IDF + NF)
+    NF=GetMem("IF" + FROM_IDF + NF)
+    SET=GetMem("SET" + FROM_IDF + NF)
+    S=Table("200_5.tbl",S)
+    TOC=TOC_ID+"$s"
+}
+
+GROUP(F100_FIELDS_FR)$w->GROUP(F100_FIELDS_TO)$5
+{
+    TOC_ID=GetMem("F" + FROM_IDF + NF)
+    NF=GetMem("IF" + FROM_IDF + NF)
+    SET=GetMem("SET" + FROM_IDF + NF)
+    S=Table("200_5.tbl",S)
+    TOC=TOC_ID+"$5"
+}
+
+GROUP(F100_FIELDS_FR)$7->GROUP(F100_FIELDS_TO)$3
+{
+    TOC_ID=GetMem("F" + FROM_IDF + NF)
+    NF=GetMem("IF" + FROM_IDF + NF)
+    SET=GetMem("SET" + FROM_IDF + NF)
+    TOC=TOC_ID+"$3"
+}
+
+GROUP(F100_FIELDS_FR)$2->GROUP(F100_FIELDS_TO)$8
+{
+    TOC_ID=GetMem("F" + FROM_IDF + NF)
+    NF=GetMem("IF" + FROM_IDF + NF)
+    SET=GetMem("SET" + FROM_IDF + NF)
+    TOC=TOC_ID+"$8"
+}
+
+GROUP(F100_FIELDS_FR)$0->GROUP(F100_FIELDS_TO)$t
+{
+    TOC_ID=GetMem("F" + FROM_IDF + NF)
+    NF=GetMem("IF" + FROM_IDF + NF)
+    SET=GetMem("SET" + FROM_IDF + NF)
+    TOC=TOC_ID+"$t"
+}
+
+
+/*195*/
+195$a->295$d { }
+195$b->295$a { }
+
+/*495*/
+495$a->495$d { }
+495$b->495$a { }
+495$0->495$t { }
+
+/*595*/
+595$a->595$d { }
+595$b->595$a { }
+595$0->595$t { }
+
+/*148*/
+148$a->280$a { }
+
+/*151*/
+151$a->215$a { }
+
+/*150*/
+150$a->250$a { }
+
+/*155*/
+155$a->285$a { }
+
+/*190*/
+190$k->290$k { }
+190$a->290$n { }
+190$x->290$a { }
+190$2->290$2 { }
+190$9->290$9 { }
+
+
+/*678*/
+678$a->907$a { }
+678$b->907$b { }
+ 
+
+/*680*/
+680I1->330I1
+{
+    S="0"
+    If MaxI("150")>0 | MaxI("155")>0 Then
+       S="1"
+    Endif
+    If MaxI("190")>0 Then
+       S="9"
+    Endif
+}
+ 
+680$a->330$a { NS=0 }
+680$i->330$a { NS=0 }
+
+
+/*667*/
+667$a->830$a { }
+
+/*670*/
+670$a->810$a { }
+670$b->810$b { }
+
+/*675*/
+675$a->815$a { }
+
+/*681*/
+681$a->825$a { NS=0 }
+681$i->825$a { NS=0 }
+
+/*682*/
+682$i->835$a { }
+682$a->835$b { }
+
+/*950*/
+950I1->I1 
+{
+   If S=="0" Then
+      SetMem("IF" + FROM_IDF + NF, MaxO("908")+1)
+      SetMem("F" + FROM_IDF +  NF, "908")
+      TS=" "
+   Else
+      SetMem("IF" + FROM_IDF + NF, MaxO("950")+1)
+      SetMem("F" + FROM_IDF +  NF, "950")  
+   Endif
+   If S=="1" Then TS=" " 
+   If S=="2" Then TS="0"
+   If S=="3" Then TS="1"
+   TOC=GetMem("F" + FROM_IDF + NF)+"I1"
+   NF=GetMem("IF" + FROM_IDF + NF)
+   S = TS
+}
+
+950$a->$a 
+{
+   TOC=GetMem("F" + FROM_IDF + NF)+"$a"
+   NF=GetMem("IF" + FROM_IDF + NF)	 
+}  
+
+950$b->$b
+{
+   TOC=GetMem("F" + FROM_IDF + NF)+"$b"
+   NF=GetMem("IF" + FROM_IDF + NF)	 
+}
+
+
+/*448*/
+448$a->480$a { }
+448$0->480$t { }
+
+/*451*/
+451$a->415$a { 
+    SetMem("IF" + FROM_IDF + NF, MaxO("415")+1)	  
+    NF=GetMem("IF" + FROM_IDF + NF)	
+}
+451$0->415$t { 
+    NF=GetMem("IF" + FROM_IDF + NF)		
+}
+
+/*450*/
+450I1->450I1 
+{ 
+    SetMem("IF" + FROM_IDF + NF, MaxO("450")+1)
+    SET=0
+}
+450$a->450$a 
+{
+    NF=GetMem("IF" + FROM_IDF + NF)	 
+}
+450$0->450$t 
+{
+    NF=GetMem("IF" + FROM_IDF + NF)	 	 
+}
+
+/*455*/
+455$a->485$a { 
+    SetMem("IF" + FROM_IDF + NF, MaxO("485")+1)	  
+    NF=GetMem("IF" + FROM_IDF + NF)	
+}
+455$0->485$t {
+    NF=GetMem("IF" + FROM_IDF + NF)		
+}
+
+/*490*/
+490$a->490$n { }
+490$x->490$a { }
+490$2->490$2 { }
+490$9->490$9 { }
+
+/*790*/
+790$a->490$n { }
+790$x->490$a { }
+790$2->490$2 { }
+790$9->490$9 { }
+
+/*548*/
+548$a->580$a { }
+
+/*551*/
+551I1->515$5 
+{
+   If S==" " Then S="z"
+   If S=="1" Then S="h"   
+   If S=="9" Then S="g"   
+}
+551I1->515I1 { }
+
+551$a->515$a { }
+
+/*550*/
+550I1->550$5 
+{
+   If S==" " Then S="z"
+   If S=="1" Then S="h"   
+   If S=="9" Then S="g"   
+}
+550I1->550I1 { }
+
+550$a->550$a { }
+
+/*555*/
+555I1->585$5 
+{
+   If S==" " Then S="z"
+   If S=="1" Then S="h"   
+   If S=="9" Then S="g"   
+}
+555I1->585I1 { }
+555$a->585$a { }
+
+/*590*/
+590I1->590$5 
+{
+   If S=="1" Then S="h"   
+   If S=="9" Then S="g"   
+}
+590I1->590I1 { }
+590$a->590$n { }
+590$x->590$a { }
+590$k->590$k { }
+
+/*663,664*/
+663I1,664I1->305I1,310I1
+{
+    S="0"
+    If MaxI("150")>0 | MaxI("155")>0 Then
+       S="1"
+    Endif
+    If MaxI("190")>0 Then
+       S="9"
+    Endif
+}
+
+663$a,664$a->305$a,310$a { }
+663$b,664$b->305$b,310$b { }
+
+/*665*/
+665$a->300$a
+{
+    NF=MaxO("300")+1
+
+    SetValue("300I1","0",NF,0,0)
+    If MaxI("150")>0 | MaxI("155")>0 Then
+       SetValue("300I1","1",NF,0,0)
+    Endif
+    If MaxI("190")>0 Then
+       SetValue("300I1","9",NF,0,0)
+    Endif
+}
+
+/*666*/
+666$a->320$a { }
+
+
+
+/*750*/
+750I1->450I2 
+{
+      SetMem("IF" + FROM_IDF + NF, MaxO("450")+1)	  
+      NF=GetMem("IF" + FROM_IDF + NF)
+}
+750$a->450$a 
+{
+      NF=GetMem("IF" + FROM_IDF + NF)	 
+}
+750$b->450$b 
+{
+      NF=GetMem("IF" + FROM_IDF + NF)		 
+}
+750$c->450$c
+{
+      NF=GetMem("IF" + FROM_IDF + NF)		 
+}
+750$d->450$d
+{
+      NF=GetMem("IF" + FROM_IDF + NF)		 
+} 
+750$2->450$8 
+{ 
+      NF=GetMem("IF" + FROM_IDF + NF)		 	
+      S=Table("450.tbl",S) 
+}
+
+/*751*/
+751I1->415I2 { 
+	SetMem("IF" + FROM_IDF + NF, MaxO("415")+1)	  
+      	NF=GetMem("IF" + FROM_IDF + NF)
+      	S="0"
+}
+751$a->415$a { 
+	NF=GetMem("IF" + FROM_IDF + NF)		 	
+}
+751$b->415$b { 
+	NF=GetMem("IF" + FROM_IDF + NF)		 
+} 
+751$2->415$8 { 
+	NF=GetMem("IF" + FROM_IDF + NF)		 
+	S=Table("450.tbl",S) 
+}
+
+/*755*/
+755I1->485I2 { 
+    SetMem("IF" + FROM_IDF + NF, MaxO("485")+1)	  
+    NF=GetMem("IF" + FROM_IDF + NF)	
+    S = "0"
+}
+755$a->485$a { 
+    NF=GetMem("IF" + FROM_IDF + NF)	
+}
+755$b->485$b { 
+    NF=GetMem("IF" + FROM_IDF + NF)	
+}
+755$2->485$8 { 
+    NF=GetMem("IF" + FROM_IDF + NF)	
+    S=Table("450.tbl",S) 
+}
+
+
+/*906*/
+906$a->801$c 
+{ 
+   NF=1
+   S = Mid(S,3)
+}
+906$a->906$a { }
+906$b->906$b { }
+906$c->906$c { }
+
+
+/*MOR*/
+MORI1->All /*Zjisteni kam */
+{
+    SetMem("FMOR" + NF,"MOR")
+    SetMem("IFMOR" + NF,MaxO("MOR")+1)	
+    If S=="1" Then
+       SetMem("SETMOR" + NF,0)
+    Else
+       SetMem("SETMOR" + NF,1)
+    Endif
+    TOC=GetMem("F" + FROM_IDF + NF)+"I1"
+    NF=GetMem("IF" + FROM_IDF + NF)
+}
+
+/*COR*/
+CORI1->All /*Zjisteni kam */
+{
+    SetMem("FCOR" + NF,"COR")
+    SetMem("IFCOR" + NF,MaxO("COR")+1)	
+    If S=="1" Then
+       SetMem("SETCOR" + NF,0)
+    Else
+       SetMem("SETCOR" + NF,1)
+    Endif
+    TOC=GetMem("F" + FROM_IDF + NF)+"I1"
+    NF=GetMem("IF" + FROM_IDF + NF)
+}
+
+
+After->After
+{
+    FCount=MarcFieldsCount("O")
+    For i=0 To FCount-1
+        IDF=MarcGetFieldInfo("O",i,"ID")
+        If IDF=="290" | IDF=="490" | IDF=="590" Then
+           SortSubfields("O",i,"(n,k,a,2,9)[5]")
+        Else
+           If IDF=="415" | IDF=="515" | IDF=="450" | IDF=="550" | IDF=="455" | IDF=="555" | IDF=="585" | IDF=="485"  Then
+              SortSubfields("O",i,"[a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,u,v,x,y,z][t][3,5,8][0,1,2,4,6,7,9]")
+           Else
+              SortSubfields("O",i,"[5,8][a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,x,y,z,E,|][3][0,1,2,4,6,7,9]")
+           Endif
+        Endif
+    Next
+}
+
+
+/*Odmazava dve tecky za sebou ale jako posledni znak v poli tecka a za nim prazne pole E na zacatku tecka..*/
+
+After->After
+{
+    FCount=MarcFieldsCount("O")
+    For i=0 To FCount-1
+        Num=MarcGetFieldInfo("O",i,"CountSub")
+        For j=0 To Num-1
+              
+              Value = MarcGetSubFieldInfo("O",i,j,"Value")
+              RealValue= Value
+              
+              '$E
+              If j<(Num-1) Then
+                 IDS = MarcGetSubFieldInfo("O",i,j+1,"ID")
+                 If IDS=="E" Then
+                   Value2 = MarcGetSubFieldInfo("O",i,j+1,"Value")
+                   RealValue= RealValue + Value2
+                 Endif
+              Endif
+              
+              If Len(RealValue)>2 Then
+              	TwoMidded = Mid(RealValue,Len(RealValue)-1)
+              	ThreeMidded = Mid(RealValue,Len(RealValue)-2)
+              	If TwoMidded==".." &&  ThreeMidded!="..." Then
+              	   OneM = Mid(Value,1,Len(Value)-1) 	
+              	   MarcSetSubFieldInfo("O",i,j,"Value",OneM)	
+              	Endif	
+              Endif
+         Next
+    Next
+}
+
+
+/*Nahrazení normálních mezer tvrdejma*/
+
+After->After
+{
+    If GetMem("ReplaceSpace")=="Yes" Then
+            FCount=MarcFieldsCount("O")
+            For i=0 To FCount-1
+               IDF=MarcGetFieldInfo("O",i,"ID")
+               If IDF=="100" Then
+                     Value = MarcGetSubFieldInfo("O",i,0,"Value")
+                     For w=Len(Value)+1 To 23 '100 23 pozic
+                        Value = Value + " "
+                     Next
+                     Value = Replace(Value," ","^")
+                     MarcSetSubFieldInfo("O",i,0,"Value",Value)
+               Endif
+            Next
+            Value = GetLabel("O")
+            Value = Replace(Value," ","^")
+            SetLabel("O",Value)
+     Endif
+}
+
+
+
+

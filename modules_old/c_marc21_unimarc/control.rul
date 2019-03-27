@@ -1,0 +1,95 @@
+
+
+/*-----------------------------------------------------------------------------
+*
+*  KONTROLA MARC21
+*
+*  Soubor pravidel pro kontrolu Marc21
+*  autori: Mgr. Jindrich Stejskal(Jindrich.Stejskal@seznam.cz)
+*         Mgr. Edita Lichtenbergova(Edita.Lichtenbergova@nkp.cz)
+*  datum: 18.8.2004
+*
+-----------------------------------------------------------------------------*/
+Before->Before
+{
+   InNoIDField="001,003,004,005,006,007,008"
+
+   WriteToLog("Detailed verification");
+   WriteToLog("=====================");
+}
+
+
+245I1->All 
+{
+   If MaxI("001")==0 Then ContinueError("#DET_001# Pole 001 je povinne ")
+   If MaxI("008")==0 Then ContinueError("#DET_008# Pole 008 je povinne ")
+   If MaxI("260")==0 Then ContinueError("#DET_260# Pole 260 je povinne ")
+   If MaxI("040")==0 Then ContinueError("#DET_040# Pole 040 je povinne ")
+   SET=0
+}
+
+After->After 
+{
+    N=0
+    If MaxI("110")>0 Then N=N+1
+    If MaxI("111")>0 Then N=N+1
+    If MaxI("130")>0 Then N=N+1
+    If MaxI("100")>0 Then N=N+1
+    	
+    If N>1 Then
+       If Language=="CZE" Then
+          ContinueError("#DET_# Nemohou být dvì hlavní záhlaví")	
+       Else
+          ContinueError("#DET_# Nemohou být dvì hlavní záhlaví")
+       Endif  
+    Endif	
+}
+
+
+
+008$E/36-38/,041$a,041$b,041$d,041$e,041$f,041$g,041$h->All,All,All,All,All,All,All,All
+{	
+   If Len(S)!=3 Then
+       If Language=="CZE" Then
+          ContinueError("#DET_" + FROMC + "# Špatná délka kódu jazyka " + S)
+       Else
+          ContinueError("#DET_" + FROMC + "# Invalid length language code" + S)
+       Endif   	 
+   Endif	
+   SO=Table("Jazyky.tbl",S)
+   If SO=="XXX" Then 
+       If Language=="CZE" Then
+          ContinueError("#DET_" + FROMC + "# Neznámý kód jazyka " + S)
+       Else
+          ContinueError("#DET_" + FROMC + "# Unknown language code" + S)
+       Endif   
+   Endif    
+   SET=0
+}
+
+After->After
+{
+   WriteToLog("");
+}
+
+/*100,700,110,710,111,711 $4 Role.tbl */
+100$4,700$4,110$4,710$4,111$4,711$4->All,All,All,All,All,All
+{
+   If Len(S)!=3 Then
+       If Language=="CZE" Then
+          ContinueError("#DET_" + FROMC + "# Špatná délka kódu role " + S)
+       Else
+          ContinueError("#DET_" + FROMC + "# Invalid length relator code" + S)
+       Endif   	 
+   Endif	
+   SO=Table("Role.tbl",S)
+   If SO=="XXX" Then 
+       If Language=="CZE" Then
+          ContinueError("#DET_" + FROMC + "# Neznámý kód role " + S)
+       Else
+          ContinueError("#DET_" + FROMC + "# Unknown relator code" + S)
+       Endif   
+   Endif    
+   SET=0
+}
+

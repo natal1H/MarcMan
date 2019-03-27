@@ -1,0 +1,733 @@
+<?xml version="1.0" encoding="Windows-1250"?>
+<project basedir="." default="make.package" name="MarcMan">
+
+    <property file="marcman.properties"/>  
+    
+    <target name="make.cfg.files">
+      <echo message="*****"/>
+      <echo message="MAKE cfg FILES..."/>
+      <echo message="*****"/>
+      <delete file="${primary.dir}/run_${mu}.cfg"/>
+      <delete file="${primary.dir}/run_${mua}.cfg"/>
+      <delete file="${primary.dir}/run_${um}.cfg"/>          
+      <delete file="${primary.dir}/run_${uma}.cfg"/>
+      <delete file="${primary.dir}/${mu}.bat"/>
+      <delete file="${primary.dir}/${mua}.bat"/>
+      <delete file="${primary.dir}/${um}.bat"/>          
+      <delete file="${primary.dir}/${uma}.bat"/>
+      <copyfile dest="${primary.dir}/run_${mu}.cfg"  src="${make.dir}/run_temp${testing}.cfg"/>
+      <copyfile dest="${primary.dir}/run_${mua}.cfg" src="${make.dir}/run_temp${testing}.cfg"/>
+      <copyfile dest="${primary.dir}/run_${um}.cfg"  src="${make.dir}/run_temp${testing}.cfg"/>          
+      <copyfile dest="${primary.dir}/run_${uma}.cfg" src="${make.dir}/run_temp${testing}.cfg"/>
+      <copyfile dest="${primary.dir}/${mu}.bat"  src="${make.dir}/run_temp.bat"/>
+      <copyfile dest="${primary.dir}/${mua}.bat" src="${make.dir}/run_temp.bat"/>
+      <copyfile dest="${primary.dir}/${um}.bat"  src="${make.dir}/run_temp.bat"/>          
+      <copyfile dest="${primary.dir}/${uma}.bat" src="${make.dir}/run_temp.bat"/>
+    </target>
+    
+    <target depends="make.cfg.files" name="fill.cfg.files">     
+      <echo message="*****"/>
+      <echo message="TRANSFORM cfg FILES ${message.param}"/>
+      <echo message="*****"/>
+      <replace file="${primary.dir}/run_${mu}.cfg">
+        <replacefilter token="@LICENSE@" value="${licence.param}"/>
+	<replacefilter token="@SOURCE_DIR@" value="marc21"/>
+	<replacefilter token="@MODULE@" value="c_${mu}"/>
+	<replacefilter token="@CONVERSION_FILE@" value="${rules.file.param}"/>
+	<replacefilter token="@CODE_FILE@" value="${code.file.param}"/>
+      </replace>
+      <replace file="${primary.dir}/run_${mua}.cfg">
+        <replacefilter token="@LICENSE@" value="${licence.param}"/>
+	<replacefilter token="@SOURCE_DIR@" value="marc21_autority"/>
+	<replacefilter token="@MODULE@" value="c_${mua}"/>
+	<replacefilter token="@CONVERSION_FILE@" value="${rules.file.param}"/>
+	<replacefilter token="@CODE_FILE@" value="${code.file.param}"/>
+      </replace>
+      <replace file="${primary.dir}/run_${um}.cfg">
+        <replacefilter token="@LICENSE@" value="${licence.param}"/>
+	<replacefilter token="@SOURCE_DIR@" value="unimarc"/>
+	<replacefilter token="@MODULE@" value="c_${um}"/>
+	<replacefilter token="@CONVERSION_FILE@" value="${rules.file.param}"/>
+	<replacefilter token="@CODE_FILE@" value="${code.file.param}"/>
+      </replace>
+      <replace file="${primary.dir}/run_${uma}.cfg">
+        <replacefilter token="@LICENSE@" value="${licence.param}"/>
+	<replacefilter token="@SOURCE_DIR@" value="unimarc_autority"/>
+	<replacefilter token="@MODULE@" value="c_${uma}"/>
+	<replacefilter token="@CONVERSION_FILE@" value="${rules.file.param}"/>
+	<replacefilter token="@CODE_FILE@" value="${code.file.param}"/>
+      </replace>
+      
+      <replace file="${primary.dir}/${um}.bat">
+        <replacefilter token="@MODULE@" value="${um}"/>
+	<replacefilter token="@BINARY@" value="${binary.run.param}"/>
+      </replace>
+      <replace file="${primary.dir}/${uma}.bat">
+        <replacefilter token="@MODULE@" value="${uma}"/>
+	<replacefilter token="@BINARY@" value="${binary.run.param}"/>
+      </replace>
+      <replace file="${primary.dir}/${mu}.bat">
+        <replacefilter token="@MODULE@" value="${mu}"/>
+	<replacefilter token="@BINARY@" value="${binary.run.param}"/>
+      </replace>
+      <replace file="${primary.dir}/${mua}.bat">
+        <replacefilter token="@MODULE@" value="${mua}"/>
+	<replacefilter token="@BINARY@" value="${binary.run.param}"/>
+      </replace>
+    </target>
+    
+    
+    <target name="prepare.rules.version">
+      <echo message="-------------------------------------------------------"/>
+      <echo message="PREPARE code RULES Files..."/>
+      <echo message="-------------------------------------------------------"/>
+      <copyfile dest="${primary.dir}/modules/c_${mu}/conversion.rrul" src="${primary.dir}/modules/c_${mu}/conversion.rul"/>
+      <replace file="${primary.dir}/modules/c_${mu}/conversion.rrul">
+        <replacefilter token="@_VERSION_@" value="${version}"/>
+	<replacefilter token="SPECIFIKACE_NK=&quot;ano&quot;" value="SPECIFIKACE_NK=&quot;ne&quot;"/>
+      </replace>
+      <copyfile dest="${primary.dir}/modules/c_${mua}/conversion.rrul" src="${primary.dir}/modules/c_${mua}/conversion.rul"/>
+      <replace file="${primary.dir}/modules/c_${mua}/conversion.rrul">
+        <replacefilter token="@_VERSION_@" value="${version}"/>
+	<replacefilter token="SPECIFIKACE_NK=&quot;ano&quot;" value="SPECIFIKACE_NK=&quot;ne&quot;"/>
+      </replace>
+      <copyfile dest="${primary.dir}/modules/c_${um}/conversion.rrul" src="${primary.dir}/modules/c_${um}/conversion.rul"/>
+      <replace file="${primary.dir}/modules/c_${um}/conversion.rrul">
+        <replacefilter token="@_VERSION_@" value="${version}"/>
+	<replacefilter token="SPECIFIKACE_NK=&quot;ano&quot;" value="SPECIFIKACE_NK=&quot;ne&quot;"/>
+      </replace>
+      <copyfile dest="${primary.dir}/modules/c_${uma}/conversion.rrul" src="${primary.dir}/modules/c_${uma}/conversion.rul"/>
+      <replace file="${primary.dir}/modules/c_${uma}/conversion.rrul">
+        <replacefilter token="@_VERSION_@" value="${version}"/>
+	<replacefilter token="SPECIFIKACE_NK=&quot;ano&quot;" value="SPECIFIKACE_NK=&quot;ne&quot;"/>
+      </replace>
+    </target>
+    
+    <target name="make.code.rules.files">
+      <echo message="-------------------------------------------------------"/>
+      <echo message="MAKE code RULES Files..."/>
+      <echo message="-------------------------------------------------------"/>
+      <antcall target="fill.cfg.files">
+        <param name="message.param" value="FOR PREPARE MAKE code RULES Files"/>
+        <param name="licence.param" value="${admin.licence}"/>
+        <param name="rules.file.param" value="conversion.rrul"/>
+        <param name="testing" value=""/>
+        <param name="code.file.param" value="No"/>
+        <param name="binary.run.param" value="marcman.exe"/>
+      </antcall>
+      <exec dir="${primary.dir}" executable="${marcman.exec}">
+  	<arg line="run_${mu}.cfg"/>
+  	<arg line="modules/c_${mu}/conversion.crul"/>
+      </exec>  
+      <exec dir="${primary.dir}" executable="${marcman.exec}">
+  	<arg line="run_${mua}.cfg"/>
+  	<arg line="modules/c_${mua}/conversion.crul"/>
+      </exec>  
+      <exec dir="${primary.dir}" executable="${marcman.exec}">
+  	<arg line="run_${um}.cfg"/>
+  	<arg line="modules/c_${um}/conversion.crul"/>
+      </exec> 
+      <exec dir="${primary.dir}" executable="${marcman.exec}">
+  	<arg line="run_${uma}.cfg"/>
+  	<arg line="modules/c_${uma}/conversion.crul"/>
+      </exec> 
+    </target>
+
+    <target name="test.code.rules.files">
+      <echo message="-------------------------------------------------------"/>
+      <echo message="TEST code RULES Files..."/>
+      <echo message="-------------------------------------------------------"/>
+      <antcall target="fill.cfg.files">
+        <param name="message.param" value="FOR TEST code RULES Files"/>
+        <param name="licence.param" value="${light.licence}"/>
+        <param name="rules.file.param" value="conversion.crul"/>
+        <param name="testing" value=""/>
+        <param name="code.file.param" value="Yes"/>
+        <param name="binary.run.param" value="marcman.exe"/>
+      </antcall>
+      <exec dir="${primary.dir}" executable="${marcman.exec}">
+  	<arg line="run_${mu}.cfg"/>
+      </exec>  
+      <exec dir="${primary.dir}" executable="${marcman.exec}">
+  	<arg line="run_${mua}.cfg"/>
+      </exec>  
+      <exec dir="${primary.dir}" executable="${marcman.exec}">
+  	<arg line="run_${um}.cfg"/>
+      </exec> 
+      <exec dir="${primary.dir}" executable="${marcman.exec}">
+  	<arg line="run_${uma}.cfg"/>
+      </exec> 
+    </target>	
+    
+    <target name="deploy.prepare">
+      <delete dir="${deploy.dir}"/>
+      <mkdir dir="${deploy.dir}"/>
+      <mkdir dir="${deploy.light.dir}"/>
+      <mkdir dir="${deploy.standard.dir}"/>
+    </target>
+    
+    <target name="copy.light.files">
+       <echo message="-------------------------------------------------------"/>
+       <echo message="COPY FILES TO LIGHT VERSION..."/>
+       <echo message="-------------------------------------------------------"/>
+       <antcall target="fill.cfg.files">
+        <param name="message.param" value="FOR PUBLIC light version"/>
+        <param name="licence.param" value=""/>
+        <param name="rules.file.param" value="conversion.crul"/>
+        <param name="code.file.param" value="Yes"/>
+        <param name="testing" value=""/>
+       </antcall>
+        
+       <delete dir="${deploy.light.dir}"/> 
+        
+       <copyfile dest="${deploy.light.dir}/${mu}.${bat.extension}" src="${primary.dir}/${mu}.bat"/>
+       <copyfile dest="${deploy.light.dir}/${mua}.${bat.extension}" src="${primary.dir}/${mua}.bat"/>
+       <copyfile dest="${deploy.light.dir}/${um}.${bat.extension}" src="${primary.dir}/${um}.bat"/>
+       <copyfile dest="${deploy.light.dir}/${uma}.${bat.extension}" src="${primary.dir}/${uma}.bat"/>
+       
+       <copyfile dest="${deploy.light.dir}/run_${mu}.cfg" src="${primary.dir}/run_${mu}.cfg"/>
+       <copyfile dest="${deploy.light.dir}/run_${mua}.cfg" src="${primary.dir}/run_${mua}.cfg"/>
+       <copyfile dest="${deploy.light.dir}/run_${um}.cfg" src="${primary.dir}/run_${um}.cfg"/>
+       <copyfile dest="${deploy.light.dir}/run_${uma}.cfg" src="${primary.dir}/run_${uma}.cfg"/>
+       
+       
+       <copydir dest="${deploy.light.dir}/modules" src="${modules.dir}"/>
+       
+       <delete file="${deploy.light.dir}/modules/c_${mu}/conversion.rul"/>
+       <delete file="${deploy.light.dir}/modules/c_${mua}/conversion.rul"/>
+       <delete file="${deploy.light.dir}/modules/c_${um}/conversion.rul"/>
+       <delete file="${deploy.light.dir}/modules/c_${uma}/conversion.rul"/>
+       
+       <delete file="${deploy.light.dir}/modules/c_${mu}/conversion.rrul"/>
+       <delete file="${deploy.light.dir}/modules/c_${mua}/conversion.rrul"/>
+       <delete file="${deploy.light.dir}/modules/c_${um}/conversion.rrul"/>
+       <delete file="${deploy.light.dir}/modules/c_${uma}/conversion.rrul"/>
+       
+       <delete file="${deploy.light.dir}/modules/c_${mu}/control.rul"/>
+       <delete file="${deploy.light.dir}/modules/c_${mua}/control.rul"/>
+       <delete file="${deploy.light.dir}/modules/c_${um}/control.rul"/>
+       <delete file="${deploy.light.dir}/modules/c_${uma}/control.rul"/>
+       
+       <delete file="${deploy.light.dir}/modules/c_${mu}/control.ctr"/>
+       <delete file="${deploy.light.dir}/modules/c_${mua}/control.ctr"/>
+       <delete file="${deploy.light.dir}/modules/c_${um}/control.ctr"/>
+       <delete file="${deploy.light.dir}/modules/c_${uma}/control.ctr"/>
+       
+       <copyfile dest="${deploy.light.dir}/${binary.file.param}" src="${primary.dir}/${binary.path.param}/${binary.file.param}"/>
+       
+       <mkdir dir="${deploy.light.dir}/out"/>
+       
+       <copyfile dest="${deploy.light.dir}/data/marc21/zaznam.txt" src="${data.dir}/marc21/zaznam.txt"/>
+       <copyfile dest="${deploy.light.dir}/data/unimarc/zaznam.txt" src="${data.dir}/unimarc/zaznam.txt"/>
+       <copyfile dest="${deploy.light.dir}/data/marc21_autority/zaznam.txt" src="${data.dir}/marc21_autority/zaznam.txt"/>
+       <copyfile dest="${deploy.light.dir}/data/unimarc_autority/zaznam.txt" src="${data.dir}/unimarc_autority/zaznam.txt"/>
+       
+    </target>
+    
+    <target name="copy.standard.files">
+       <echo message="-------------------------------------------------------"/>
+       <echo message="COPY FILES TO STANDARD VERSION..."/>
+       <echo message="-------------------------------------------------------"/>
+       <antcall target="fill.cfg.files">
+        <param name="message.param" value="FOR PUBLIC standard version"/>
+        <param name="licence.param" value=""/>
+        <param name="testing" value=""/>
+        <param name="rules.file.param" value="conversion.rul"/>
+        <param name="code.file.param" value="No"/>
+       </antcall>
+       
+       <delete dir="${deploy.standard.dir}"/> 
+    
+       <copyfile dest="${deploy.standard.dir}/${mu}.${bat.extension}" src="${primary.dir}/${mu}.bat"/>
+       <copyfile dest="${deploy.standard.dir}/${mua}.${bat.extension}" src="${primary.dir}/${mua}.bat"/>
+       <copyfile dest="${deploy.standard.dir}/${um}.${bat.extension}" src="${primary.dir}/${um}.bat"/>
+       <copyfile dest="${deploy.standard.dir}/${uma}.${bat.extension}" src="${primary.dir}/${uma}.bat"/>
+       
+       <copyfile dest="${deploy.standard.dir}/run_${mu}.cfg" src="${primary.dir}/run_${mu}.cfg"/>
+       <copyfile dest="${deploy.standard.dir}/run_${mua}.cfg" src="${primary.dir}/run_${mua}.cfg"/>
+       <copyfile dest="${deploy.standard.dir}/run_${um}.cfg" src="${primary.dir}/run_${um}.cfg"/>
+       <copyfile dest="${deploy.standard.dir}/run_${uma}.cfg" src="${primary.dir}/run_${uma}.cfg"/>
+       
+       
+       <copydir dest="${deploy.standard.dir}/modules" src="${modules.dir}"/>
+       
+       <delete file="${deploy.standard.dir}/modules/c_${mu}/conversion.crul"/>
+       <delete file="${deploy.standard.dir}/modules/c_${mua}/conversion.crul"/>
+       <delete file="${deploy.standard.dir}/modules/c_${um}/conversion.crul"/>
+       <delete file="${deploy.standard.dir}/modules/c_${uma}/conversion.crul"/>
+       
+       <delete file="${deploy.standard.dir}/modules/c_${mu}/conversion.rul"/>
+       <delete file="${deploy.standard.dir}/modules/c_${mua}/conversion.rul"/>
+       <delete file="${deploy.standard.dir}/modules/c_${um}/conversion.rul"/>
+       <delete file="${deploy.standard.dir}/modules/c_${uma}/conversion.rul"/>
+       
+       <copyfile dest="${deploy.standard.dir}/modules/c_${um}/conversion.rul" src="${deploy.standard.dir}/modules/c_${um}/conversion.rrul"/>
+       <copyfile dest="${deploy.standard.dir}/modules/c_${uma}/conversion.rul" src="${deploy.standard.dir}/modules/c_${uma}/conversion.rrul"/>
+       <copyfile dest="${deploy.standard.dir}/modules/c_${mu}/conversion.rul" src="${deploy.standard.dir}/modules/c_${mu}/conversion.rrul"/>
+       <copyfile dest="${deploy.standard.dir}/modules/c_${mua}/conversion.rul" src="${deploy.standard.dir}/modules/c_${mua}/conversion.rrul"/>
+       
+       <delete file="${deploy.standard.dir}/modules/c_${mu}/conversion.rrul"/>
+       <delete file="${deploy.standard.dir}/modules/c_${mua}/conversion.rrul"/>
+       <delete file="${deploy.standard.dir}/modules/c_${um}/conversion.rrul"/>
+       <delete file="${deploy.standard.dir}/modules/c_${uma}/conversion.rrul"/>
+       
+       <copyfile dest="${deploy.standard.dir}/${binary.file.param}" src="${primary.dir}/${binary.path.param}/${binary.file.param}"/>
+       
+       <mkdir dir="${deploy.standard.dir}/out"/>
+       
+       <copyfile dest="${deploy.standard.dir}/data/marc21/zaznam.txt" src="${data.dir}/marc21/zaznam.txt"/>
+       <copyfile dest="${deploy.standard.dir}/data/unimarc/zaznam.txt" src="${data.dir}/unimarc/zaznam.txt"/>
+       <copyfile dest="${deploy.standard.dir}/data/marc21_autority/zaznam.txt" src="${data.dir}/marc21_autority/zaznam.txt"/>
+       <copyfile dest="${deploy.standard.dir}/data/unimarc_autority/zaznam.txt" src="${data.dir}/unimarc_autority/zaznam.txt"/>
+       
+    </target>
+    
+    <target name="copy.server.files">
+       <echo message="-------------------------------------------------------"/>
+       <echo message="COPY FILES TO SERVER VERSION..."/>
+       <echo message="-------------------------------------------------------"/>
+       <antcall target="fill.cfg.files">
+        <param name="message.param" value="FOR PUBLIC server version"/>
+        <param name="licence.param" value=""/>
+        <param name="testing" value=""/>
+        <param name="rules.file.param" value="conversion.rul"/>
+        <param name="code.file.param" value="No"/>
+       </antcall>
+       
+       <delete dir="${deploy.server.dir}"/> 
+           
+       <copyfile dest="${deploy.server.dir}/run_${mu}.cfg" src="${primary.dir}/run_${mu}.cfg"/>
+       <copyfile dest="${deploy.server.dir}/run_${mua}.cfg" src="${primary.dir}/run_${mua}.cfg"/>
+       <copyfile dest="${deploy.server.dir}/run_${um}.cfg" src="${primary.dir}/run_${um}.cfg"/>
+       <copyfile dest="${deploy.server.dir}/run_${uma}.cfg" src="${primary.dir}/run_${uma}.cfg"/>
+       
+       
+       <copydir dest="${deploy.server.dir}/modules" src="${modules.dir}"/>
+       
+       <delete file="${deploy.server.dir}/modules/c_${mu}/conversion.crul"/>
+       <delete file="${deploy.server.dir}/modules/c_${mua}/conversion.crul"/>
+       <delete file="${deploy.server.dir}/modules/c_${um}/conversion.crul"/>
+       <delete file="${deploy.server.dir}/modules/c_${uma}/conversion.crul"/>
+       
+       <delete file="${deploy.server.dir}/modules/c_${mu}/conversion.rul"/>
+       <delete file="${deploy.server.dir}/modules/c_${mua}/conversion.rul"/>
+       <delete file="${deploy.server.dir}/modules/c_${um}/conversion.rul"/>
+       <delete file="${deploy.server.dir}/modules/c_${uma}/conversion.rul"/>
+       
+       <copyfile dest="${deploy.server.dir}/modules/c_${um}/conversion.rul" src="${deploy.server.dir}/modules/c_${um}/conversion.rrul"/>
+       <copyfile dest="${deploy.server.dir}/modules/c_${uma}/conversion.rul" src="${deploy.server.dir}/modules/c_${uma}/conversion.rrul"/>
+       <copyfile dest="${deploy.server.dir}/modules/c_${mu}/conversion.rul" src="${deploy.server.dir}/modules/c_${mu}/conversion.rrul"/>
+       <copyfile dest="${deploy.server.dir}/modules/c_${mua}/conversion.rul" src="${deploy.server.dir}/modules/c_${mua}/conversion.rrul"/>
+       
+       <delete file="${deploy.server.dir}/modules/c_${mu}/conversion.rrul"/>
+       <delete file="${deploy.server.dir}/modules/c_${mua}/conversion.rrul"/>
+       <delete file="${deploy.server.dir}/modules/c_${um}/conversion.rrul"/>
+       <delete file="${deploy.server.dir}/modules/c_${uma}/conversion.rrul"/>
+       
+       <copyfile dest="${deploy.server.dir}/${binary.file.param}" src="${primary.dir}/${binary.path.param}/${binary.file.param}"/>
+       <copyfile dest="${deploy.server.dir}/${binary.file.param2}" src="${primary.dir}/${binary.path.param}/${binary.file.param2}"/>
+       
+       <mkdir dir="${deploy.server.dir}/out"/>
+       
+       <copyfile dest="${deploy.server.dir}/data/marc21/zaznam.txt" src="${data.dir}/marc21/zaznam.txt"/>
+       <copyfile dest="${deploy.server.dir}/data/unimarc/zaznam.txt" src="${data.dir}/unimarc/zaznam.txt"/>
+       <copyfile dest="${deploy.server.dir}/data/marc21_autority/zaznam.txt" src="${data.dir}/marc21_autority/zaznam.txt"/>
+       <copyfile dest="${deploy.server.dir}/data/unimarc_autority/zaznam.txt" src="${data.dir}/unimarc_autority/zaznam.txt"/>
+       
+    </target>
+    
+    <target name="copy.test.files">
+       <echo message="-------------------------------------------------------"/>
+       <echo message="COPY FILES TO TESTING VERSION..."/>
+       <echo message="-------------------------------------------------------"/>
+       <antcall target="fill.cfg.files">
+        <param name="message.param" value="FOR PUBLIC test version"/>
+        <param name="licence.param" value=""/>
+        <param name="testing" value="_testing"/>
+        <param name="rules.file.param" value="conversion.rul"/>
+        <param name="code.file.param" value="No"/>
+       </antcall>
+        
+       <delete dir="${deploy.test.dir}"/> 
+        
+       <copyfile dest="${deploy.test.dir}/${mu}.${bat.extension}" src="${primary.dir}/${mu}.bat"/>
+       <copyfile dest="${deploy.test.dir}/${mua}.${bat.extension}" src="${primary.dir}/${mua}.bat"/>
+       <copyfile dest="${deploy.test.dir}/${um}.${bat.extension}" src="${primary.dir}/${um}.bat"/>
+       <copyfile dest="${deploy.test.dir}/${uma}.${bat.extension}" src="${primary.dir}/${uma}.bat"/>
+       
+       <copyfile dest="${deploy.test.dir}/run_${mu}.cfg" src="${primary.dir}/run_${mu}.cfg"/>
+       <copyfile dest="${deploy.test.dir}/run_${mua}.cfg" src="${primary.dir}/run_${mua}.cfg"/>
+       <copyfile dest="${deploy.test.dir}/run_${um}.cfg" src="${primary.dir}/run_${um}.cfg"/>
+       <copyfile dest="${deploy.test.dir}/run_${uma}.cfg" src="${primary.dir}/run_${uma}.cfg"/>
+       
+       
+        <copydir dest="${deploy.test.dir}/modules" src="${modules.dir}"/>
+       
+       <delete file="${deploy.test.dir}/modules/c_${mu}/conversion.crul"/>
+       <delete file="${deploy.test.dir}/modules/c_${mua}/conversion.crul"/>
+       <delete file="${deploy.test.dir}/modules/c_${um}/conversion.crul"/>
+       <delete file="${deploy.test.dir}/modules/c_${uma}/conversion.crul"/>
+       
+       <delete file="${deploy.test.dir}/modules/c_${mu}/conversion.rul"/>
+       <delete file="${deploy.test.dir}/modules/c_${mua}/conversion.rul"/>
+       <delete file="${deploy.test.dir}/modules/c_${um}/conversion.rul"/>
+       <delete file="${deploy.test.dir}/modules/c_${uma}/conversion.rul"/>
+       
+       <copyfile dest="${deploy.test.dir}/modules/c_${um}/conversion.rul" src="${deploy.test.dir}/modules/c_${um}/conversion.rrul"/>
+       <copyfile dest="${deploy.test.dir}/modules/c_${uma}/conversion.rul" src="${deploy.test.dir}/modules/c_${uma}/conversion.rrul"/>
+       <copyfile dest="${deploy.test.dir}/modules/c_${mu}/conversion.rul" src="${deploy.test.dir}/modules/c_${mu}/conversion.rrul"/>
+       <copyfile dest="${deploy.test.dir}/modules/c_${mua}/conversion.rul" src="${deploy.test.dir}/modules/c_${mua}/conversion.rrul"/>
+       
+       <delete file="${deploy.test.dir}/modules/c_${mu}/conversion.rrul"/>
+       <delete file="${deploy.test.dir}/modules/c_${mua}/conversion.rrul"/>
+       <delete file="${deploy.test.dir}/modules/c_${um}/conversion.rrul"/>
+       <delete file="${deploy.test.dir}/modules/c_${uma}/conversion.rrul"/>
+       
+       <copyfile dest="${deploy.test.dir}/${binary.file.param}" src="${primary.dir}/${binary.path.param}/${binary.file.param}"/>
+       
+       <mkdir dir="${deploy.test.dir}/out"/>
+       
+       <copyfile dest="${deploy.test.dir}/data/marc21/zaznam.txt" src="${data.dir}/marc21/zaznam.txt"/>
+       <copyfile dest="${deploy.test.dir}/data/unimarc/zaznam.txt" src="${data.dir}/unimarc/zaznam.txt"/>
+       <copyfile dest="${deploy.test.dir}/data/marc21_autority/zaznam.txt" src="${data.dir}/marc21_autority/zaznam.txt"/>
+       <copyfile dest="${deploy.test.dir}/data/unimarc_autority/zaznam.txt" src="${data.dir}/unimarc_autority/zaznam.txt"/>
+       
+    </target>
+    
+    <target name="zip.light.version">
+      <echo message="-------------------------------------------------------"/>
+      <echo message="ZIP LIGHT VERSION FOR ${platform.param} PLATFORM ..."/>
+      <echo message="-------------------------------------------------------"/>
+      <zip basedir="${deploy.light.dir}" destfile="${deploy.dir}/marcman_light_${platform.param}_version_${version}.zip"  whenempty="create"/>
+    </target>
+    
+    <target name="tar.light.version">
+      <echo message="-------------------------------------------------------"/>
+      <echo message="TAR LIGHT VERSION FOR ${platform.param} PLATFORM ..."/>
+      <echo message="-------------------------------------------------------"/>
+      <tar basedir="${deploy.light.dir}" tarfile="${deploy.dir}/marcman_light_${platform.param}_version_${version}.tar" />
+      <gzip zipfile="${deploy.dir}/marcman_light_${platform.param}_version_${version}.tar.gz" src="${deploy.dir}/marcman_light_${platform.param}_version_${version}.tar"/>
+      <delete file="${deploy.dir}/marcman_light_${platform.param}_version_${version}.tar"/>
+    </target>
+    
+    <target name="zip.standard.version">
+      <echo message="-------------------------------------------------------"/>
+      <echo message="ZIP STANDARD VERSION FOR ${platform.param} PLATFORM ..."/>
+      <echo message="-------------------------------------------------------"/>
+      <zip basedir="${deploy.standard.dir}" destfile="${deploy.dir}/marcman_standard_${platform.param}_version_${version}.zip" whenempty="create"/>
+    </target>
+    
+    <target name="tar.standard.version">
+      <echo message="-------------------------------------------------------"/>
+      <echo message="TAR LIGHT VERSION FOR ${platform.param} PLATFORM ..."/>
+      <echo message="-------------------------------------------------------"/>
+      <tar basedir="${deploy.standard.dir}" tarfile="${deploy.dir}/marcman_standard_${platform.param}_version_${version}.tar" />
+      <gzip zipfile="${deploy.dir}/marcman_standard_${platform.param}_version_${version}.tar.gz" src="${deploy.dir}/marcman_standard_${platform.param}_version_${version}.tar"/>
+      <delete file="${deploy.dir}/marcman_standard_${platform.param}_version_${version}.tar"/>
+    </target>
+    
+    <target name="tar.server.version">
+      <echo message="-------------------------------------------------------"/>
+      <echo message="TAR SERVER VERSION FOR ${platform.param} PLATFORM ..."/>
+      <echo message="-------------------------------------------------------"/>
+      <tar basedir="${deploy.server.dir}" tarfile="${deploy.dir}/marcman_server_${platform.param}_version_${version}.tar" />
+      <gzip zipfile="${deploy.dir}/marcman_server_${platform.param}_version_${version}.tar.gz" src="${deploy.dir}/marcman_server_${platform.param}_version_${version}.tar"/>
+      <delete file="${deploy.dir}/marcman_server_${platform.param}_version_${version}.tar"/>
+    </target>
+    
+    <target name="zip.test.version">
+      <echo message="-------------------------------------------------------"/>
+      <echo message="ZIP TEST VERSION FOR ${platform.param} PLATFORM ..."/>
+      <echo message="-------------------------------------------------------"/>
+      <zip basedir="${deploy.test.dir}" destfile="${deploy.dir}/marcman_test_${platform.param}_version_${version}.zip"  whenempty="create"/>
+    </target>
+    
+    <target name="tar.test.version">
+      <echo message="-------------------------------------------------------"/>
+      <echo message="TAR TEST VERSION FOR ${platform.param} PLATFORM ..."/>
+      <echo message="-------------------------------------------------------"/>
+      <tar basedir="${deploy.test.dir}" tarfile="${deploy.dir}/marcman_test_${platform.param}_version_${version}.tar" />
+      <gzip zipfile="${deploy.dir}/marcman_test_${platform.param}_version_${version}.tar.gz" src="${deploy.dir}/marcman_test_${platform.param}_version_${version}.tar"/>
+      <delete file="${deploy.dir}/marcman_test_${platform.param}_version_${version}.tar"/>
+    </target>
+    
+    <target name="xml.new.version">
+      <echo message="-------------------------------------------------------"/>
+      <echo message="NEW VERSION TO XML FOR XMLVISUALISATOR ..."/>
+      <echo message="-------------------------------------------------------"/>
+      <copyfile dest="${deploy.dir}/new_version.xml" src="${make.dir}/new_version.xml"/>
+      <copyfile dest="${deploy.dir}/new_version_eng.xml" src="${make.dir}/new_version_eng.xml"/>
+      <tstamp>
+         <format property="gendate" pattern="dd.MM.yyyy"/>
+      </tstamp>
+
+      <replace file="${deploy.dir}/new_version.xml">
+        <replacefilter token="@NUM@" value="${unique.number}"/>
+      	<replacefilter token="@VERSION@" value="${version}"/>
+      	<replacefilter token="@DATE@" value="${gendate}"/>
+      	<replacefilter token="@YEAR@" value="${year}"/>
+      </replace>
+      
+      <replace file="${deploy.dir}/new_version_eng.xml">
+        <replacefilter token="@NUM@" value="${unique.number}"/>
+      	<replacefilter token="@VERSION@" value="${version}"/>
+      	<replacefilter token="@DATE@" value="${gendate}"/>
+      	<replacefilter token="@YEAR@" value="${year}"/>
+      </replace>
+      
+      <ant antfile="${multidata.web.ant}" dir="${multidata.web.src}" target="download.add" inheritAll="false">
+        <property name="file.param" value="${new.version.file}"/>
+      </ant>
+      
+      <ant antfile="${multidata.web.ant}" dir="${multidata.web.src}" target="download.add.eng" inheritAll="false">
+        <property name="file.param" value="${new.version.file.eng}"/>
+      </ant>
+
+      <ant antfile="${multidata.web.ant}" dir="${multidata.web.src}" target="deploy" inheritAll="false"/>
+      
+      <ant antfile="${multidata.web.ant}" dir="${multidata.web.src}" target="ftp" inheritAll="false"/>
+      
+    </target>
+    
+    <target name="ftp.upload.files">
+       <echo message="-------------------------------------------------------"/>
+       <echo message="UPLOAD TO MULTIDATA ..."/>
+       <echo message="-------------------------------------------------------"/>
+       <scp todir="web@arwen.multidata.cz:private-${year}-mm1" password="podkan22" trust="Yes">
+         <fileset dir="${deploy.dir}">
+           <include name="*light*.*"/> 
+         </fileset>
+       </scp>
+       <scp todir="web@arwen.multidata.cz:private-${year}-mm2" password="podkan22" trust="Yes">
+         <fileset dir="${deploy.dir}">
+           <include name="*standard*.*"/> 
+         </fileset>
+       </scp>
+       <scp todir="web@arwen.multidata.cz:private-${year}-mm3" password="podkan22" trust="Yes">
+         <fileset dir="${deploy.dir}">
+           <include name="*server*.*"/> 
+         </fileset>
+       </scp>
+       <scp todir="web@arwen.multidata.cz:private-${year}-mm4" password="podkan22" trust="Yes">
+         <fileset dir="${deploy.dir}">
+           <include name="*test*.*"/> 
+         </fileset>
+       </scp>
+    </target>
+    
+    <target name="mail.sender">
+       <echo message="-------------------------------------------------------"/>
+       <echo message="MAIL TO CUSTOMERS ..."/>
+       <echo message="-------------------------------------------------------"/>
+          <mail mailhost="dec59.ruk.cuni.cz" subject="Nova verze ${version} produktu Marcman a pravidel pro konverzi">
+	    <from address="multidata@multidata.cz"/>
+	    <!--<to address="Jindrich.Stejskal@ruk.cuni.cz"/>-->
+	    <to address="marcman-l@multidata.cz"/>
+	    <message>
+Dobry den,    	    
+
+nova verze Marcmanu ${version} byla prave pridana. 
+Stahnout si ji muzete na  http://www.multidata.cz/marcman/marcman_download.html. 
+Novinky v teto verzi se dozvite na http://www.multidata.cz/marcman/marcman_log.html.
+
+Prejeme Vam krasny zbytek dne.
+
+Multidata
+	    </message>
+	  </mail> 
+    </target>
+
+    <target name="clean.deploy">
+      <echo message="-------------------------------------------------------"/>
+      <echo message="CLEANING DEPLOY DIRECTORY ..."/>
+      <echo message="-------------------------------------------------------"/>
+      <delete dir="${deploy.light.dir}"/>
+      <delete dir="${deploy.standard.dir}"/>
+      <delete dir="${deploy.server.dir}"/>
+      <delete dir="${deploy.test.dir}"/>
+      
+      <delete file="${primary.dir}/modules/c_${mu}/conversion.rrul"/>
+      <delete file="${primary.dir}/modules/c_${mua}/conversion.rrul"/>
+      <delete file="${primary.dir}/modules/c_${um}/conversion.rrul"/>
+      <delete file="${primary.dir}/modules/c_${uma}/conversion.rrul"/>
+      
+      <delete file="${primary.dir}/modules/c_${mu}/conversion.crul"/>
+      <delete file="${primary.dir}/modules/c_${mua}/conversion.crul"/>
+      <delete file="${primary.dir}/modules/c_${um}/conversion.crul"/>
+      <delete file="${primary.dir}/modules/c_${uma}/conversion.crul"/>
+      
+      <antcall target="fill.cfg.files">
+        <param name="message.param" value="FOR MAKE Cleaning"/>
+        <param name="licence.param" value="${admin.licence}"/>
+        <param name="rules.file.param" value="conversion.rul"/>
+        <param name="testing" value=""/>
+        <param name="code.file.param" value="No"/>
+        <param name="binary.run.param" value="marcman.exe"/>
+      </antcall>
+      
+    </target>	
+    
+    <target name="make.package">
+        <echo message="#####################################################"/>
+        <echo message="MAKE PACKAGE LIGHT VERSION MARCMAN {$version} ... "/>
+        <echo message="#####################################################"/> 
+        <antcall target="prepare.rules.version"/>
+        <antcall target="make.code.rules.files"/>
+        <antcall target="test.code.rules.files"/>
+        <antcall target="deploy.prepare"/>
+        <antcall target="copy.light.files">
+          <param name="bat.extension" value="bat"/>
+          <param name="binary.run.param" value="marcman.exe"/>
+          <param name="binary.file.param" value="marcman.exe"/>
+          <param name="binary.path.param" value="binary/windows"/>
+        </antcall>
+        <antcall target="zip.light.version">
+          <param name="platform.param" value="windows"/>
+        </antcall>
+        <antcall target="copy.light.files">
+          <param name="bat.extension" value="sh"/>
+          <param name="binary.run.param" value="./marcman"/>
+          <param name="binary.file.param" value="marcman"/>
+          <param name="binary.path.param" value="binary/linux"/>
+        </antcall>
+        <antcall target="tar.light.version">
+          <param name="platform.param" value="linux"/>
+        </antcall>
+        <antcall target="copy.light.files">
+          <param name="bat.extension" value="sh"/>
+          <param name="binary.run.param" value="./marcman"/>
+          <param name="binary.file.param" value="marcman"/>
+          <param name="binary.path.param" value="binary/alpha"/>
+        </antcall>
+        <antcall target="tar.light.version">
+          <param name="platform.param" value="alpha"/>
+        </antcall>
+        
+        <echo message="#####################################################"/>
+        <echo message="MAKE PACKAGE STANDARD VERSION MARCMAN {$version} ... "/>
+        <echo message="#####################################################"/> 
+        <antcall target="copy.standard.files">
+          <param name="bat.extension" value="bat"/>
+          <param name="binary.run.param" value="marcman.exe"/>
+          <param name="binary.file.param" value="marcman.exe"/>
+          <param name="binary.path.param" value="binary/windows"/>
+        </antcall>
+        <antcall target="zip.standard.version">
+          <param name="platform.param" value="windows"/>
+        </antcall>
+        <antcall target="copy.standard.files">
+          <param name="bat.extension" value="sh"/>
+          <param name="binary.run.param" value="./marcman"/>
+          <param name="binary.file.param" value="marcman"/>
+          <param name="binary.path.param" value="binary/linux"/>
+        </antcall>
+        <antcall target="tar.standard.version">
+          <param name="platform.param" value="linux"/>
+        </antcall>
+        <antcall target="copy.standard.files">
+          <param name="bat.extension" value="sh"/>
+          <param name="binary.run.param" value="./marcman"/>
+          <param name="binary.file.param" value="marcman"/>
+          <param name="binary.path.param" value="binary/alpha"/>
+        </antcall>
+        <antcall target="tar.standard.version">
+          <param name="platform.param" value="alpha"/>
+        </antcall>
+        
+        <echo message="#####################################################"/>
+        <echo message="MAKE PACKAGE SERVER VERSION MARCMAN {$version} ... "/>
+        <echo message="#####################################################"/> 
+        <antcall target="copy.server.files">
+          <param name="binary.file.param" value="marcmand"/>
+          <param name="binary.file.param2" value="marcc"/>
+          <param name="binary.path.param" value="binary/linux"/>
+        </antcall>
+        <antcall target="tar.server.version">
+          <param name="platform.param" value="linux"/>
+        </antcall>
+        <antcall target="copy.server.files">
+          <param name="binary.file.param" value="marcmand"/>
+          <param name="binary.file.param2" value="marcc"/>
+          <param name="binary.path.param" value="binary/alpha"/>
+        </antcall>
+        <antcall target="tar.server.version">
+          <param name="platform.param" value="alpha"/>
+        </antcall>
+        
+        <echo message="#####################################################"/>
+        <echo message="MAKE PACKAGE TEST VERSION MARCMAN {$version} ... "/>
+        <echo message="#####################################################"/> 
+        <antcall target="copy.test.files">
+          <param name="bat.extension" value="bat"/>
+          <param name="binary.run.param" value="marcman.exe"/>
+          <param name="binary.file.param" value="marcman.exe"/>
+          <param name="binary.path.param" value="binary/windows"/>
+        </antcall>
+        <antcall target="zip.test.version">
+          <param name="platform.param" value="windows"/>
+        </antcall>
+        <antcall target="copy.test.files">
+          <param name="bat.extension" value="sh"/>
+          <param name="binary.run.param" value="./marcman"/>
+          <param name="binary.file.param" value="marcman"/>
+          <param name="binary.path.param" value="binary/linux"/>
+        </antcall>
+        <antcall target="tar.test.version">
+          <param name="platform.param" value="linux"/>
+        </antcall>
+        <antcall target="copy.test.files">
+          <param name="bat.extension" value="sh"/>
+          <param name="binary.run.param" value="./marcman"/>
+          <param name="binary.file.param" value="marcman"/>
+          <param name="binary.path.param" value="binary/alpha"/>
+        </antcall>
+        <antcall target="tar.test.version">
+          <param name="platform.param" value="alpha"/>
+        </antcall>
+        
+        <antcall target="clean.deploy"/>
+        
+    </target>	    
+        
+    <target name="deploy">
+        <echo message="#####################################################"/>
+        <echo message="DEPLOY MARCMAN ${version} ... "/>
+        <echo message="#####################################################"/> 
+        
+        <antcall target="xml.new.version"/>
+        <antcall target="ftp.upload.files"/>
+        
+    </target>	
+    
+    <target name="mail">
+    	<antcall target="mail.sender"/>
+    </target>	
+    
+    <target name="test.code">
+	<echo message="#####################################################"/>
+        <echo message="TEST CODE FILES... "/>
+        <echo message="#####################################################"/> 
+        
+        <antcall target="prepare.rules.version"/>
+        <antcall target="make.code.rules.files"/>
+       <antcall target="test.code.rules.files"/>
+        
+    </target>		
+    
+    <!--
+    
+    private-mm1 : marclight/Sar1aM
+	private-mm2 : marcstandard/sA2raM
+	private-mm3 : marcserver/s3aRaM
+	
+	private-2005-mm1 : marclight5/Frtvb3
+	private-2005-mm2 : marcstandard5/Fr2vbw
+	private-2005-mm3 : marcserver5/Fwq4xv
+	
+	private-2006-mm1 : marclight6/Wqfg2
+    private-2006-mm2 : marcstandard6/ Wcsq5
+    private-2006-mm3 : marcserver6/Pgds8
+	
+    -->
+
+</project>
