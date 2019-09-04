@@ -8,6 +8,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
+#include <string.h>
 
 using namespace std;
 
@@ -99,29 +100,29 @@ extern const char MARK_DIVISION;
 extern const char MARK_ASSIGNING;
 
 //GROUPS CHARACTERS
-extern char* DIRECT_NEIGHBOURHOOD;
-extern char* METHOD_NEIGHBOURHOOD;
-extern char* LINE_SEPARATORS;
-extern char* TRIMED;
+extern char const * DIRECT_NEIGHBOURHOOD;
+extern char const * METHOD_NEIGHBOURHOOD;
+extern char const * LINE_SEPARATORS;
+extern char const * TRIMED;
 extern char SPACE;
 extern char TABULATOR;
 extern char ESCAPE;
 
 //EXPRESSION
-extern char* E_LEFT_PARENTHESIS;
-extern char* E_RIGHT_PARENTHESIS;
-extern char* E_COMMA;
-extern char* E_EQUAL;
-extern char* E_GREATER;
-extern char* E_LESS;
-extern char* E_NOEQUALS;
-extern char* E_AND;
-extern char* E_OR;
-extern char* E_PLUS;
-extern char* E_MINUS;
-extern char* E_MULTIPLICATION;
-extern char* E_DIVISION;
-extern char* E_ASSIGNING;
+extern char const * E_LEFT_PARENTHESIS;
+extern char const * E_RIGHT_PARENTHESIS;
+extern char const * E_COMMA;
+extern char const * E_EQUAL;
+extern char const * E_GREATER;
+extern char const * E_LESS;
+extern char const * E_NOEQUALS;
+extern char const * E_AND;
+extern char const * E_OR;
+extern char const * E_PLUS;
+extern char const * E_MINUS;
+extern char const * E_MULTIPLICATION;
+extern char const * E_DIVISION;
+extern char const * E_ASSIGNING;
 
 //KEYWORDS
 extern const string KEYWORD_IF;
@@ -289,11 +290,11 @@ private:
 
     int MakeNodes(vector<M_PROG_NODE *> *aProgNodes, vector<string *>* aLines, vector<string *> *aMarkLines);
 
-    int MarkKeyword(string* strAnalyzeText, string* strMarks, string sSearchString, char chMarkBegin,  char chMarkEnd, char* chNeib);
+    int MarkKeyword(string* strAnalyzeText, string* strMarks, string sSearchString, char chMarkBegin,  char chMarkEnd, char const * chNeib);
 
     int MarkSections(string* strAnalyzeText, string* strMarks, char chBegin, char chEnd, char chMarkBegin,  char chMarkEnd, int iInsertEnd);
 
-    int MarkSigns(string* strAnalyzeText, string* strMark, char *sign, char chMarkSign);
+    int MarkSigns(string* strAnalyzeText, string* strMark, char const * sign, char chMarkSign);
 
     int NextCommand(vector<string *> *ptrMarkElements, int Index, char FindMark);
 
@@ -305,9 +306,9 @@ private:
 
     int SectionCalculate(vector<M_EXPRESSION_ELEMENT *> *outarrElements, int BeginIndex, int EndIndex);
 
-    int SectionCalculateByOperator(vector<M_EXPRESSION_ELEMENT *> *outarrElements, int BeginIndex, int EndIndex, char *Operator1, char *Operator2, int *Removed);
+    int SectionCalculateByOperator(vector<M_EXPRESSION_ELEMENT *> *outarrElements, int BeginIndex, int EndIndex, char const * Operator1, char const * Operator2, int *Removed);
 
-    void SeparateLines(vector<string *> *arroutLines, vector<string *> *arroutMarkLines,  string* strAnalyzeText, string* strMark, char * chLineSeparators, char chEmpty);
+    void SeparateLines(vector<string *> *arroutLines, vector<string *> *arroutMarkLines,  string* strAnalyzeText, string* strMark, char const * chLineSeparators, char chEmpty);
 
     int SetVariableValue(string* ValueName, M_EXPRESSION_ELEMENT* pValue);
 
@@ -315,9 +316,9 @@ private:
 
     int EscapeSequention(string* strAnalyzeText, string* strMark, char MarkString, char Escape);
 
-    void TrimRight(string* sStr, char* ArraySep);
+    void TrimRight(string* sStr, char const * ArraySep);
 
-    void TrimLeft(string* sStr, char* ArraySep);
+    void TrimLeft(string* sStr, char const * ArraySep);
 };
 
 #endif

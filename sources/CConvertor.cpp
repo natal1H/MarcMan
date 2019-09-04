@@ -5,13 +5,13 @@
 #include <fcntl.h>
 
 
-char* KEYWORD_RULESFILE=       "RulesFile";
-char* KEYWORD_GROUP=           "GROUP";
-char* KEYWORD_INNOIDFIELD=     "InNoIDField";
-char* KEYWORD_OUTNOIDFIELD=    "OutNoIDField";
-char* KEYWORD_IDALEPHCODING=   "IDAlephCoding";
-char* KEYWORD_INLINKINGFIELDS= "InLinkingFields";
-char* KEYWORD_OUTLINKINGFIELDS="OutLinkingFields";
+char const * KEYWORD_RULESFILE =        "RulesFile";
+char const * KEYWORD_GROUP =            "GROUP";
+char const * KEYWORD_INNOIDFIELD =      "InNoIDField";
+char const * KEYWORD_OUTNOIDFIELD =     "OutNoIDField";
+char const * KEYWORD_IDALEPHCODING =    "IDAlephCoding";
+char const * KEYWORD_INLINKINGFIELDS =  "InLinkingFields";
+char const * KEYWORD_OUTLINKINGFIELDS = "OutLinkingFields";
 
 int EcsapeString(string *strText,char Escape)
 {
@@ -81,7 +81,7 @@ string OrdinalForm(int number, int size)
     return myNumber;
 }
 
-void TrimLeft(string* sStr, char* ArraySep)
+void TrimLeft(string* sStr, char const * ArraySep)
 {
     int finds=1;
     int i;
@@ -102,7 +102,7 @@ void TrimLeft(string* sStr, char* ArraySep)
     }
 }
 
-int SplitString(string* strSplit, vector<string*>* outArray, char* Separator)
+int SplitString(string* strSplit, vector<string*>* outArray, char const * Separator)
 {
     int iPos = 0;
     int newPos = -1;
@@ -154,7 +154,7 @@ int SplitString(string* strSplit, vector<string*>* outArray, char* Separator)
     return 0;
 }
 
-void TrimRight(string* sStr, char* ArraySep)
+void TrimRight(string* sStr, char const * ArraySep)
 {
     int finds=1;
     int i;
@@ -1038,8 +1038,8 @@ M_EXPRESSION_ELEMENT * CallFunc(void* ptrClientClass, string* MethodName, vector
                 CConfigArray* myCF;
                 if (PCC->Arrays.count(*(VSt(El,0)))>0)
                 {
-                    //smazání vsech prvku
-                    // cout <<  "Pole již existuje: "  << *(VSt(El,0));
+                    //smazï¿½nï¿½ vsech prvku
+                    // cout <<  "Pole jiï¿½ existuje: "  << *(VSt(El,0));
                     myCF = PCC->Arrays[*(VSt(El,0))];
                     for(int j=0;j<myCF->VItems.size();j++)
                         delete myCF->VItems[j];
@@ -1235,7 +1235,7 @@ M_EXPRESSION_ELEMENT * CallFunc(void* ptrClientClass, string* MethodName, vector
                 {
                     Min = 100000;
                     NowCharSplited = "";
-                    //Najdu znak ktery je od pozice poiter nejblíže
+                    //Najdu znak ktery je od pozice poiter nejblï¿½e
                     for(int i=0;i<myAD->VItems.size();i++)
                     {
                         int NowN = SplitedS.find(myAD->VItems[i]->sName->c_str(), Pointer);
@@ -1960,12 +1960,12 @@ M_EXPRESSION_ELEMENT * CallFunc(void* ptrClientClass, string* MethodName, vector
     //-------------------------------------------------------------------------------------------------------
     if((*MethodName)=="SortSubfields")
     {  
-        int Search = 0;
+        //int Search = 0;
         if (ControlArguments(El,"SIS") || ControlArguments(El,"SSS"))
         {
             if (ControlArguments(El,"SIS"))
             { 
-                Search = 1;
+                //Search = 1;
                 if (*(VSt(El,0))=="I")
                 {
                     int NumField = VIn(El,1);
@@ -2003,7 +2003,7 @@ M_EXPRESSION_ELEMENT * CallFunc(void* ptrClientClass, string* MethodName, vector
             }
             else
             { 
-                Search = 1;
+                //Search = 1;
                 if (*(VSt(El,0))=="I")
                 {
                     string IDField = *(VSt(El,1));
@@ -2242,7 +2242,7 @@ int CConvertor::ChangePossition(vector<CSubfield*>* Coll, int Poss1, int Poss2)
 
 
 
-void CConvertor::TrimLeft(string* sStr, char* ArraySep)
+void CConvertor::TrimLeft(string* sStr, char const * ArraySep)
 {
     int finds=1;
     int i;
@@ -2263,7 +2263,7 @@ void CConvertor::TrimLeft(string* sStr, char* ArraySep)
     }
 }
 
-void CConvertor::TrimRight(string* sStr, char* ArraySep)
+void CConvertor::TrimRight(string* sStr, char const * ArraySep)
 {
     int finds=1;
     int i;
@@ -2284,7 +2284,7 @@ void CConvertor::TrimRight(string* sStr, char* ArraySep)
     }
 }
 
-int CConvertor::SplitString(string* strSplit, vector<string*>* outArray, char* Separator)
+int CConvertor::SplitString(string* strSplit, vector<string*>* outArray, char const * Separator)
 {
     int iPos = 0;
     int newPos = -1;

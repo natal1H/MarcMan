@@ -32,29 +32,29 @@ const char MARK_DIVISION=         'Z';
 const char MARK_ASSIGNING=        'B';
 
 //GROUPS CHARACTERS
-char* DIRECT_NEIGHBOURHOOD=     "\r\n\t ;'";
-char* METHOD_NEIGHBOURHOOD=     "\r\n\t ()*/+-=;";
-char* LINE_SEPARATORS=          "\r\n;";
-char* TRIMED=                   "\t ";
+char const * DIRECT_NEIGHBOURHOOD = "\r\n\t ;'";
+char const * METHOD_NEIGHBOURHOOD = "\r\n\t ()*/+-=;";
+char const * LINE_SEPARATORS =      "\r\n;";
+char const * TRIMED =               "\t ";
 char SPACE=                    ' ';
 char TABULATOR=                '\t';
 char ESCAPE=                   '\\';
 
 //EXPRESSION
-char* E_LEFT_PARENTHESIS=         "(";
-char* E_RIGHT_PARENTHESIS=        ")";
-char* E_COMMA=                    ",";
-char* E_EQUAL=                    "==";
-char* E_GREATER=                  ">";
-char* E_LESS=                     "<";
-char* E_NOEQUALS=                 "!=";
-char* E_AND=                      "&";
-char* E_OR=                       "|";
-char* E_PLUS=                     "+";
-char* E_MINUS=                    "-";
-char* E_MULTIPLICATION=           "*";
-char* E_DIVISION=                 "/";
-char* E_ASSIGNING=                "=";
+char const * E_LEFT_PARENTHESIS =   "(";
+char const * E_RIGHT_PARENTHESIS =  ")";
+char const * E_COMMA =              ",";
+char const * E_EQUAL =              "==";
+char const * E_GREATER =            ">";
+char const * E_LESS =               "<";
+char const * E_NOEQUALS =           "!=";
+char const * E_AND =                "&";
+char const * E_OR =                 "|";
+char const * E_PLUS =               "+";
+char const * E_MINUS =              "-";
+char const * E_MULTIPLICATION =     "*";
+char const * E_DIVISION =           "/";
+char const * E_ASSIGNING =          "=";
 
 //KEYWORDS
 const string KEYWORD_IF=       "If";
@@ -74,13 +74,13 @@ const string KEYWORD_EXIT=     "Exit";
  *
  * FUNCTION:     OrdinalForm
  *
- * DESCRIPTION:  Tato funkce pøevede èíslo na string doplnene nulami na delku size v ordinalni podobe napr 005
+ * DESCRIPTION:  Tato funkce pï¿½evede ï¿½ï¿½slo na string doplnene nulami na delku size v ordinalni podobe napr 005
  *               Je-li size nula cislo dopleno nulami nebude.
  *
  * PARAMETERS:   (IN)	int number - cislo k prevedeni
  *               (IN)	cint size - delka ordinalni podoby
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -159,7 +159,7 @@ string CUseScript::OrdinalForm(int number, int size)
     return myNumber;
 }
 
-void CUseScript::TrimLeft(string* sStr, char* ArraySep)
+void CUseScript::TrimLeft(string* sStr, char const * ArraySep)
 {
    int finds=1;
    int i;
@@ -180,7 +180,7 @@ void CUseScript::TrimLeft(string* sStr, char* ArraySep)
     }
 }
 
-void CUseScript::TrimRight(string* sStr, char* ArraySep)
+void CUseScript::TrimRight(string* sStr, char const * ArraySep)
 {
    int finds=1;
    int i;
@@ -207,10 +207,10 @@ void CUseScript::TrimRight(string* sStr, char* ArraySep)
  *
  * DESCRIPTION:  Naklonuje Pole trid M_EXPRESSION_ELEMENT
  *
- * PARAMETERS:   (IN)	CPtrArray* SourceArray - zdrojové pole
- *               (OUT)	CPtrArray* NewArray - naklonované pole
+ * PARAMETERS:   (IN)	CPtrArray* SourceArray - zdrojovï¿½ pole
+ *               (OUT)	CPtrArray* NewArray - naklonovanï¿½ pole
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -249,12 +249,12 @@ int CUseScript::CopyConstArrayExpression(vector<M_EXPRESSION_ELEMENT *>* SourceA
  *
  * FUNCTION:     DebugProgNodes
  *
- * DESCRIPTION:  Serializuje pole pole trid M_PROG_NODE(uzlù programu) do citelné podoby do souboru
+ * DESCRIPTION:  Serializuje pole pole trid M_PROG_NODE(uzlï¿½ programu) do citelnï¿½ podoby do souboru
  *
  * PARAMETERS:   (IN)   CPtrArray * aProgNodes - pole trid M_PROG_NODE(uzlu programu)
- *               (IN)	string sFileName - Cesta k souboru do které se má pole serializovat
+ *               (IN)	string sFileName - Cesta k souboru do kterï¿½ se mï¿½ pole serializovat
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -345,7 +345,7 @@ if (LogAll) { //Debug
 
         string* outString =new string();
 		int i;
-		int j;
+		//int j;
         for(i=0;i<Code->ProgNodeArray.size();i++)
         {
             M_PROG_NODE* mNode = Code->ProgNodeArray[i];
@@ -466,12 +466,12 @@ if (LogAll) { //Debug
  *
  * FUNCTION:     DebugExpression
  *
- * DESCRIPTION:  Serializuje pole trid M_EXPRESSION_ELEMENT(entit vırazu) do citelné podoby do souboru
+ * DESCRIPTION:  Serializuje pole trid M_EXPRESSION_ELEMENT(entit vï¿½razu) do citelnï¿½ podoby do souboru
  *
  * PARAMETERS:   (IN)   CPtrArray * outarrElements - pole trid 
- *               (IN)	string sFileName - Cesta k souboru do které se má pole serializovat
+ *               (IN)	string sFileName - Cesta k souboru do kterï¿½ se mï¿½ pole serializovat
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -543,19 +543,19 @@ void CUseScript::DebugExpression(vector<M_EXPRESSION_ELEMENT *>* outarrElements,
  *
  * FUNCTION:     MarkSections
  *
- * DESCRIPTION:  funkce vezme analyzovany text a vyhleda v nìm èásti zaèínající chBegin a konèící chEnd a oznaèí
- *               je ve stejnì dlouhém stringu strMark identifikatory chMarkBegin a chMarkEnd. Je-li promenna iInsertField
- *               1 oznaèí se vcetne konecneho chEnd
+ * DESCRIPTION:  funkce vezme analyzovany text a vyhleda v nï¿½m ï¿½ï¿½sti zaï¿½ï¿½najï¿½cï¿½ chBegin a konï¿½ï¿½cï¿½ chEnd a oznaï¿½ï¿½
+ *               je ve stejnï¿½ dlouhï¿½m stringu strMark identifikatory chMarkBegin a chMarkEnd. Je-li promenna iInsertField
+ *               1 oznaï¿½ï¿½ se vcetne konecneho chEnd
  *
  * PARAMETERS:   (IN)   string* strAnalyzeText - analyzovany text
- *               (OUT)	string* strMarks - oznaèkovanı text
- *               (IN)	char chBegin - hledanı zaèátek
- *               (IN)	char chEnd - hledanı konec
+ *               (OUT)	string* strMarks - oznaï¿½kovanï¿½ text
+ *               (IN)	char chBegin - hledanï¿½ zaï¿½ï¿½tek
+ *               (IN)	char chEnd - hledanï¿½ konec
  *               (IN)	char chMarkBegin - znacka zacatku
  *               (IN)	char chMarkEnd - znacka konce
- *               (IN)	int iInsertEnd - má se vloit i konecny znak?
+ *               (IN)	int iInsertEnd - mï¿½ se vloï¿½it i konecny znak?
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -571,7 +571,7 @@ int CUseScript::MarkSections(string* strAnalyzeText, string* strMarks, char chBe
     {
         iPossitionStart=strAnalyzeText->find(chBegin,iCounter);
         
-        if (iPossitionStart==(-1)) //ádnı øetìzec nenalezen
+        if (iPossitionStart==(-1)) //ï¿½ï¿½dnï¿½ ï¿½etï¿½zec nenalezen
             return 0;
       
         (*strMarks)[iPossitionStart]=chMarkBegin; //Zacatek retezce
@@ -581,7 +581,7 @@ int CUseScript::MarkSections(string* strAnalyzeText, string* strMarks, char chBe
         else
             return 0;
 
-        if (iPossitionStop==(-1)) //Konec øetìzce nenalezen
+        if (iPossitionStop==(-1)) //Konec ï¿½etï¿½zce nenalezen
             return 0;
         
         if (iInsertEnd)
@@ -598,25 +598,25 @@ int CUseScript::MarkSections(string* strAnalyzeText, string* strMarks, char chBe
  *
  * FUNCTION:     MarkKeyword
  *
- * DESCRIPTION:  funkce vezme analyzovany text a vyhleda v nìm slovo sSearchString a oznaèí
- *               je ve stejnì dlouhém stringu strMark identifikatory chMarkBegin a chMarkEnd.
- *               Klíèové slovo oznaèí pouze v pøípadì, e se v jeho bezprostøedním okolí nachází
- *               pouze znaky z mnoiny chNeib.
+ * DESCRIPTION:  funkce vezme analyzovany text a vyhleda v nï¿½m slovo sSearchString a oznaï¿½ï¿½
+ *               je ve stejnï¿½ dlouhï¿½m stringu strMark identifikatory chMarkBegin a chMarkEnd.
+ *               Klï¿½ï¿½ovï¿½ slovo oznaï¿½ï¿½ pouze v pï¿½ï¿½padï¿½, ï¿½e se v jeho bezprostï¿½ednï¿½m okolï¿½ nachï¿½zï¿½
+ *               pouze znaky z mnoï¿½iny chNeib.
  *
  * PARAMETERS:   (IN)   string* strAnalyzeText - analyzovany text
- *               (OUT)	string* strMarks - oznaèkovanı text
- *               (IN)	string sSearchString - hledanı zaèátek
+ *               (OUT)	string* strMarks - oznaï¿½kovanï¿½ text
+ *               (IN)	string sSearchString - hledanï¿½ zaï¿½ï¿½tek
  *               (IN)	char chMarkBegin - znacka zacatku
  *               (IN)	char chMarkEnd - znacka konce
- *               (IN)	char* chNeib - mnoina znakù, které se mohou kolem klíèového slova nacházet
+ *               (IN)	char* chNeib - mnoÅ¾ina znaku, kterÃ¡ se mohou kolem klÃ­ÄovÃ©ho slova nachÃ¡zet
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        JindÅ™ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
  ***********************************************************************/
 
-int CUseScript::MarkKeyword(string* strAnalyzeText, string* strMarks, string sSearchString, char chMarkBegin,  char chMarkEnd, char* chNeib)
+int CUseScript::MarkKeyword(string* strAnalyzeText, string* strMarks, string sSearchString, char chMarkBegin,  char chMarkEnd, char const * chNeib)
 {
     int iCounter=0;
     int iPossitionStart;
@@ -628,7 +628,7 @@ int CUseScript::MarkKeyword(string* strAnalyzeText, string* strMarks, string sSe
     while (iCounter<strAnalyzeText->length())
     {
         iPossitionStart=strAnalyzeText->find(sSearchString,iCounter);
-        if (iPossitionStart==(-1)) //ádnı øetìzec nenalezen
+        if (iPossitionStart==(-1)) //ï¿½ï¿½dnï¿½ ï¿½etï¿½zec nenalezen
             return 0;
         
         if (iPossitionStart!=0)
@@ -661,22 +661,22 @@ int CUseScript::MarkKeyword(string* strAnalyzeText, string* strMarks, string sSe
  *
  * FUNCTION:     MarkSigns
  *
- * DESCRIPTION:  funkce vezme analyzovany text a vyhleda v nìm retezec *sign(tøeba +,-,&&) a oznaèí
- *               je ve stejnì dlouhém stringu strMark identifikatory chMarkSign.
+ * DESCRIPTION:  funkce vezme analyzovany text a vyhleda v nÄ›m retezec *sign(tÅ™eba +,-,&&) a oznaÄÃ­
+ *               je ve stejnÄ› dlouhÃ©m stringu strMark identifikatory chMarkSign.
  *
  * PARAMETERS:   (IN)   string* strAnalyzeText - analyzovany text
- *               (OUT)	string* strMarks - oznaèkovanı text
- *               (IN)	char *sign- hledané znamínko
+ *               (OUT)	string* strMarks - oznaÄkovanÃ½ text
+ *               (IN)	char *sign- hledanÃ½ znamÃ©nko
  *               (IN)	char chMarkSign - znacka retezce
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        JindÅ™ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
  ***********************************************************************/
 
 
-int CUseScript::MarkSigns(string* strAnalyzeText, string* strMark, char *sign, char chMarkSign)
+int CUseScript::MarkSigns(string* strAnalyzeText, string* strMark, char const * sign, char chMarkSign)
 {
     string strSigns=sign;
     int iCounter=0;
@@ -827,7 +827,7 @@ int CUseScript::EcsapeString(string *strText,char Escape)
  *
  * DESCRIPTION:  funkce nahradi escape sekvence jejioch hodnotami
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -885,15 +885,15 @@ int CUseScript::EscapeSequention(string* strAnalyzeText, string* strMark, char M
  *
  * FUNCTION:     FillMarkSection
  *
- * DESCRIPTION:  funkce vezme omarkovanı text tvaru XXXXXXXCXXXMXXXXEXXXXNXX a vyplní v nìm 
- *               sekce zaèínající chMarkBegin a konèící chMarkEnd charem chMarkBegin.Pøi C,N by
+ * DESCRIPTION:  funkce vezme omarkovanï¿½ text tvaru XXXXXXXCXXXMXXXXEXXXXNXX a vyplnï¿½ v nï¿½m 
+ *               sekce zaï¿½ï¿½najï¿½cï¿½ chMarkBegin a konï¿½ï¿½cï¿½ chMarkEnd charem chMarkBegin.Pï¿½i C,N by
  *               vysledek byl XXXXXXXCCCCCCCCCCXXXXNXX
  *
- * PARAMETERS:   (OUT)	string* strMarks - oznaèkovanı text
- *               (IN)	char chMarkBegin - hledanı zaèátek
- *               (IN)	char chMarkEnd - hledanı konec
+ * PARAMETERS:   (OUT)	string* strMarks - oznaï¿½kovanï¿½ text
+ *               (IN)	char chMarkBegin - hledanï¿½ zaï¿½ï¿½tek
+ *               (IN)	char chMarkEnd - hledanï¿½ konec
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -908,7 +908,7 @@ int CUseScript::FillMarkSection(string* strMark, char chMarkBegin,  char chMarkE
     {
         iPossitionStart=strMark->find(chMarkBegin,iCounter);
     
-        if (iPossitionStart==(-1)) //ádnı øetìzec nenalezen
+        if (iPossitionStart==(-1)) //ï¿½ï¿½dnï¿½ ï¿½etï¿½zec nenalezen
             return 0;
 
         if (iPossitionStart+1<=strMark->length())
@@ -916,7 +916,7 @@ int CUseScript::FillMarkSection(string* strMark, char chMarkBegin,  char chMarkE
         else
             iPossitionStop=strMark->length()-1;
 
-        if (iPossitionStop==(-1)) //Konec øetìzce nenalezen
+        if (iPossitionStop==(-1)) //Konec ï¿½etï¿½zce nenalezen
             iPossitionStop=strMark->length()-1;
     
         for (int i=iPossitionStart;i<iPossitionStop+1;i++)
@@ -932,14 +932,14 @@ int CUseScript::FillMarkSection(string* strMark, char chMarkBegin,  char chMarkE
  *
  * FUNCTION:     DeleteSection
  *
- * DESCRIPTION:  funkce vezme analyzovanı text a tam kde jsou v markovaném stringu 
- *               znamínka rovna chMarkSection smae jak v analyzovaném tak markovacím stringu 
+ * DESCRIPTION:  funkce vezme analyzovanï¿½ text a tam kde jsou v markovanï¿½m stringu 
+ *               znamï¿½nka rovna chMarkSection smaï¿½e jak v analyzovanï¿½m tak markovacï¿½m stringu 
  *
- * PARAMETERS:   (IN)   string* strAnalyzeText - analyzovanı text
- *               (OUT)	string* strMarks - omarkovanı string
- *               (IN)	char chMarkSection - hledaná znaèka
+ * PARAMETERS:   (IN)   string* strAnalyzeText - analyzovanï¿½ text
+ *               (OUT)	string* strMarks - omarkovanï¿½ string
+ *               (IN)	char chMarkSection - hledanï¿½ znaï¿½ka
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -961,24 +961,24 @@ int CUseScript::DeleteSection(string* strAnalyzeText, string* strMarks, char chM
  *
  * FUNCTION:     SeparateLines
  *
- * DESCRIPTION:  funkce vezme analyzovanı a omarkovanı text a vytvoøí pole analyzovanıch
- *               a omarkovanıch vzájemnì si odpovídajících stringù splitovanıch podle jednoho ze znakù v
+ * DESCRIPTION:  funkce vezme analyzovanÃ½ a omarkovanÃ½ text a vytvoÅ™Ã­ pole analyzovanÃ½ch
+ *               a omarkovanÃ½ch vzÃ¡jemnÄ› si odpovÃ­dajÃ­cÃ­ch stringu splitovanÃ½ch podle jednoho ze znaku v
  *               chLineSeparators
  *
  * PARAMETERS:   (OUT)   stringArray* arroutLines - vysledne pole
  *               (OUT)	 stringArray* arroutMarkLines - vysledne pole
- *               (IN)	 string* strAnalyzeText - analyzovanı text
- *               (IN)	 string* strMark - omarkovanı text
- *               (IN)    char * chLineSeparators - separatory podle kterıch se bude splitovat
- *               (IN)    char chEmpty - znak niceho v markovacím stringu
+ *               (IN)	 string* strAnalyzeText - analyzovanÃ½ text
+ *               (IN)	 string* strMark - omarkovanÃ½ text
+ *               (IN)    char * chLineSeparators - separatory podle kterÃ½ch se bude splitovat
+ *               (IN)    char chEmpty - znak niceho v markovacÃ­m stringu
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        JindÅ™ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
  ***********************************************************************/
 
-void CUseScript::SeparateLines(vector<string *> *arroutLines, vector<string *> *arroutMarkLines,  string* strAnalyzeText, string* strMark, char * chLineSeparators, char chEmpty)
+void CUseScript::SeparateLines(vector<string *> *arroutLines, vector<string *> *arroutMarkLines,  string* strAnalyzeText, string* strMark, char const * chLineSeparators, char chEmpty)
 {
     int iPossitionStart;
     int iDefinitivePossitionStart;
@@ -997,7 +997,7 @@ void CUseScript::SeparateLines(vector<string *> *arroutLines, vector<string *> *
                     iDefinitivePossitionStart=iPossitionStart;
             }
         }
-        if (iDefinitivePossitionStart==(-1)) //ádnı øetìzec nenalezen
+        if (iDefinitivePossitionStart==(-1)) //ï¿½ï¿½dnï¿½ ï¿½etï¿½zec nenalezen
             break;
 
         if ((*strMark)[iDefinitivePossitionStart]==chEmpty)
@@ -1023,16 +1023,16 @@ void CUseScript::SeparateLines(vector<string *> *arroutLines, vector<string *> *
  *
  * FUNCTION:     CutCommandByType
  *
- * DESCRIPTION:  funkce vezme analyzovanı a omarkovanı text a vytvoøí pole analyzovanıch
- *               stringù a markovacích stringù délky jedna. Funkce analyzovanı text dìlí podle 
- *               identifikovanıch sekcí vzniklıch vyplnìním markovacího stringu
+ * DESCRIPTION:  funkce vezme analyzovanï¿½ a omarkovanï¿½ text a vytvoï¿½ï¿½ pole analyzovanï¿½ch
+ *               stringï¿½ a markovacï¿½ch stringï¿½ dï¿½lky jedna. Funkce analyzovanï¿½ text dï¿½lï¿½ podle 
+ *               identifikovanï¿½ch sekcï¿½ vzniklï¿½ch vyplnï¿½nï¿½m markovacï¿½ho stringu
  *
- * PARAMETERS:   (IN)    string* strCommand - analyzovanı text
- *               (IN)	 string* strMarkCommand -omarkovanı text
- *               (OUT)	 stringArray *ptrElements - jednotlivé èásti analyzovaného textu podle sekcí
- *               (IN)	 stringArray *ptrMarkElements - markovací stringy délky jedna oznaèující typ sekce
+ * PARAMETERS:   (IN)    string* strCommand - analyzovanï¿½ text
+ *               (IN)	 string* strMarkCommand -omarkovanï¿½ text
+ *               (OUT)	 stringArray *ptrElements - jednotlivï¿½ ï¿½ï¿½sti analyzovanï¿½ho textu podle sekcï¿½
+ *               (IN)	 stringArray *ptrMarkElements - markovacï¿½ stringy dï¿½lky jedna oznaï¿½ujï¿½cï¿½ typ sekce
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -1071,16 +1071,16 @@ void CUseScript::CutCommandByType(string* strCommand, string* strMarkCommand, ve
  *
  * FUNCTION:     NextCommand
  *
- * DESCRIPTION:  funkce vrátí index dalšího vıskytu sekce typu FindMark v poli ptrMarkElements
+ * DESCRIPTION:  funkce vrï¿½tï¿½ index dalï¿½ï¿½ho vï¿½skytu sekce typu FindMark v poli ptrMarkElements
  *
- * PARAMETERS:   (IN)    stringArray *ptrMarkElements - markovací stringy delky jedna
- *               (IN)	 int Index - index od kterého se má zaèít
- *               (IN)	 char FindMark - hledanı typ sekce
+ * PARAMETERS:   (IN)    stringArray *ptrMarkElements - markovacï¿½ stringy delky jedna
+ *               (IN)	 int Index - index od kterï¿½ho se mï¿½ zaï¿½ï¿½t
+ *               (IN)	 char FindMark - hledanï¿½ typ sekce
  *
  * RETURNED:     -1 - retezec nenalezen
  *               jinak index pole
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -1108,15 +1108,15 @@ int CUseScript::NextCommand(vector<string *> *ptrMarkElements, int Index, char F
  *
  * FUNCTION:     JoinSections
  *
- * DESCRIPTION:  funkce spojí sekce od indexu IndexBegin do indexu IndexEnd a vráti je jako retezec
+ * DESCRIPTION:  funkce spojï¿½ sekce od indexu IndexBegin do indexu IndexEnd a vrï¿½ti je jako retezec
  *
- * PARAMETERS:   (IN)    stringArray *ptrElements - pole sekcí
- *               (IN)	 int IndexBegin - index od kterého se má zaèít
+ * PARAMETERS:   (IN)    stringArray *ptrElements - pole sekcï¿½
+ *               (IN)	 int IndexBegin - index od kterï¿½ho se mï¿½ zaï¿½ï¿½t
  *               (IN)	 int IndexEnd - index konce
  *
- * RETURNED:     string - slouèenı øetìzec
+ * RETURNED:     string - slouï¿½enï¿½ ï¿½etï¿½zec
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -1137,16 +1137,16 @@ string* CUseScript::JoinSections(vector<string *> *ptrElements, int IndexBegin, 
  *
  * FUNCTION:     NodesFromLines
  *
- * DESCRIPTION:  funkce pøidá do pole aProgNodes uzly programu z øádky programu
+ * DESCRIPTION:  funkce pï¿½idï¿½ do pole aProgNodes uzly programu z ï¿½ï¿½dky programu
  *
- * PARAMETERS:   (OUT)  CPtrArray *aProgNodes - pole sekcí
- *               (IN)   string* strCommand - jedna øádka kódu
- *               (IN)   string* strMarkCommand - omarkovaná jedna øádka kódu
+ * PARAMETERS:   (OUT)  CPtrArray *aProgNodes - pole sekcï¿½
+ *               (IN)   string* strCommand - jedna ï¿½ï¿½dka kï¿½du
+ *               (IN)   string* strMarkCommand - omarkovanï¿½ jedna ï¿½ï¿½dka kï¿½du
  *
  * RETURNED:     0 - OK
  *               1 - FALSE
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -1196,13 +1196,13 @@ int CUseScript::NodesFromLines(vector<M_PROG_NODE *> *aProgNodes, string* strCom
         {
             int NextC=NextCommand(&aMarkElements,1,BEGIN_OF_DIRECT);
 
-            if (NextC==(-1)) //Není Then
+            if (NextC==(-1)) //Nenï¿½ Then
             {
                 intError=ERR_IF_WITHOUT_THEN;
                 intLineError=aProgNodes->size();
                 return 1;
             }
-            if (*(aElements[NextC])!=KEYWORD_THEN) //Nejaky command je ale není to Then
+            if (*(aElements[NextC])!=KEYWORD_THEN) //Nejaky command je ale nenï¿½ to Then
             {
                 intError=ERR_INVALID_COMBINATION_KEYWORDS;
                 intLineError=aProgNodes->size();
@@ -1211,18 +1211,18 @@ int CUseScript::NodesFromLines(vector<M_PROG_NODE *> *aProgNodes, string* strCom
 
             newNode->sQuestion=JoinSections(&aElements,1,NextC); //Mezi if a then
             newNode->sCommand=new string("");
-            if (*(newNode->sQuestion)=="") //Prázná otázka
+            if (*(newNode->sQuestion)=="") //Prï¿½znï¿½ otï¿½zka
             {
                 intError=ERR_EMPTY_QUESTION;
                 intLineError=aProgNodes->size();
                 return 1;
             }
 
-            int NextC2=NextCommand(&aMarkElements,NextC+1,BEGIN_OF_DIRECT); //Hledám další direct
+            int NextC2=NextCommand(&aMarkElements,NextC+1,BEGIN_OF_DIRECT); //Hledï¿½m dalï¿½ï¿½ direct
 
-            if (NextC2!=(-1)) //Nìjakı nenalezen 
+            if (NextC2!=(-1)) //Nï¿½jakï¿½ nenalezen 
             {
-                if (*(aElements[NextC2])!=KEYWORD_ELSE) //Kdy to neni else tak blbı
+                if (*(aElements[NextC2])!=KEYWORD_ELSE) //Kdyï¿½ to neni else tak blbï¿½
                 {    
                     intError=ERR_INVALID_COMBINATION_KEYWORDS;
                     intLineError=aProgNodes->size();
@@ -1343,14 +1343,14 @@ int CUseScript::NodesFromLines(vector<M_PROG_NODE *> *aProgNodes, string* strCom
         {
             int NextC=NextCommand(&aMarkElements,1,BEGIN_OF_DIRECT);
             
-            if (NextC==(-1)) //Není To
+            if (NextC==(-1)) //Nenï¿½ To
             {
                 intError=ERR_FOR_WITHOUT_TO;
                 intLineError=aProgNodes->size();
                 return 1;
             }
 
-            if (*(aElements[NextC])!=KEYWORD_TO) //Nejaky command je ale není to To
+            if (*(aElements[NextC])!=KEYWORD_TO) //Nejaky command je ale nenï¿½ to To
             {
                 intError=ERR_INVALID_COMBINATION_KEYWORDS;
                 intLineError=aProgNodes->size();
@@ -1361,14 +1361,14 @@ int CUseScript::NodesFromLines(vector<M_PROG_NODE *> *aProgNodes, string* strCom
             newNode->shType=D_COMMAND;
             newNode->sQuestion=new string("");
 
-            if (*(newNode->sCommand)=="") //Prázná otázka
+            if (*(newNode->sCommand)=="") //Prï¿½znï¿½ otï¿½zka
             {
                 intError=ERR_EMPTY_INICIALIZE_FOR;
                 intLineError=aProgNodes->size();
                 return 1;
             }
 
-            int NextC2=NextCommand(&aMarkElements,NextC+1,BEGIN_OF_DIRECT); //Hledám další direct
+            int NextC2=NextCommand(&aMarkElements,NextC+1,BEGIN_OF_DIRECT); //Hledï¿½m dalï¿½ï¿½ direct
 
             if (NextC2!=(-1)) //Nakej dalsi keyword na radce
             {
@@ -1550,16 +1550,16 @@ int CUseScript::NodesFromLines(vector<M_PROG_NODE *> *aProgNodes, string* strCom
  *
  * FUNCTION:     MakeNodes
  *
- * DESCRIPTION:  funkce poslupne volá funkci NodesFromLines pro kadı øádek kódu a vyhazuje prázné øádky
+ * DESCRIPTION:  funkce poslupne volï¿½ funkci NodesFromLines pro kaï¿½dï¿½ ï¿½ï¿½dek kï¿½du a vyhazuje prï¿½znï¿½ ï¿½ï¿½dky
  *
- * PARAMETERS:   (OUT)  CPtrArray *aProgNodes - pole uzlù programu
- *               (IN)   stringArray* aLines - pole øádkù kódu
- *               (IN)   stringArray *aMarkLines - pole omarkovanıch øádkù kódu
+ * PARAMETERS:   (OUT)  CPtrArray *aProgNodes - pole uzlï¿½ programu
+ *               (IN)   stringArray* aLines - pole ï¿½ï¿½dkï¿½ kï¿½du
+ *               (IN)   stringArray *aMarkLines - pole omarkovanï¿½ch ï¿½ï¿½dkï¿½ kï¿½du
  *
  * RETURNED:     0 - OK
  *               1 - FALSE
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -1583,7 +1583,7 @@ int CUseScript::MakeNodes(vector<M_PROG_NODE *> *aProgNodes, vector<string *>* a
 
 /***********************************************************************
  *
- * FUNCTION:     GetPtrNode - ukazatel z pole tøíd M_PROG_NODE na tøídu o indexu iIndex
+ * FUNCTION:     GetPtrNode - ukazatel z pole tï¿½ï¿½d M_PROG_NODE na tï¿½ï¿½du o indexu iIndex
  *
  ***********************************************************************/
 
@@ -1597,14 +1597,14 @@ M_PROG_NODE* CUseScript::GetPtrNode(vector<M_PROG_NODE *>* aProgNodes, int iInde
  *
  * FUNCTION:     LinkNodes
  *
- * DESCRIPTION:  funkce vezne pole Uzlù programu a propojí je skoky - tj. vypní iTrueJump a iFalseJump
+ * DESCRIPTION:  funkce vezne pole Uzlï¿½ programu a propojï¿½ je skoky - tj. vypnï¿½ iTrueJump a iFalseJump
  *
- * PARAMETERS:   (OUT)  CPtrArray *aProgNodes - pole uzlù programu
+ * PARAMETERS:   (OUT)  CPtrArray *aProgNodes - pole uzlï¿½ programu
  *
  * RETURNED:     0 - OK
  *               1 - FALSE
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -1786,7 +1786,7 @@ int CUseScript::LinkNodes(vector<M_PROG_NODE *> *aProgNodes)
 
 /***********************************************************************
  *
- * FUNCTION:     AddNextExpresionElement - pøidá další element do pole vırazu
+ * FUNCTION:     AddNextExpresionElement - pï¿½idï¿½ dalï¿½ï¿½ element do pole vï¿½razu
  *
  ***********************************************************************/
 
@@ -1802,7 +1802,7 @@ M_EXPRESSION_ELEMENT* CUseScript::AddNextExpresionElement(vector<M_EXPRESSION_EL
 
 /***********************************************************************
  *
- * FUNCTION:     AddNextExpresionIntElement - pøidá další element do pole vırazu
+ * FUNCTION:     AddNextExpresionIntElement - pï¿½idï¿½ dalï¿½ï¿½ element do pole vï¿½razu
  *
  ***********************************************************************/
 
@@ -1821,16 +1821,16 @@ M_EXPRESSION_ELEMENT* CUseScript::AddNextExpresionIntElement(vector<M_EXPRESSION
  *
  * FUNCTION:     AnalyzeExpression
  *
- * DESCRIPTION:  funkce vytvoøí pole elementù vırazu sExpression
+ * DESCRIPTION:  funkce vytvoï¿½ï¿½ pole elementï¿½ vï¿½razu sExpression
  *
- * PARAMETERS:   (OUT)  CPtrArray * outarrElements - pole elementù(M_EXPRESSION_ELEMENT) vırazu
- *               (OUT)  int* MaxDepth - maximální nalazené závorkové vnoøení napø. ((sd)) by bylo 2            
- *               (IN)  string* sExpression - analyzovanı vıraz
+ * PARAMETERS:   (OUT)  CPtrArray * outarrElements - pole elementï¿½(M_EXPRESSION_ELEMENT) vï¿½razu
+ *               (OUT)  int* MaxDepth - maximï¿½lnï¿½ nalazenï¿½ zï¿½vorkovï¿½ vnoï¿½enï¿½ napï¿½. ((sd)) by bylo 2            
+ *               (IN)  string* sExpression - analyzovanï¿½ vï¿½raz
  *
  * RETURNED:     0 - OK
  *               1 - FALSE
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -1865,7 +1865,7 @@ int CUseScript::AnalyzeExpression(vector<M_EXPRESSION_ELEMENT *>* outarrElements
     }
 
 
-    //Oznacit operátory,rovnítka,závorky a carky...
+    //Oznacit operï¿½tory,rovnï¿½tka,zï¿½vorky a carky...
     MarkSigns(sExpression,&strMarkExp,E_LEFT_PARENTHESIS,MARK_LEFT_PARENTHESIS);
     MarkSigns(sExpression,&strMarkExp,E_RIGHT_PARENTHESIS,MARK_RIGHT_PARENTHESIS);
     MarkSigns(sExpression,&strMarkExp,E_ASSIGNING,MARK_ASSIGNING);
@@ -1886,7 +1886,7 @@ int CUseScript::AnalyzeExpression(vector<M_EXPRESSION_ELEMENT *>* outarrElements
     //rozssekani
     CutCommandByType(sExpression,&strMarkExp,&arrElements,&arrMarkElements);
     
-    //Vytvoreni Pole elementù vırazu
+    //Vytvoreni Pole elementï¿½ vï¿½razu
     int ActualDepth=0;
     *MaxDepth=0;
     for (i=0;i<arrElements.size();i++)
@@ -1999,15 +1999,15 @@ int CUseScript::AnalyzeExpression(vector<M_EXPRESSION_ELEMENT *>* outarrElements
  *
  * FUNCTION:     GetVariableValue
  *
- * DESCRIPTION:  funkce vrátí hodnotu promenné uloenıch v asociativním poli gVariables
+ * DESCRIPTION:  funkce vrï¿½tï¿½ hodnotu promennï¿½ uloï¿½enï¿½ch v asociativnï¿½m poli gVariables
  *
- * PARAMETERS:   M_EXPRESSION_ELEMENT* Variable - element v jeho sName je nazev promenne
- *                                               a v jeho iIntValue nebo sName se objevi hodnota promenne
+ * PARAMETERS:   M_EXPRESSION_ELEMENT* Variable - element v jehoï¿½ sName je nazev promenne
+ *                                               a v jehoï¿½ iIntValue nebo sName se objevi hodnota promenne
  *
  * RETURNED:     0 - OK
  *               1 - FALSE
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -2051,16 +2051,16 @@ if (LogAll) { //Debug
  *
  * FUNCTION:     SetVariableValue
  *
- * DESCRIPTION:  funkce nastaví hodnotu promenné uloenıch v asociativním poli gVariables
- *               v pøípadì e neexistuje, zaloí ji a dá ji defaultní hosnotu.
+ * DESCRIPTION:  funkce nastavï¿½ hodnotu promennï¿½ uloï¿½enï¿½ch v asociativnï¿½m poli gVariables
+ *               v pï¿½ï¿½padï¿½ ï¿½e neexistuje, zaloï¿½ï¿½ ji a dï¿½ ji defaultnï¿½ hosnotu.
  *
- * PARAMETERS:   (IN)  string ValueName - element v jeho sName je nazev promenne
- *               (IN)  M_EXPRESSION_ELEMENT* pValue - element v nem je uloena nová hodnota
+ * PARAMETERS:   (IN)  string ValueName - element v jehoï¿½ sName je nazev promenne
+ *               (IN)  M_EXPRESSION_ELEMENT* pValue - element v nemï¿½ je uloï¿½ena novï¿½ hodnota
  *
  * RETURNED:     0 - OK
  *               1 - FALSE
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -2106,7 +2106,7 @@ int CUseScript::SetVariableValue(string* ValueName, M_EXPRESSION_ELEMENT* pValue
  *
  * FUNCTION:     CalculateOperation
  *
- * DESCRIPTION:  funncke provede operaci mezi One Two a vysledek uloí do Two
+ * DESCRIPTION:  funncke provede operaci mezi One Two a vysledek uloï¿½ï¿½ do Two
  *
  * PARAMETERS:   (IN)  M_EXPRESSION_ELEMENT* One - element 1
  *               (IN)  string Operator - operator
@@ -2115,7 +2115,7 @@ int CUseScript::SetVariableValue(string* ValueName, M_EXPRESSION_ELEMENT* pValue
  * RETURNED:     0 - OK
  *               1 - FALSE
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -2138,7 +2138,7 @@ int CUseScript::CalculateOperation(M_EXPRESSION_ELEMENT* One, string Operator, M
             intError=ERR_VARIABLE_NOT_EXIST;
             return 1;
         }
-    //Operace samotná
+    //Operace samotnï¿½
     if (Operator==E_EQUAL)
     {
         if (One->iType!=Two->iType)
@@ -2306,7 +2306,7 @@ int CUseScript::CalculateOperation(M_EXPRESSION_ELEMENT* One, string Operator, M
 }
 
 /***********************************************************************
- * pomocné funkce
+ * pomocnï¿½ funkce
  ***********************************************************************/
 
 int CUseScript::GetExpElementType(vector<M_EXPRESSION_ELEMENT *> *outarrElements, int iIndex)
@@ -2337,25 +2337,25 @@ int CUseScript::GetExpElementIntValue(vector<M_EXPRESSION_ELEMENT *> *outarrElem
  *
  * FUNCTION:     SectionCalculateByOperator
  *
- * DESCRIPTION:  funkce provede vıpoèet sekcí mezi BeginIndex a EndIndex pomocí páru operátorù napø +,-
+ * DESCRIPTION:  funkce provede vï¿½poï¿½et sekcï¿½ mezi BeginIndex a EndIndex pomocï¿½ pï¿½ru operï¿½torï¿½ napï¿½ +,-
  *
- * PARAMETERS:   (IN)  CPtrArray * outarrElements - pole elementù vırazu
+ * PARAMETERS:   (IN)  CPtrArray * outarrElements - pole elementï¿½ vï¿½razu
  *               (IN)  int BeginIndex 
  *               (IN)  int EndIndex
  *               (IN)  char *Operator1
  *               (IN)  char *Operator2
- *               (OUT) int *Removed - kolik zmizelo elementù vıpoètem
+ *               (OUT) int *Removed - kolik zmizelo elementï¿½ vï¿½poï¿½tem
  *
  * RETURNED:     0 - OK
  *               1 - FALSE
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
  ***********************************************************************/
 
-int CUseScript::SectionCalculateByOperator(vector<M_EXPRESSION_ELEMENT *> *outarrElements, int BeginIndex, int EndIndex, char *Operator1, char *Operator2, int *Removed)
+int CUseScript::SectionCalculateByOperator(vector<M_EXPRESSION_ELEMENT *> *outarrElements, int BeginIndex, int EndIndex, char const * Operator1, char const * Operator2, int *Removed)
 {
     M_EXPRESSION_ELEMENT* myElement1;
     M_EXPRESSION_ELEMENT* myElement2;
@@ -2392,18 +2392,18 @@ int CUseScript::SectionCalculateByOperator(vector<M_EXPRESSION_ELEMENT *> *outar
  *
  * FUNCTION:     SectionCalculate
  *
- * DESCRIPTION:  funkce provede vıpoèet sekce mezi BeginIndex a EndIndex
- *               podle všech operátoru a volá fukci SectionCalculateByOperator 
+ * DESCRIPTION:  funkce provede vï¿½poï¿½et sekce mezi BeginIndex a EndIndex
+ *               podle vï¿½ech operï¿½toru a volï¿½ fukci SectionCalculateByOperator 
  *               podle jejich priority
  *
- * PARAMETERS:   (IN)  CPtrArray * outarrElements - pole elementù vırazu
+ * PARAMETERS:   (IN)  CPtrArray * outarrElements - pole elementï¿½ vï¿½razu
  *               (IN)  int BeginIndex 
  *               (IN)  int EndIndex
  *
  * RETURNED:     0 - OK
  *               1 - FALSE
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -2425,16 +2425,16 @@ int CUseScript::SectionCalculate(vector<M_EXPRESSION_ELEMENT *> *outarrElements,
  *
  * FUNCTION:     CallMethod
  *
- * DESCRIPTION:  funkce volá událost v klientovi komponenty a pøedává mu kolekci
- *               parametrù. Návratovou hodnotu v prvním prvku kolekce vrací jako
+ * DESCRIPTION:  funkce volï¿½ udï¿½lost v klientovi komponenty a pï¿½edï¿½vï¿½ mu kolekci
+ *               parametrï¿½. Nï¿½vratovou hodnotu v prvnï¿½m prvku kolekce vracï¿½ jako
  *               M_EXPRESSION_ELEMENT
  *
- * PARAMETERS:   (IN)  string MethodName - název volané funkce
- *               (IN)  CPtrArray * arguments - pole argumentù funcke
+ * PARAMETERS:   (IN)  string MethodName - nï¿½zev volanï¿½ funkce
+ *               (IN)  CPtrArray * arguments - pole argumentï¿½ funcke
  *
- * RETURNED:     M_EXPRESSION_ELEMENT hodnota vrácená funkcí
+ * RETURNED:     M_EXPRESSION_ELEMENT hodnota vrï¿½cenï¿½ funkcï¿½
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -2449,18 +2449,18 @@ M_EXPRESSION_ELEMENT* CUseScript::CallMethod(string* MethodName, vector<M_EXPRES
  *
  * FUNCTION:     CompileMethod
  *
- * DESCRIPTION:  funkce vyhledá funkce v sekcích mezi BeginIndex a EndIndex, zavolá je
- *               a vısledek zaøadí do pole elementù 
+ * DESCRIPTION:  funkce vyhledï¿½ funkce v sekcï¿½ch mezi BeginIndex a EndIndex, zavolï¿½ je
+ *               a vï¿½sledek zaï¿½adï¿½ do pole elementï¿½ 
  *
- * PARAMETERS:   (IN/OUT)  CPtrArray * outarrElements - pole elementù vırazu
+ * PARAMETERS:   (IN/OUT)  CPtrArray * outarrElements - pole elementï¿½ vï¿½razu
  *               (IN)      int BeginIndex 
  *               (IN)      int EndIndex
- *               (OUT)     int *Removed - kolik zmizelo elementù vırazu
+ *               (OUT)     int *Removed - kolik zmizelo elementï¿½ vï¿½razu
  *
  * RETURNED:     0 - OK
  *               1 - FALSE
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -2559,18 +2559,18 @@ int CUseScript::CompileMethod(vector<M_EXPRESSION_ELEMENT *>* outarrElements, in
  *
  * FUNCTION:     GetNextSection
  *
- * DESCRIPTION:  funkce vyhledá další skupinu sekcí k analıze v aktuální hloubce vırazu. Jeslie
- *               ji ádnou sekci s hloubkou  iDepth nenajde vrací nula
+ * DESCRIPTION:  funkce vyhledï¿½ dalï¿½ï¿½ skupinu sekcï¿½ k analï¿½ze v aktuï¿½lnï¿½ hloubce vï¿½razu. Jesliï¿½e
+ *               jiï¿½ ï¿½ï¿½dnou sekci s hloubkou  iDepth nenajde vracï¿½ nula
  *
- * PARAMETERS:   (IN/OUT)  CPtrArray * outarrElements - pole elementù vırazu
- *               (IN)      int iDepth - hledaná hloubka 
- *               (OUT)     int* BeginSection - zacátek nalezené sekce
- *               (OUT)     int* EndSection- konec nalezené sekce
+ * PARAMETERS:   (IN/OUT)  CPtrArray * outarrElements - pole elementï¿½ vï¿½razu
+ *               (IN)      int iDepth - hledanï¿½ hloubka 
+ *               (OUT)     int* BeginSection - zacï¿½tek nalezenï¿½ sekce
+ *               (OUT)     int* EndSection- konec nalezenï¿½ sekce
  *
  * RETURNED:     0 - sekce nalezena
- *               1 - ádné sekce v hloubce iDepth nejsou
+ *               1 - ï¿½ï¿½dnï¿½ sekce v hloubce iDepth nejsou
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -2607,17 +2607,17 @@ int CUseScript::GetNextSection(vector<M_EXPRESSION_ELEMENT *>* outarrElements, i
  *
  * FUNCTION:     ProcessExpression
  *
- * DESCRIPTION:  funkce analyzuje celı vıraz. Buï je jejím vıstupem jeden element (èíslo nebo
- *               etìzec nebo jsou jejím vıstupem tøi elementy pak je to pøiøazovací vıraz
+ * DESCRIPTION:  funkce analyzuje celï¿½ vï¿½raz. Buï¿½ je jejï¿½m vï¿½stupem jeden element (ï¿½ï¿½slo nebo
+ *               ï¿½etï¿½zec nebo jsou jejï¿½m vï¿½stupem tï¿½i elementy pak je to pï¿½iï¿½azovacï¿½ vï¿½raz
  *               (a=2)
  *
- * PARAMETERS:   (IN/OUT)  CPtrArray * outarrElements - pole elementù vırazu
- *               (IN)      int iDepth - nejvetsí hloubka po analıze - uchovávaná v PROG_NODES 
+ * PARAMETERS:   (IN/OUT)  CPtrArray * outarrElements - pole elementï¿½ vï¿½razu
+ *               (IN)      int iDepth - nejvetsï¿½ hloubka po analï¿½ze - uchovï¿½vanï¿½ v PROG_NODES 
  *
  * RETURNED:     0 - OK
  *               1 - FALSE
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -2626,14 +2626,14 @@ int CUseScript::GetNextSection(vector<M_EXPRESSION_ELEMENT *>* outarrElements, i
 
 int CUseScript::ProcessExpression(vector<M_EXPRESSION_ELEMENT *> *outarrElements, int iDepth)
 {
-    int IsComma;
+    //int IsComma;
     int IsAssign=0;
-    int BeginSection;
+    int BeginSection = 0; // Iba na odstrÃ¡nenie warningu, hodnota sa priradÃ­ v GetNextSection()
     int EndSection;
     
     while (iDepth>(-1))
     {
-        IsComma=0;
+        //IsComma=0;
         //DebugExpression(outarrElements,"D:\\kuk.txt");
         if (GetNextSection(outarrElements,iDepth,&BeginSection,&EndSection)==1)
         {         
@@ -2729,7 +2729,7 @@ int CUseScript::ProcessExpression(vector<M_EXPRESSION_ELEMENT *> *outarrElements
         }
     }
     //tak tady uz by to melo bejt vypocitany :-)
-    //takze napø. bud a=3 nebo 3
+    //takze napÅ™. bud a=3 nebo 3
     //DebugExpression(outarrElements,"return.txt");
     return 0;
 }
@@ -2738,15 +2738,15 @@ int CUseScript::ProcessExpression(vector<M_EXPRESSION_ELEMENT *> *outarrElements
  *
  * FUNCTION:     PrepareNodes
  *
- * DESCRIPTION:  funkce provede analızu všech vırazù v programu a uloí je do polí CommandExpression
+ * DESCRIPTION:  funkce provede analï¿½zu vï¿½ech vï¿½razï¿½ v programu a uloï¿½ï¿½ je do polï¿½ CommandExpression
  *               a QuestionExpression
  *
- * PARAMETERS:   (IN/OUT)  CPtrArray *aProgNodes - pole uzlù programu
+ * PARAMETERS:   (IN/OUT)  CPtrArray *aProgNodes - pole uzlï¿½ programu
  *
  * RETURNED:     0 - OK
  *               1 - FALSE
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -2829,14 +2829,14 @@ if (LogAll) { //Debug
  *
  * FUNCTION:     Execute
  *
- * DESCRIPTION:  bìh programu
+ * DESCRIPTION:  bï¿½h programu
  *
- * PARAMETERS:   (IN/OUT)  CPtrArray *aProgNodes - pole uzlù programu
+ * PARAMETERS:   (IN/OUT)  CPtrArray *aProgNodes - pole uzlï¿½ programu
  *
  * RETURNED:     0 - OK
  *               1 - FALSE
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -2933,10 +2933,10 @@ int CUseScript::MarkCode(string *strAnalyzeText, string *strMark)
     for(i=0;i<strAnalyzeText->length();i++)
             (*strMark)+=UNRECOGNIZED;
     //(*log)<< *strMark;
-    //komentáøe, stringy
+    //komentï¿½ï¿½e, stringy
     MarkSections(strAnalyzeText,strMark,'\'','\n',BEGIN_OF_COMMENT,END_OF_COMMENT,0);
     MarkSections(strAnalyzeText,strMark,'"','"',BEGIN_OF_STRING,END_OF_STRING,1);
-    //klíèová slova
+    //klï¿½ï¿½ovï¿½ slova
     MarkKeyword(strAnalyzeText,strMark,KEYWORD_IF,BEGIN_OF_DIRECT,END_OF_DIRECT,DIRECT_NEIGHBOURHOOD);
     MarkKeyword(strAnalyzeText,strMark,KEYWORD_THEN,BEGIN_OF_DIRECT,END_OF_DIRECT,DIRECT_NEIGHBOURHOOD);
     MarkKeyword(strAnalyzeText,strMark,KEYWORD_ELSE,BEGIN_OF_DIRECT,END_OF_DIRECT,DIRECT_NEIGHBOURHOOD);
@@ -2963,7 +2963,7 @@ int CUseScript::MarkCode(string *strAnalyzeText, string *strMark)
     MarkSigns(strAnalyzeText,strMark,E_MULTIPLICATION,EXPRESSION);
     MarkSigns(strAnalyzeText,strMark,E_DIVISION,EXPRESSION);
 
-    //vyplnení 
+    //vyplnenï¿½ 
     FillMarkSection(strMark,BEGIN_OF_COMMENT,END_OF_COMMENT);
     FillMarkSection(strMark,BEGIN_OF_STRING,END_OF_STRING);
     FillMarkSection(strMark,BEGIN_OF_DIRECT,END_OF_DIRECT);

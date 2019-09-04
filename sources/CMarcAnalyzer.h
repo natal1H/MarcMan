@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
+#include <string.h>
 
 extern int codeVersion;
 
@@ -134,8 +135,8 @@ public:
 
 private:
     string OrdinalForm(int number, int size);
-    int SplitString(string* strSplit, vector<string*> * outArray, char* Separator);
-    void Replace(string* strSplit, char* findStr, char* repStr);
+    int SplitString(string* strSplit, vector<string*> * outArray, char const * Separator);
+    void Replace(string* strSplit, char* findStr, char const * repStr);
     int AddOneField(string* sField, CField* pField, char* SubSeparator, char* LinkingSeparator);
     bool MayBeLinking(string Field); 
     int SerializeRecord(string *outString, string *Sizes, char* SubfieldSeparator, char* FieldSeparator, int Mode);
@@ -148,12 +149,12 @@ private:
     long MaxSubfieldIndex(string* sIDF, string* sSubID, long FIndex);
     long MaxFieldIndex(string* sIDF);
     long MaxLinkingFieldIndex(string* sIDF, long IndexField, string* sIDL);
-    void TrimRight(string* sStr, char* ArraySep);
-    void TrimLeft(string* sStr, char* ArraySep);
+    void TrimRight(string* sStr, char const * ArraySep);
+    void TrimLeft(string* sStr, char const * ArraySep);
     int MarkSections(string* strAnalyzeText, string* strMarks, char chBegin, char chEnd, char chMarkBegin,  char chMarkEnd, int iInsertEnd);
     int FillMarkSection(string* strMark, char chMarkBegin,  char chMarkEnd);
     void CutCommandByType(string* strCommand, string* strMarkCommand, vector<string *> *ptrElements, vector<string *> *ptrMarkElements);    
-    int MarkSections2(string* strAnalyzeText, string* strMarks, char* chBegin, char* chEnd, char chMarkBegin,  char chMarkEnd, int iInsertEnd);
+    int MarkSections2(string* strAnalyzeText, string* strMarks, char const * chBegin, char const * chEnd, char chMarkBegin,  char chMarkEnd, int iInsertEnd);
     string CheckSubfields( CField* ControlF,  CField* RedF, int WithLinking, string Lang);
     string CheckOneSubfield( string sField, CSubfield* ControlSF,  CSubfield* RecSF, int WithLinking, string Lang);
     int CheckChar( string sOneChar, string sCheckString);

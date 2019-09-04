@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
+#include <string.h>
 
 using namespace std;
 
@@ -130,9 +131,9 @@ public:
     int ClearErrors();
     int DoOneRecord();
     int DoRule(CUseScript* UseScript, string* sValue, string* sFrom, string* sTo, string* sCommand, long IndexRule, long iField, long iSubfield);
-    void TrimRight(string* sStr, char* ArraySep);
-    void TrimLeft(string* sStr, char* ArraySep);    
-    int SplitString(string* strSplit, vector<string*> * outArray, char* Separator);
+    void TrimRight(string* sStr, char const * ArraySep);
+    void TrimLeft(string* sStr, char const * ArraySep);
+    int SplitString(string* strSplit, vector<string*> * outArray, char const * Separator);
     int CreateVariable(string Key, int iType);
     int ChangePossition(vector<CSubfield*>* Coll, int Poss1, int Poss2); 
     int SortSubfields(vector<CSubfield*>* Coll, string* Command);    

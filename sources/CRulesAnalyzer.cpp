@@ -4,7 +4,7 @@
 #include <fcntl.h>
 
 
-char* CUTTRIMED=                   "\n\t\r ";
+char const * CUTTRIMED = "\n\t\r ";
 
 ostream& operator<<(ostream &os, CRule &objekt)
 {
@@ -32,7 +32,7 @@ string CRulesAnalyzer::OrdinalForm(int number, int size)
     return myNumber;
 }
 
-void  CRulesAnalyzer::TrimLeft(string* sStr, char* ArraySep)
+void  CRulesAnalyzer::TrimLeft(string* sStr, char const * ArraySep)
 {
    int finds=1;
    int i;
@@ -53,7 +53,7 @@ void  CRulesAnalyzer::TrimLeft(string* sStr, char* ArraySep)
     }
 }
 
-void  CRulesAnalyzer::TrimRight(string* sStr, char* ArraySep)
+void  CRulesAnalyzer::TrimRight(string* sStr, char const * ArraySep)
 {
    int finds=1;
    int i;
@@ -75,7 +75,7 @@ void  CRulesAnalyzer::TrimRight(string* sStr, char* ArraySep)
 }
 
 
-int CRulesAnalyzer::SplitString(string* strSplit, vector<string*>* outArray, char* Separator)
+int CRulesAnalyzer::SplitString(string* strSplit, vector<string*>* outArray, char const * Separator)
 {
 	int iPos = 0;
 	int newPos = -1;
@@ -131,19 +131,19 @@ int CRulesAnalyzer::SplitString(string* strSplit, vector<string*>* outArray, cha
  *
  * FUNCTION:     MarkSections
  *
- * DESCRIPTION:  funkce vezme analyzovany text a vyhleda v nìm èásti zaèínající chBegin a konèící chEnd a oznaèí
- *               je ve stejnì dlouhém stringu strMark identifikatory chMarkBegin a chMarkEnd. Je-li promenna iInsertField
- *               1 oznaèí se vcetne konecneho chEnd
+ * DESCRIPTION:  funkce vezme analyzovany text a vyhleda v nï¿½m ï¿½ï¿½sti zaï¿½ï¿½najï¿½cï¿½ chBegin a konï¿½ï¿½cï¿½ chEnd a oznaï¿½ï¿½
+ *               je ve stejnï¿½ dlouhï¿½m stringu strMark identifikatory chMarkBegin a chMarkEnd. Je-li promenna iInsertField
+ *               1 oznaï¿½ï¿½ se vcetne konecneho chEnd
  *
  * PARAMETERS:   (IN)   string* strAnalyzeText - analyzovany text
- *               (OUT)	string* strMarks - oznaèkovaný text
- *               (IN)	char chBegin - hledaný zaèátek
- *               (IN)	char chEnd - hledaný konec
+ *               (OUT)	string* strMarks - oznaï¿½kovanï¿½ text
+ *               (IN)	char chBegin - hledanï¿½ zaï¿½ï¿½tek
+ *               (IN)	char chEnd - hledanï¿½ konec
  *               (IN)	char chMarkBegin - znacka zacatku
  *               (IN)	char chMarkEnd - znacka konce
- *               (IN)	int iInsertEnd - má se vložit i konecny znak?
+ *               (IN)	int iInsertEnd - mï¿½ se vloï¿½it i konecny znak?
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -159,7 +159,7 @@ int CRulesAnalyzer::MarkSections(string* strAnalyzeText, string* strMarks, char 
     {
         iPossitionStart=strAnalyzeText->find(chBegin,iCounter);
         
-        if (iPossitionStart==(-1)) //Žádný øetìzec nenalezen
+        if (iPossitionStart==(-1)) //ï¿½ï¿½dnï¿½ ï¿½etï¿½zec nenalezen
             return 0;
       
         (*strMarks)[iPossitionStart]=chMarkBegin; //Zacatek retezce
@@ -169,7 +169,7 @@ int CRulesAnalyzer::MarkSections(string* strAnalyzeText, string* strMarks, char 
         else
             return 0;
 
-        if (iPossitionStop==(-1)) //Konec øetìzce nenalezen
+        if (iPossitionStop==(-1)) //Konec ï¿½etï¿½zce nenalezen
             return 0;
         
         if (iInsertEnd)
@@ -182,10 +182,10 @@ int CRulesAnalyzer::MarkSections(string* strAnalyzeText, string* strMarks, char 
 }
 
 
-int CRulesAnalyzer::MarkSections2(string* strAnalyzeText, string* strMarks, char* chBegin, char* chEnd, char chMarkBegin,  char chMarkEnd, int iInsertEnd)
+int CRulesAnalyzer::MarkSections2(string* strAnalyzeText, string * strMarks, char const * chBegin, char const * chEnd, char chMarkBegin,  char chMarkEnd, int iInsertEnd)
 {
     int iCounter=0;
-    int h;
+    //int h;
     int iPossitionStart;
     int iPossitionStop;
     string chB=chBegin;
@@ -194,12 +194,12 @@ int CRulesAnalyzer::MarkSections2(string* strAnalyzeText, string* strMarks, char
     {
         iPossitionStart=strAnalyzeText->find(chB,iCounter);
         
-        if (iPossitionStart==(-1)) //Žádný øetìzec nenalezen
+        if (iPossitionStart==(-1)) //ï¿½ï¿½dnï¿½ ï¿½etï¿½zec nenalezen
             return 0;
       
         if (iPossitionStart>52522)
         {
-           h=0;   
+           //h=0;
         }
 
         (*strMarks)[iPossitionStart]=chMarkBegin; //Zacatek retezce
@@ -209,7 +209,7 @@ int CRulesAnalyzer::MarkSections2(string* strAnalyzeText, string* strMarks, char
         else
             return 0;
 
-        if (iPossitionStop==(-1)) //Konec øetìzce nenalezen
+        if (iPossitionStop==(-1)) //Konec ï¿½etï¿½zce nenalezen
             return 0;
         
         if (iInsertEnd)
@@ -225,15 +225,15 @@ int CRulesAnalyzer::MarkSections2(string* strAnalyzeText, string* strMarks, char
  *
  * FUNCTION:     FillMarkSection
  *
- * DESCRIPTION:  funkce vezme omarkovaný text tvaru XXXXXXXCXXXMXXXXEXXXXNXX a vyplní v nìm 
- *               sekce zaèínající chMarkBegin a konèící chMarkEnd charem chMarkBegin.Pøi C,N by
+ * DESCRIPTION:  funkce vezme omarkovanï¿½ text tvaru XXXXXXXCXXXMXXXXEXXXXNXX a vyplnï¿½ v nï¿½m 
+ *               sekce zaï¿½ï¿½najï¿½cï¿½ chMarkBegin a konï¿½ï¿½cï¿½ chMarkEnd charem chMarkBegin.Pï¿½i C,N by
  *               vysledek byl XXXXXXXCCCCCCCCCCXXXXNXX
  *
- * PARAMETERS:   (OUT)	string* strMarks - oznaèkovaný text
- *               (IN)	char chMarkBegin - hledaný zaèátek
- *               (IN)	char chMarkEnd - hledaný konec
+ * PARAMETERS:   (OUT)	string* strMarks - oznaï¿½kovanï¿½ text
+ *               (IN)	char chMarkBegin - hledanï¿½ zaï¿½ï¿½tek
+ *               (IN)	char chMarkEnd - hledanï¿½ konec
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -248,7 +248,7 @@ int CRulesAnalyzer::FillMarkSection(string* strMark, char chMarkBegin,  char chM
     {
         iPossitionStart=strMark->find(chMarkBegin,iCounter);
     
-        if (iPossitionStart==(-1)) //Žádný øetìzec nenalezen
+        if (iPossitionStart==(-1)) //ï¿½ï¿½dnï¿½ ï¿½etï¿½zec nenalezen
             return 0;
 
         if (iPossitionStart+1<=strMark->length())
@@ -256,7 +256,7 @@ int CRulesAnalyzer::FillMarkSection(string* strMark, char chMarkBegin,  char chM
         else
             iPossitionStop=strMark->length()-1;
 
-        if (iPossitionStop==(-1)) //Konec øetìzce nenalezen
+        if (iPossitionStop==(-1)) //Konec ï¿½etï¿½zce nenalezen
             iPossitionStop=strMark->length()-1;
     
         for (int i=iPossitionStart;i<iPossitionStop+1;i++)
@@ -272,16 +272,16 @@ int CRulesAnalyzer::FillMarkSection(string* strMark, char chMarkBegin,  char chM
  *
  * FUNCTION:     CutCommandByType
  *
- * DESCRIPTION:  funkce vezme analyzovaný a omarkovaný text a vytvoøí pole analyzovaných
- *               stringù a markovacích stringù délky jedna. Funkce analyzovaný text dìlí podle 
- *               identifikovaných sekcí vzniklých vyplnìním markovacího stringu
+ * DESCRIPTION:  funkce vezme analyzovanï¿½ a omarkovanï¿½ text a vytvoï¿½ï¿½ pole analyzovanï¿½ch
+ *               stringï¿½ a markovacï¿½ch stringï¿½ dï¿½lky jedna. Funkce analyzovanï¿½ text dï¿½lï¿½ podle 
+ *               identifikovanï¿½ch sekcï¿½ vzniklï¿½ch vyplnï¿½nï¿½m markovacï¿½ho stringu
  *
- * PARAMETERS:   (IN)    string* strCommand - analyzovaný text
- *               (IN)	 string* strMarkCommand -omarkovaný text
- *               (OUT)	 stringArray *ptrElements - jednotlivé èásti analyzovaného textu podle sekcí
- *               (IN)	 stringArray *ptrMarkElements - markovací stringy délky jedna oznaèující typ sekce
+ * PARAMETERS:   (IN)    string* strCommand - analyzovanï¿½ text
+ *               (IN)	 string* strMarkCommand -omarkovanï¿½ text
+ *               (OUT)	 stringArray *ptrElements - jednotlivï¿½ ï¿½ï¿½sti analyzovanï¿½ho textu podle sekcï¿½
+ *               (IN)	 stringArray *ptrMarkElements - markovacï¿½ stringy dï¿½lky jedna oznaï¿½ujï¿½cï¿½ typ sekce
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -842,26 +842,26 @@ if (LogAll) { //Debug
             if (LogAll) { //Debug
             //(*log)<< "FINDING BY: " << sFrom << " " << IDField << " " << IDSubField << " " << sLab << " " << IDLinkField << "\n";
             } //End Debug
-            int r=0;
+            //int r=0;
             if ((sFrom=="After")  && (*(Comm)=="After"))
             {
                 newCOM->Add(OneRule,i,j);
-                r=1;
+                //r=1;
             }
             if ((sFrom=="Before")  && (*(Comm)=="Before"))
             {
                 newCOM->Add(OneRule,i,j);
-                r=1;
+                //r=1;
             }
             if ((sFrom=="BeforeAll")  && (*(Comm)=="BeforeAll"))
             {
                 newCOM->Add(OneRule,i,j);
-                r=1;
+                //r=1;
             }
             if ((sFrom=="AfterAll")  && (*(Comm)=="AfterAll"))
             {
                 newCOM->Add(OneRule,i,j);
-                r=1;
+                //r=1;
             }
             if (*(Comm)!="After" && *(Comm)!="Before" && *(Comm)!="BeforeAll" && *(Comm)!="AfterAll")
             {

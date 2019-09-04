@@ -81,7 +81,7 @@ string CMarcAnalyzer::OrdinalForm(int number, int size)
     return myNumber;
 }
 
-void CMarcAnalyzer::TrimLeft(string* sStr, char* ArraySep)
+void CMarcAnalyzer::TrimLeft(string* sStr, char const * ArraySep)
 {
    int finds=1;
    int i;
@@ -102,7 +102,7 @@ void CMarcAnalyzer::TrimLeft(string* sStr, char* ArraySep)
     }
 }
 
-void CMarcAnalyzer::TrimRight(string* sStr, char* ArraySep)
+void CMarcAnalyzer::TrimRight(string* sStr, char const * ArraySep)
 {
    int finds=1;
    int i;
@@ -124,7 +124,7 @@ void CMarcAnalyzer::TrimRight(string* sStr, char* ArraySep)
 }
 
 
-int CMarcAnalyzer::SplitString(string* strSplit, vector<string*>* outArray, char* Separator)
+int CMarcAnalyzer::SplitString(string* strSplit, vector<string*>* outArray, char const * Separator)
 {
 	int iPos = 0;
 	int newPos = -1;
@@ -176,7 +176,7 @@ int CMarcAnalyzer::SplitString(string* strSplit, vector<string*>* outArray, char
 	return 0;
 }
 
-void CMarcAnalyzer::Replace(string* strSplit, char* findStr, char* repStr)
+void CMarcAnalyzer::Replace(string * strSplit, char * findStr, char const * repStr)
 {
      int Poss;
      while((Poss=strSplit->find(findStr))!=-1)
@@ -357,7 +357,7 @@ if (LogAll) { //Debug
 
         //Splitovani stringu
         SplitString(strRecord, &aLines, TEXT_FIELD_SEPARATOR);
-        //odstranìní praznych radek
+        //odstranï¿½nï¿½ praznych radek
         for (i=aLines.size()-1;i>(-1);i--)
         {
             TrimLeft(aLines[i]," ");
@@ -461,13 +461,13 @@ if (LogAll) { //Debug
     if (sField->size() ==0)
         return 0;
 
-    //Je prvním znakem $? pak by se jednalo o ruzna podpole
+    //Je prvnï¿½m znakem $? pak by se jednalo o ruzna podpole
     if (sField->substr(0,LengthSep)==SubSeparator)
     {
         if (sField->substr(LengthSep,1)==LINKING_SUBFIELD_IDENTIFICATOR && MayBeLinking(*(pField->ID))) //jde o vlozena pole? za $1
         {
             SplitString(sField,&SplitArray,LinkingSeparator); //rozdelim string oddelovacem $1
-            for (i=1;i<SplitArray.size();i++) //první je praznej
+            for (i=1;i<SplitArray.size();i++) //prvnï¿½ je praznej
             {
                 if (SplitArray[i]->size()<4) //chybi identifikator vlozeneho pole a alespon neco za tim
                 {
@@ -476,7 +476,7 @@ if (LogAll) { //Debug
                 }
 
                 
-                //Pøidáme podpole a získáme ukazatel na linking pole
+                //Pï¿½idï¿½me podpole a zï¿½skï¿½me ukazatel na linking pole
                 NewSubfield=new CSubfield();
                 *(NewSubfield->ID)=LINKING_SUBFIELD_IDENTIFICATOR;
                 *(NewSubfield->Value)="";
@@ -485,11 +485,11 @@ if (LogAll) { //Debug
                 } //End Debug                 
                 pField->ptrCollSubf.push_back(NewSubfield);
 
-                //První tri je ID pole a zbytek je samotne pole
+                //Prvnï¿½ tri je ID pole a zbytek je samotne pole
                 string sTag=SplitArray[i]->substr(0,3);
                 string outString = SplitArray[i]->substr(3);
 
-                //je vlozené pole NoIdenField?
+                //je vlozenï¿½ pole NoIdenField?
                 string ID1="";
                 string ID2="";
 
@@ -531,12 +531,12 @@ if (LogAll) { //Debug
             for (i=1;i<SplitArray.size();i++)
             {
                 Replace(SplitArray[i],SubSeparator,"");
-                if (SplitArray[i]->size()==0) //pøípad $$
+                if (SplitArray[i]->size()==0) //pï¿½ï¿½pad $$
                 {
                     g_Error="File involved - Invalid Command " + *sField;
                     return 1;
                 }
-                if (SplitArray[i]->size()>1) //pøípad $$
+                if (SplitArray[i]->size()>1) //pï¿½ï¿½pad $$
                 {
                     NewSubfield=new CSubfield();
                     *(NewSubfield->ID)=SplitArray[i]->substr(0,1);
@@ -563,7 +563,7 @@ if (LogAll) { //Debug
     }
     else
     {
-        //prvním znakem není dolar. Jde pouze o text
+        //prvnï¿½m znakem nenï¿½ dolar. Jde pouze o text
         NewSubfield=new CSubfield();
         *(NewSubfield->ID)="E";
         *(NewSubfield->Value)=*sField;
@@ -1229,7 +1229,7 @@ int CMarcAnalyzer::SetValueFromC(string* Value, string *IDField, string* LinkFie
     }
     if (Serched==0)
     {
-        //Tak ho musim založit
+        //Tak ho musim zaloï¿½it
         NewField=new CField(); 
         *(NewField->ID)=*IDField;
         *(NewField->ID1)=" ";
@@ -1317,17 +1317,17 @@ int CMarcAnalyzer::SetValueFromC(string* Value, string *IDField, string* LinkFie
     
     if (Start-1<Stop) 
     {
-        //Zjistíme stávající hodnotu
+        //Zjistï¿½me stï¿½vajï¿½cï¿½ hodnotu
         string mValueStr=*(NewSubfield->Value);
         string outStr="";
-        //Doplníme tuto hodnotu na délku do stop
+        //Doplnï¿½me tuto hodnotu na dï¿½lku do stop
         for(i=mValueStr.length();i<Stop;i++)
         {
             mValueStr=mValueStr+" ";
         }
         string Before=mValueStr.substr(0,Start-1);
         string After=mValueStr.substr(Stop);
-        //S mùže být menší než je požadovaná délka
+        //S mï¿½ï¿½e bï¿½t menï¿½ï¿½ neï¿½ je poï¿½adovanï¿½ dï¿½lka
         if ((Stop-Start+1)>Value->length())
         {
             outStr=Before;
@@ -1840,16 +1840,16 @@ void CMarcAnalyzer::LoadCheck(const char* sPath)
 }
 
 /*
-	+ - prvkek je povinný a opakovatelný
-	_ - prvek je potøebný a neopakovatelný
-	* - prvek je nepotøebný a opakovatelný
-	? - prvek je nepotøebný a neopakovatelný
+	+ - prvkek je povinnï¿½ a opakovatelnï¿½
+	_ - prvek je potï¿½ebnï¿½ a neopakovatelnï¿½
+	* - prvek je nepotï¿½ebnï¿½ a opakovatelnï¿½
+	? - prvek je nepotï¿½ebnï¿½ a neopakovatelnï¿½
 */
 
 string CMarcAnalyzer::CheckRecord(string Lang)
 {
     string Errors; //vystup
-	string ControlID; //ID aktuálního pravidla
+	string ControlID; //ID aktuï¿½lnï¿½ho pravidla
 	string ControlChar; //Znak vyskytu u aktualniho pravidla pole (?_*+)
 	string ControlID1;
     string ControlID2;
@@ -1873,7 +1873,7 @@ string CMarcAnalyzer::CheckRecord(string Lang)
 		         if (IndexS!=0) {
         		    if (g_Label->length()!=IndexS) {
         		        if (Lang=="CZE")  
-                             Errors+="#LAB#: Špatná délka návìští (délka: '" + OrdinalForm(Value.length(),0) + "' požadovaná délka: '" + OrdinalForm(IndexS, 0) + "')\r\n"; 	   
+                             Errors+="#LAB#: ï¿½patnï¿½ dï¿½lka nï¿½vï¿½tï¿½ (dï¿½lka: '" + OrdinalForm(Value.length(),0) + "' poï¿½adovanï¿½ dï¿½lka: '" + OrdinalForm(IndexS, 0) + "')\r\n"; 	   
                         else     
                              Errors+="#LAB#: Invalid size label(actual size: '" + OrdinalForm(Value.length(),0) + "' required size: '" + OrdinalForm(IndexS, 0) + "')\r\n"; 	   
                     } else {
@@ -1882,7 +1882,7 @@ string CMarcAnalyzer::CheckRecord(string Lang)
                            SplitString(&Value,&outArray,",");
                            if(outArray.size()!=IndexS) {
                               if (Lang=="CZE")  
-                                 Errors+="#LAB#:Délka možných hodnot(délka='" + OrdinalForm(outArray.size(),0) + "') pro pozice v návìští neodpovídá délce návìští (délka: '" + OrdinalForm(IndexS, 0) + "')\r\n"; 
+                                 Errors+="#LAB#:Dï¿½lka moï¿½nï¿½ch hodnot(dï¿½lka='" + OrdinalForm(outArray.size(),0) + "') pro pozice v nï¿½vï¿½tï¿½ neodpovï¿½dï¿½ dï¿½lce nï¿½vï¿½tï¿½ (dï¿½lka: '" + OrdinalForm(IndexS, 0) + "')\r\n"; 
                               else   
                                  Errors+="#LAB#:Size of possible values(size='" + OrdinalForm(outArray.size(),0) + "') for possitions in label does not equals size of label(size: '" + OrdinalForm(IndexS, 0) + "')\r\n"; 
                            } else {
@@ -1891,7 +1891,7 @@ string CMarcAnalyzer::CheckRecord(string Lang)
                                  string oneRecChar = g_Label->substr(k,1);
                                  if (CheckChar(oneRecChar,controlOnePoss)) {
                                    if (Lang=="CZE")
-                                      Errors+="#LAB#:Návìští obsahuje špatný znak na pozici '" + OrdinalForm(k,0) + "' (hodnota: '" + oneRecChar + "' možné hodnoty: '" + controlOnePoss + "')\r\n"; 
+                                      Errors+="#LAB#:Nï¿½vï¿½tï¿½ obsahuje ï¿½patnï¿½ znak na pozici '" + OrdinalForm(k,0) + "' (hodnota: '" + oneRecChar + "' moï¿½nï¿½ hodnoty: '" + controlOnePoss + "')\r\n"; 
                                    else
                                       Errors+="#LAB#:Label contains invalid character in possition '" + OrdinalForm(k,0) + "' (actual value: '" + oneRecChar + "' possible value: '" + controlOnePoss + "')\r\n"; 
                                  }
@@ -1908,14 +1908,14 @@ string CMarcAnalyzer::CheckRecord(string Lang)
 		   
 		} else {
 
-		 int NumArr=0; //poèítá výskyty tohoto pole 
-		 for(int j=0;j<Fields.size();j++) //procházím vsechny pole
+		 int NumArr=0; //poï¿½ï¿½tï¿½ vï¿½skyty tohoto pole 
+		 for(int j=0;j<Fields.size();j++) //prochï¿½zï¿½m vsechny pole
 		 {
 		    if (*(Fields[j]->ID)==ControlID) { 
                 //ID1
 				if (CheckChar(*(Fields[j]->ID1),ControlID1)) {
 				    if (Lang=="CZE")
-                       Errors+="#" + ControlID + "#: " + "První indikátor pole '" + ControlID + "' obsahuje špatnou hodnotu (hodnota: '" + *(Fields[j]->ID1) + "' možné hodnoty: '" + ControlID1 + "')\r\n";  
+                       Errors+="#" + ControlID + "#: " + "Prvnï¿½ indikï¿½tor pole '" + ControlID + "' obsahuje ï¿½patnou hodnotu (hodnota: '" + *(Fields[j]->ID1) + "' moï¿½nï¿½ hodnoty: '" + ControlID1 + "')\r\n";  
                     else 
 		               Errors+="#" + ControlID + "#: " + "First indicator from field '" + ControlID + "' contains invalid character (actual value: '" + *(Fields[j]->ID1) + "' possible values: '" + ControlID1 + "')\r\n"; 
 				}
@@ -1923,7 +1923,7 @@ string CMarcAnalyzer::CheckRecord(string Lang)
 				//ID2
 				if (CheckChar(*(Fields[j]->ID2),ControlID2)) {
 				   if (Lang=="CZE")
-				    Errors+="#" + ControlID + "#: " + "Druhý indikátor pole '" + ControlID + "' obsahuje špatnou hodnotu (hodnota: '" + *(Fields[j]->ID2) + "' možné hodnoty: '" + ControlID2 + "')\r\n"; 
+				    Errors+="#" + ControlID + "#: " + "Druhï¿½ indikï¿½tor pole '" + ControlID + "' obsahuje ï¿½patnou hodnotu (hodnota: '" + *(Fields[j]->ID2) + "' moï¿½nï¿½ hodnoty: '" + ControlID2 + "')\r\n"; 
 				   else
 				    Errors+="#" + ControlID + "#: " + "Second indicator from field '" + ControlID + "' contains invalid character (actual value: '" + *(Fields[j]->ID2) + "' possible values: '" + ControlID2 + "')\r\n"; 
 				}
@@ -1933,26 +1933,30 @@ string CMarcAnalyzer::CheckRecord(string Lang)
 			    NumArr++;
             }	
          }    
-         if (ControlChar=="+" && NumArr<1)  
+         if (ControlChar=="+" && NumArr<1) {
             if (Lang=="CZE")
-              Errors+="#" + ControlID + "#: " + "Pole '" + ControlID + "' je povinné" + "\r\n";
+              Errors+="#" + ControlID + "#: " + "Pole '" + ControlID + "' je povinnï¿½" + "\r\n";
             else
 			  Errors+="#" + ControlID + "#: " + "Field '" + ControlID + "' is mandatory" + "\r\n";
-		 if (ControlChar=="_" && NumArr==0) 
+         }
+		 if (ControlChar=="_" && NumArr==0) {
 		    if (Lang=="CZE")
-		      Errors+="#" + ControlID + "#: " + "Pole '" + ControlID + "' je povinné " + "\r\n";
+		      Errors+="#" + ControlID + "#: " + "Pole '" + ControlID + "' je povinnï¿½ " + "\r\n";
 		    else
 			  Errors+="#" + ControlID + "#: " + "Field '" + ControlID + "' is mandatory " + "\r\n";
-		 if (ControlChar=="_" && NumArr>1) 
+		 }
+		 if (ControlChar=="_" && NumArr>1) {
 		 	if (Lang=="CZE")
-		 	  Errors+="#" + ControlID + "#: " + "Pole '" + ControlID + "' není opakovatelné " + "\r\n";
+		 	  Errors+="#" + ControlID + "#: " + "Pole '" + ControlID + "' nenï¿½ opakovatelnï¿½ " + "\r\n";
             else		
    		 	  Errors+="#" + ControlID + "#: " + "Field '" + ControlID + "' is not repeatable " + "\r\n";
-		 if (ControlChar=="?" && NumArr>1) 
+		 }
+		 if (ControlChar=="?" && NumArr>1) {
 			if (Lang=="CZE")
-			  Errors+="#" + ControlID + "#: " + "Pole '" + ControlID + "' není opakovatelné" + "\r\n"; 	   
+			  Errors+="#" + ControlID + "#: " + "Pole '" + ControlID + "' nenï¿½ opakovatelnï¿½" + "\r\n"; 	   
 			else
-              Errors+="#" + ControlID + "#: " + "Field '" + ControlID + "' is not repeatable" + "\r\n"; 	   
+              Errors+="#" + ControlID + "#: " + "Field '" + ControlID + "' is not repeatable" + "\r\n";
+		 }
 			
 	    }
 
@@ -1968,7 +1972,7 @@ string CMarcAnalyzer::CheckRecord(string Lang)
          }
          if(found==0) {
             if (Lang=="CZE")
-              Errors+="#" + *(Fields[j]->ID) + "#: " + "Pole '" + *(Fields[j]->ID) + "' není deklarováno v kontrolním souboru" + "\r\n"; 
+              Errors+="#" + *(Fields[j]->ID) + "#: " + "Pole '" + *(Fields[j]->ID) + "' nenï¿½ deklarovï¿½no v kontrolnï¿½m souboru" + "\r\n"; 
             else
               Errors+="#" + *(Fields[j]->ID) + "#: " + "Field '" + *(Fields[j]->ID) + "' is not declared in control file" + "\r\n"; 
          }
@@ -1981,7 +1985,7 @@ string CMarcAnalyzer::CheckRecord(string Lang)
 string CMarcAnalyzer::CheckSubfields( CField* ControlF,  CField* RecF, int WithLinking, string Lang)
 {
     string Errors=""; //vystup
-	string ControlID; //ID aktuálního pravidla
+	string ControlID; //ID aktuï¿½lnï¿½ho pravidla
 	string ControlChar; //Znak vyskytu u aktualniho pravidla pole (?_*+)
     string ControlFieldID=ControlF->ID->substr(0,3);  
     int isall = 0;  
@@ -1994,8 +1998,8 @@ string CMarcAnalyzer::CheckSubfields( CField* ControlF,  CField* RecF, int WithL
          
         
 		//if (WithLinking==0) cout << "L:" <<ControlID << "\n";
-		int NumArr=0; //poèítá výskyty tohoto pole 
-		for(int j=0;j<RecF->ptrCollSubf.size();j++) //procházím vsechny pole
+		int NumArr=0; //poï¿½ï¿½tï¿½ vï¿½skyty tohoto pole 
+		for(int j=0;j<RecF->ptrCollSubf.size();j++) //prochï¿½zï¿½m vsechny pole
 		{
 		    if (*(RecF->ptrCollSubf[j]->ID)==ControlID)
 			{
@@ -2007,28 +2011,28 @@ string CMarcAnalyzer::CheckSubfields( CField* ControlF,  CField* RecF, int WithL
         if (ControlChar=="+" && NumArr<1) {
             if (WithLinking==0) Errors+="LINKING";   
             if (Lang=="CZE")
-               Errors+="#" + ControlFieldID + "$" + ControlID + "#: " + "Podpole '" + ControlID + "' je povinné v poli '" + ControlFieldID + "'\r\n";
+               Errors+="#" + ControlFieldID + "$" + ControlID + "#: " + "Podpole '" + ControlID + "' je povinnï¿½ v poli '" + ControlFieldID + "'\r\n";
             else
 			   Errors+="#" + ControlFieldID + "$" + ControlID + "#: " + "Subfield '" + ControlID + "' is mandatory in field '" + ControlFieldID + "'\r\n";
 		}
 		if (ControlChar=="_" && NumArr==0) {
 		    if (WithLinking==0) Errors+="LINKING";   
 		    if (Lang=="CZE")
-		       Errors+="#" + ControlFieldID + "$" + ControlID + "#: " + "Podpole '" + ControlID + "' je povinné v poli '" + ControlFieldID + "'\r\n";
+		       Errors+="#" + ControlFieldID + "$" + ControlID + "#: " + "Podpole '" + ControlID + "' je povinnï¿½ v poli '" + ControlFieldID + "'\r\n";
 		    else
 			   Errors+="#" + ControlFieldID + "$" + ControlID + "#: " + "Subfield '" + ControlID + "' is mandatory in field '" + ControlFieldID + "'\r\n";
 		}
 		if (ControlChar=="_" && NumArr>1)  {
 		    if (WithLinking==0) Errors+="LINKING";   
 		    if (Lang=="CZE")
-			   Errors+="#" + ControlFieldID + "$" + ControlID + "#: " + "Podpole '" + ControlID + "' není opakovatelné v poli '" + ControlFieldID + "'\r\n";	
+			   Errors+="#" + ControlFieldID + "$" + ControlID + "#: " + "Podpole '" + ControlID + "' nenï¿½ opakovatelnï¿½ v poli '" + ControlFieldID + "'\r\n";	
 			else
                Errors+="#" + ControlFieldID + "$" + ControlID + "#: " + "Subfield '" + ControlID + "' is not repeatable in field '" + ControlFieldID + "'\r\n";	    
 		}
 		if (ControlChar=="?" && NumArr>1) {
 		    if (WithLinking==0) Errors+="LINKING"; 
 		    if (Lang=="CZE")
-		       Errors+="#" + ControlFieldID + "$" + ControlID + "#: " + "Podpole '" + ControlID + "' není opakovatelné v poli '" + ControlFieldID + "'\r\n"; 	   
+		       Errors+="#" + ControlFieldID + "$" + ControlID + "#: " + "Podpole '" + ControlID + "' nenï¿½ opakovatelnï¿½ v poli '" + ControlFieldID + "'\r\n"; 	   
 		    else
 			   Errors+="#" + ControlFieldID + "$" + ControlID + "#: " + "Subfield '" + ControlID + "' is not repeatable in field '" + ControlFieldID + "'\r\n"; 	   
 		}	
@@ -2046,13 +2050,13 @@ string CMarcAnalyzer::CheckSubfields( CField* ControlF,  CField* RecF, int WithL
         if(found==0) {
             if (WithLinking==0) Errors+="LINKING"; 
             if (Lang=="CZE")
-               Errors+="#" + ControlFieldID + "$" + *(RecF->ptrCollSubf[j]->ID) + "#: " + "Podpole '" + *(RecF->ptrCollSubf[j]->ID) + "' v poli '" + ControlFieldID + "' není deklarováno v kontrolním souboru" + "\r\n"; 
+               Errors+="#" + ControlFieldID + "$" + *(RecF->ptrCollSubf[j]->ID) + "#: " + "Podpole '" + *(RecF->ptrCollSubf[j]->ID) + "' v poli '" + ControlFieldID + "' nenï¿½ deklarovï¿½no v kontrolnï¿½m souboru" + "\r\n"; 
             else
                Errors+="#" + ControlFieldID + "$" + *(RecF->ptrCollSubf[j]->ID) + "#: " + "Subfield '" + *(RecF->ptrCollSubf[j]->ID) + "' in field '" + ControlFieldID + "' is not declared in control file" + "\r\n"; 
         }
       }
       if (WithLinking) {
-      //procházím vsechny pole kvuli vlozenym polim
+      //prochï¿½zï¿½m vsechny pole kvuli vlozenym polim
        for(int j=0;j<RecF->ptrCollSubf.size();j++) {
 		    if (*(RecF->ptrCollSubf[j]->ID)=="1") {
 			   //nasel jsem vlozene podpole
@@ -2069,14 +2073,14 @@ string CMarcAnalyzer::CheckSubfields( CField* ControlF,  CField* RecF, int WithL
                               //ID1
 			 	              if (CheckChar(*(LinF->ID1),*(ControlLinF->ID1))) {
 			 	                if (Lang=="CZE")
-			 	                   Errors+="LINKING#" + ContolLinkID + "#: " + " První indikátor pole '" + ContolLinkID + "' obsahuje špatnou hodnotu (hodnota: '" + *(LinF->ID1) + "' možné hodnoty: '" + *(ControlLinF->ID1) + "')\r\n";                   			 	                   
+			 	                   Errors+="LINKING#" + ContolLinkID + "#: " + " Prvnï¿½ indikï¿½tor pole '" + ContolLinkID + "' obsahuje ï¿½patnou hodnotu (hodnota: '" + *(LinF->ID1) + "' moï¿½nï¿½ hodnoty: '" + *(ControlLinF->ID1) + "')\r\n";                   			 	                   
 			 	                else
 		                           Errors+="LINKING#" + ContolLinkID + "#: " + " First indicator from field '" + ContolLinkID + "' contains invalid character (actual value: '" + *(LinF->ID1) + "' possible values: '" + *(ControlLinF->ID1) + "')\r\n"; 
 				              }
 				              //ID2
 			 	              if (CheckChar(*(LinF->ID2),*(ControlLinF->ID2))) {
 			 	                if (Lang=="CZE")
-			 	                  Errors+="LINKING#" + ContolLinkID + "#: " + " Druhý indikátor pole '" + ContolLinkID + "' obsahuje špatnou hodnotu (hodnota: '" + *(LinF->ID2) + "' možné hodnoty: '" + *(ControlLinF->ID2) + "')\r\n"; 
+			 	                  Errors+="LINKING#" + ContolLinkID + "#: " + " Druhï¿½ indikï¿½tor pole '" + ContolLinkID + "' obsahuje ï¿½patnou hodnotu (hodnota: '" + *(LinF->ID2) + "' moï¿½nï¿½ hodnoty: '" + *(ControlLinF->ID2) + "')\r\n"; 
 			 	                else
 		                          Errors+="LINKING#" + ContolLinkID + "#: " + " Second indicator from field '" + ContolLinkID + "' contains invalid character (actual value: '" + *(LinF->ID2) + "' possible values: '" + *(ControlLinF->ID2) + "')\r\n"; 
 				              }
@@ -2102,7 +2106,7 @@ string CMarcAnalyzer::CheckOneSubfield( string sField, CSubfield* ControlSF,  CS
         if (RecSF->Value->length()!=ControlSF->Index) {
            if (WithLinking==0) Errors+="LINKING"; 
            if (Lang=="CZE")
-              Errors+="#" + sField + "$" + ControlID + "#: " + "Podpole '" + ControlID + "' má nesprávnou délku(délka: '" + OrdinalForm(RecSF->Value->length(),0) + "' potøebná délka: '" + OrdinalForm(ControlSF->Index, 0) + "') v poli '" + sField + "'\r\n"; 	   
+              Errors+="#" + sField + "$" + ControlID + "#: " + "Podpole '" + ControlID + "' mï¿½ nesprï¿½vnou dï¿½lku(dï¿½lka: '" + OrdinalForm(RecSF->Value->length(),0) + "' potï¿½ebnï¿½ dï¿½lka: '" + OrdinalForm(ControlSF->Index, 0) + "') v poli '" + sField + "'\r\n"; 	   
            else
               Errors+="#" + sField + "$" + ControlID + "#: " + "Subfield '" + ControlID + "' contains invalid size(actual size: '" + OrdinalForm(RecSF->Value->length(),0) + "' required size: '" + OrdinalForm(ControlSF->Index, 0) + "') in field '" + sField + "'\r\n"; 	   
         } else {
@@ -2112,7 +2116,7 @@ string CMarcAnalyzer::CheckOneSubfield( string sField, CSubfield* ControlSF,  CS
               if(outArray.size()!=ControlSF->Index) {
                  if (WithLinking==0) Errors+="LINKING "; 
                  if (Lang=="CZE")
-                    Errors+="Délka možných hodnot(délka='" + OrdinalForm(outArray.size(),0) + "') pro pozice v podpoli '" + ControlID + "' neodpovídá délce podpole(délka: '" + OrdinalForm(ControlSF->Index, 0) + "') v poli '" + sField + "'\r\n"; 
+                    Errors+="Dï¿½lka moï¿½nï¿½ch hodnot(dï¿½lka='" + OrdinalForm(outArray.size(),0) + "') pro pozice v podpoli '" + ControlID + "' neodpovï¿½dï¿½ dï¿½lce podpole(dï¿½lka: '" + OrdinalForm(ControlSF->Index, 0) + "') v poli '" + sField + "'\r\n"; 
                  else
                     Errors+="Size of possible values(size='" + OrdinalForm(outArray.size(),0) + "') for possitions in subfields '" + ControlID + "' does not equals size of subfield(size: '" + OrdinalForm(ControlSF->Index, 0) + "') in field '" + sField + "'\r\n"; 
               } else {
@@ -2122,7 +2126,7 @@ string CMarcAnalyzer::CheckOneSubfield( string sField, CSubfield* ControlSF,  CS
                     if (CheckChar(oneRecChar,controlOnePoss)) {
                        if (WithLinking==0) Errors+="LINKING "; 
                        if (Lang=="CZE")
-                          Errors+="#" + sField + "$" + ControlID + "#: " + " Podpole '" + ControlID + "' obsahuje špatný znak na pozici '" + OrdinalForm(i,0) + "' (hodnota: '" + oneRecChar + "' možné hodnoty: '" + controlOnePoss + "') v poli '" + sField + "'\r\n"; 
+                          Errors+="#" + sField + "$" + ControlID + "#: " + " Podpole '" + ControlID + "' obsahuje ï¿½patnï¿½ znak na pozici '" + OrdinalForm(i,0) + "' (hodnota: '" + oneRecChar + "' moï¿½nï¿½ hodnoty: '" + controlOnePoss + "') v poli '" + sField + "'\r\n"; 
                        else
                           Errors+="#" + sField + "$" + ControlID + "#: " + " Subfield '" + ControlID + "' contains invalid character in possition '" + OrdinalForm(i,0) + "' (actual value: '" + oneRecChar + "' possible value: '" + controlOnePoss + "') in field '" + sField + "'\r\n";    
                     }
@@ -2160,19 +2164,19 @@ int CMarcAnalyzer::CheckChar( string sOneChar, string sCheckString) {
  *
  * FUNCTION:     MarkSections
  *
- * DESCRIPTION:  funkce vezme analyzovany text a vyhleda v nìm èásti zaèínající chBegin a konèící chEnd a oznaèí
- *               je ve stejnì dlouhém stringu strMark identifikatory chMarkBegin a chMarkEnd. Je-li promenna iInsertField
- *               1 oznaèí se vcetne konecneho chEnd
+ * DESCRIPTION:  funkce vezme analyzovany text a vyhleda v nÄ›m ÄÃ¡sti zaÄÃ­najÃ­ci chBegin a konÄÃ­ci chEnd a oznaÄÃ­
+ *               je ve stejnÄ› dlouhÃ½m stringu strMark identifikatory chMarkBegin a chMarkEnd. Je-li promenna iInsertField
+ *               1 oznaÄÃ­ se vcetne konecneho chEnd
  *
  * PARAMETERS:   (IN)   string* strAnalyzeText - analyzovany text
- *               (OUT)	string* strMarks - oznaèkovaný text
- *               (IN)	char chBegin - hledaný zaèátek
- *               (IN)	char chEnd - hledaný konec
+ *               (OUT)	string* strMarks - oznaÄkovanÃ½ text
+ *               (IN)	char chBegin - hledanÃ½ zaÄÃ¡tek
+ *               (IN)	char chEnd - hledanÃ½ konec
  *               (IN)	char chMarkBegin - znacka zacatku
  *               (IN)	char chMarkEnd - znacka konce
- *               (IN)	int iInsertEnd - má se vložit i konecny znak?
+ *               (IN)	int iInsertEnd - mÄ›l se vloÅ¾it i konecny znak?
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        JindÅ™ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -2188,7 +2192,7 @@ int CMarcAnalyzer::MarkSections(string* strAnalyzeText, string* strMarks, char c
     {
         iPossitionStart=strAnalyzeText->find(chBegin,iCounter);
         
-        if (iPossitionStart==(-1)) //Žádný øetìzec nenalezen
+        if (iPossitionStart==(-1)) //ï¿½ï¿½dnï¿½ ï¿½etï¿½zec nenalezen
             return 0;
       
         (*strMarks)[iPossitionStart]=chMarkBegin; //Zacatek retezce
@@ -2198,7 +2202,7 @@ int CMarcAnalyzer::MarkSections(string* strAnalyzeText, string* strMarks, char c
         else
             return 0;
 
-        if (iPossitionStop==(-1)) //Konec øetìzce nenalezen
+        if (iPossitionStop==(-1)) //Konec ï¿½etï¿½zce nenalezen
             return 0;
         
         if (iInsertEnd)
@@ -2211,10 +2215,10 @@ int CMarcAnalyzer::MarkSections(string* strAnalyzeText, string* strMarks, char c
 }
 
 
-int CMarcAnalyzer::MarkSections2(string* strAnalyzeText, string* strMarks, char* chBegin, char* chEnd, char chMarkBegin,  char chMarkEnd, int iInsertEnd)
+int CMarcAnalyzer::MarkSections2(string * strAnalyzeText, string * strMarks, char const * chBegin, char const * chEnd, char chMarkBegin,  char chMarkEnd, int iInsertEnd)
 {
     int iCounter=0;
-    int h;
+    //int h;
     int iPossitionStart;
     int iPossitionStop;
     string chB=chBegin;
@@ -2223,12 +2227,12 @@ int CMarcAnalyzer::MarkSections2(string* strAnalyzeText, string* strMarks, char*
     {
         iPossitionStart=strAnalyzeText->find(chB,iCounter);
         
-        if (iPossitionStart==(-1)) //Žádný øetìzec nenalezen
+        if (iPossitionStart==(-1)) //Å¾Ã¡dnÃ½ Å™etÄ›zec nenalezen
             return 0;
       
         if (iPossitionStart>52522)
         {
-           h=0;   
+           //h=0;
         }
 
         (*strMarks)[iPossitionStart]=chMarkBegin; //Zacatek retezce
@@ -2238,7 +2242,7 @@ int CMarcAnalyzer::MarkSections2(string* strAnalyzeText, string* strMarks, char*
         else
             return 0;
 
-        if (iPossitionStop==(-1)) //Konec øetìzce nenalezen
+        if (iPossitionStop==(-1)) //Konec ï¿½etï¿½zce nenalezen
             return 0;
         
         if (iInsertEnd)
@@ -2254,15 +2258,15 @@ int CMarcAnalyzer::MarkSections2(string* strAnalyzeText, string* strMarks, char*
  *
  * FUNCTION:     FillMarkSection
  *
- * DESCRIPTION:  funkce vezme omarkovaný text tvaru XXXXXXXCXXXMXXXXEXXXXNXX a vyplní v nìm 
- *               sekce zaèínající chMarkBegin a konèící chMarkEnd charem chMarkBegin.Pøi C,N by
+ * DESCRIPTION:  funkce vezme omarkovanÃ½ text tvaru XXXXXXXCXXXMXXXXEXXXXNXX a vyplnÃ­ v nÄ›m
+ *               sekce zaÄÃ­najÃ­cÃ­ chMarkBegin a konÄÃ­cÃ­ chMarkEnd charem chMarkBegin.PÅ™i C,N by
  *               vysledek byl XXXXXXXCCCCCCCCCCXXXXNXX
  *
- * PARAMETERS:   (OUT)	string* strMarks - oznaèkovaný text
- *               (IN)	char chMarkBegin - hledaný zaèátek
- *               (IN)	char chMarkEnd - hledaný konec
+ * PARAMETERS:   (OUT)	string* strMarks - oznaÄkovanÃ½ text
+ *               (IN)	char chMarkBegin - hledanÃ½ zaÄÃ¡tek
+ *               (IN)	char chMarkEnd - hledanÃ½ konec
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        JindÅ™ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *
@@ -2277,7 +2281,7 @@ int CMarcAnalyzer::FillMarkSection(string* strMark, char chMarkBegin,  char chMa
     {
         iPossitionStart=strMark->find(chMarkBegin,iCounter);
     
-        if (iPossitionStart==(-1)) //Žádný øetìzec nenalezen
+        if (iPossitionStart==(-1)) //Å¾Ã¡dny Å™etÄ›zec nenalezen
             return 0;
 
         if (iPossitionStart+1<=strMark->length())
@@ -2285,7 +2289,7 @@ int CMarcAnalyzer::FillMarkSection(string* strMark, char chMarkBegin,  char chMa
         else
             iPossitionStop=strMark->length()-1;
 
-        if (iPossitionStop==(-1)) //Konec øetìzce nenalezen
+        if (iPossitionStop==(-1)) //Konec ï¿½etï¿½zce nenalezen
             iPossitionStop=strMark->length()-1;
     
         for (int i=iPossitionStart;i<iPossitionStop;i++)
@@ -2302,16 +2306,16 @@ int CMarcAnalyzer::FillMarkSection(string* strMark, char chMarkBegin,  char chMa
  *
  * FUNCTION:     CutCommandByType
  *
- * DESCRIPTION:  funkce vezme analyzovaný a omarkovaný text a vytvoøí pole analyzovaných
- *               stringù a markovacích stringù délky jedna. Funkce analyzovaný text dìlí podle 
- *               identifikovaných sekcí vzniklých vyplnìním markovacího stringu
+ * DESCRIPTION:  funkce vezme analyzovanï¿½ a omarkovanï¿½ text a vytvoï¿½ï¿½ pole analyzovanï¿½ch
+ *               stringï¿½ a markovacï¿½ch stringï¿½ dï¿½lky jedna. Funkce analyzovanï¿½ text dï¿½lï¿½ podle 
+ *               identifikovanï¿½ch sekcï¿½ vzniklï¿½ch vyplnï¿½nï¿½m markovacï¿½ho stringu
  *
- * PARAMETERS:   (IN)    string* strCommand - analyzovaný text
- *               (IN)	 string* strMarkCommand -omarkovaný text
- *               (OUT)	 stringArray *ptrElements - jednotlivé èásti analyzovaného textu podle sekcí
- *               (IN)	 stringArray *ptrMarkElements - markovací stringy délky jedna oznaèující typ sekce
+ * PARAMETERS:   (IN)    string* strCommand - analyzovanï¿½ text
+ *               (IN)	 string* strMarkCommand -omarkovanï¿½ text
+ *               (OUT)	 stringArray *ptrElements - jednotlivï¿½ ï¿½ï¿½sti analyzovanï¿½ho textu podle sekcï¿½
+ *               (IN)	 stringArray *ptrMarkElements - markovacï¿½ stringy dï¿½lky jedna oznaï¿½ujï¿½cï¿½ typ sekce
  *
- * AUTOR:        Jindøich Stejskal (Jindrich.Stejskal@seznam.cz)
+ * AUTOR:        Jindï¿½ich Stejskal (Jindrich.Stejskal@seznam.cz)
  * 
  * DATE:         1.11.2002
  *

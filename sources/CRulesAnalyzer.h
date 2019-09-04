@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
+#include <string.h>
 
 using namespace std;
 
@@ -23,7 +24,7 @@ extern int codeVersion;
 
 #define MARCMAN_VERSION       "2.3"
 
-extern char* CUTTRIMED;
+extern char const * CUTTRIMED;
 
 class CRuleItem 
 {
@@ -112,11 +113,11 @@ private:
     int MarkSections(string* strAnalyzeText, string* strMarks, char chBegin, char chEnd, char chMarkBegin,  char chMarkEnd, int iInsertEnd);
     int FillMarkSection(string* strMark, char chMarkBegin,  char chMarkEnd);
     void CutCommandByType(string* strCommand, string* strMarkCommand, vector<string *> *ptrElements, vector<string *> *ptrMarkElements);    
-    int MarkSections2(string* strAnalyzeText, string* strMarks, char* chBegin, char* chEnd, char chMarkBegin,  char chMarkEnd, int iInsertEnd);
+    int MarkSections2(string* strAnalyzeText, string* strMarks, char const * chBegin, char const * chEnd, char chMarkBegin,  char chMarkEnd, int iInsertEnd);
     int RecognizeCommand(string* Comm, string *LAB, string *IDF, string *ILF, string *IDS, long* IF, long* IS, int* Indic, int* Sta, int* Sto);    
-    int SplitString(string* strSplit, vector<string*> * outArray, char* Separator);
-    void TrimRight(string* sStr, char* ArraySep);
-    void TrimLeft(string* sStr, char* ArraySep);    
+    int SplitString(string* strSplit, vector<string*> * outArray, char const * Separator);
+    void TrimRight(string* sStr, char const * ArraySep);
+    void TrimLeft(string* sStr, char const * ArraySep);
     string OrdinalForm(int number, int size);    
     int LoadCommand(string* Comm, CCollRulesByC* newCOM);
     };
