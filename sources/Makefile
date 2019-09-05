@@ -28,10 +28,10 @@ dep: Makefile.dep $(PLUGINS)
 -include Makefile.dep
 
 marcman: $(OBJECTS) $(STANDALONE:.cpp=.o)
-	$(CXX) $(EXTRA_LDFLAGS) $(LDFLAGS) -o $@ $^
+	$(CXX) $(LDFLAGS) -o $@ $^ $(EXTRA_LDFLAGS)
 
 marcmand: $(OBJECTS) $(DAEMON:.cpp=.o)
-	$(CXX) $(EXTRA_LDFLAGS) $(LDFLAGS) -o $@ $^
+	$(CXX) $(LDFLAGS) -o $@ $^ $(EXTRA_LDFLAGS)
 
 marcc: $(CLIENT:.c=.o)
 	$(CC) $(EXTRA_LDFLAGS) $(LDFLAGS) -o $@ $^

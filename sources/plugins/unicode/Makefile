@@ -1,5 +1,5 @@
 LDFLAGS  = -shared
-CXXFLAGS = -I../../
+CXXFLAGS = -I../../ -fPIC
 DEPFLAGS = -MM
 OPTFLAGS = -O3
 

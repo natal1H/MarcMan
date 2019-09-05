@@ -1,7 +1,8 @@
 LDFLAGS  = -shared
-CXXFLAGS = -I../../
+CXXFLAGS = -I../../ -fPIC
 DEPFLAGS = -MM
 OPTFLAGS = -O3
+CFLAGS   = -fPIC
 
 CSOURCE = $(wildcard *.c)
 CXXSOURCE = $(wildcard *.cpp)

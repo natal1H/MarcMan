@@ -135,7 +135,8 @@ int main(int argc, char* argv[])
     const char * OKFile = MyC->Variables["InRecordOKFile"]->sName->c_str();
 
     string ControlFile = "";
-    if ((licenseUserData&0x0f)!=VERSION_LIGHT)
+    //if ((licenseUserData&0x0f)!=VERSION_LIGHT) // todo: just testing what does it do
+    if (1 == 1)
     {
         //Control file
             if (MyC->Variables.count("ControlFile")>0)
